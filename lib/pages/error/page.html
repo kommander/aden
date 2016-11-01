@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Aden Error</title>
+  </head>
+  <body>
+    <b>Something went wrong.</b>
+    {{#err}}
+    <div class="errorStack">
+      <pre>
+        {{stack}}
+      </pre>
+    </div>
+    {{/err}}
+  </body>
+</html>

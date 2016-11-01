@@ -1,0 +1,12 @@
+*.sublime-workspace
+.DS_Store
+._*
+node_modules
+coverage
+*.log
+tmp
+npm-shrinkwrap.json
+artillery_report*
+.dist
+dist
+dump*
