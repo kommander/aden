@@ -9,6 +9,23 @@ This project is work in progress.
 npm install -g aden
 ```
 
+## Run
+From aden repository:
+```
+NODE_ENV=development node index.js -a examples/app
+```
+(Point `-a` to any directory containing a `.aden` file)
+
+Globally:
+```
+aden -a examples/app
+```
+
+## Help
+```
+aden --help
+```
+
 # About
 _Aden_ is an effort to allow convenient aggregation of data from many micro services, with a focus on frontend development.
 
