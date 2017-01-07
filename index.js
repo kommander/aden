@@ -7,8 +7,6 @@ const program = require('commander');
 program
   .usage('[options]')
   .option('-a, --app [path]', 'The path to the frontend app to serve')
-  .option('-i, --install', 'Run npm install recursively on root page path')
-  // .option('-i, --install', 'Installs the dependencies for all package.json files in the tree')
   .option('-p, --port [port]', 'Specifiy the port to mount the server on')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-v, --verbose', 'Output a lot')

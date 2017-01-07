@@ -1,6 +1,5 @@
 describe('Aden Core', () => {
   she('provides a page tree parser');
-  she('provides page install facilities');
   she('provides a build system');
   she('provides a dev setup');
   she('provides a routing setup');
