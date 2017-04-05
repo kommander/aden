@@ -1,3 +1,5 @@
+/* eslint-disable max-len, no-console */
+
 const chalk = require('chalk');
 const moment = require('moment');
 
@@ -60,7 +62,7 @@ Logger.prototype.namespace = function (namespace, opts) {
       infoFn = (msg) =>
         console.log(`${formatInfoMsg(msg, namespace)}`);
       errFn = (msg, err, data) =>
-        console.log(`${formatErrorMsg(msg, namespace)}\n`, err.stack || err, data);
+        console.log(`${formatErrorMsg(msg, namespace)}\n`, err ? err.stack || err : 'NO ERROR', data || null);
       warnFn = (msg) =>
         console.log(`${formatWarnMsg(msg, namespace)}`);
       debugFn = (msg) =>
@@ -71,7 +73,7 @@ Logger.prototype.namespace = function (namespace, opts) {
         console.log(`${formatSuccessMsg(msg, namespace)}`);
     } else {
       infoFn = (msg) => console.log(`${formatInfoMsg(msg, namespace)}`);
-      errFn = (msg, err, data) => console.log(`${formatErrorMsg(msg, namespace)}`, err.stack || err, data);
+      errFn = (msg, err, data) => console.log(`${formatErrorMsg(msg, namespace)}`, err ? err.stack || err : null, data || null);
       warnFn = (msg) => console.log(`${formatWarnMsg(msg, namespace)}`);
       // debugFn = (msg) => console.log(`${formatDebugMsg(msg, namespace)}`);
       debugFn = () => true;
