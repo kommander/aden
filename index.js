@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const bootstrap = require('./lib/backend/index.js');
-const Logger = require('./Logger');
+const Logger = require('./logger');
 const express = require('express');
 const program = require('commander');
 
