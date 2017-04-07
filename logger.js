@@ -2,6 +2,7 @@
 
 const chalk = require('chalk');
 const moment = require('moment');
+const util = require('util');
 
 const logDateFormat = 'YYYY-MM-DD hh:mm:ss.SSS';
 
@@ -63,14 +64,17 @@ Logger.prototype.namespace = function (namespace, opts) {
         console.log(`${formatInfoMsg(msg, namespace)}`);
       errFn = (msg, err, data) =>
         console.log(`${formatErrorMsg(msg, namespace)}\n`, err ? err.stack || err : 'NO ERROR', data || null);
-      warnFn = (msg) =>
-        console.log(`${formatWarnMsg(msg, namespace)}`);
-      debugFn = (msg) =>
-        console.log(`${formatDebugMsg(msg, namespace)}`);
-      startFn = (msg) =>
-        console.log(`${formatStartMsg(msg, namespace)}`);
-      successFn = (msg) =>
-        console.log(`${formatSuccessMsg(msg, namespace)}`);
+      warnFn = (msg, data) =>
+        console.log(`${formatWarnMsg(msg, namespace)}`, data ? util.inspect(data) : null);
+      debugFn = (msg, dat1, dat2, dat3) =>
+        console.log(`${formatDebugMsg(msg, namespace)}`,
+          dat1 ? util.inspect(dat1) : null,
+          dat2 ? util.inspect(dat2) : null,
+          dat3 ? util.inspect(dat3) : null);
+      startFn = (msg, data) =>
+        console.log(`${formatStartMsg(msg, namespace)}`, data);
+      successFn = (msg, data) =>
+        console.log(`${formatSuccessMsg(msg, namespace)}`, data);
     } else {
       infoFn = (msg) => console.log(`${formatInfoMsg(msg, namespace)}`);
       errFn = (msg, err, data) => console.log(`${formatErrorMsg(msg, namespace)}`, err ? err.stack || err : null, data || null);

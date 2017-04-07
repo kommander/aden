@@ -13,6 +13,8 @@ program
   .option('-s, --silent', 'Do not output anything on purpose')
   // TODO: .option('--clean', 'Remove all dist folders')
   // TODO: .option('--focus', 'Choose one route to focus on. Mount only that.')
+  // TODO: .option('--export', 'Export the generated webpack config')
+  // TODO: .option('--export-js', 'Export the generated webpack config as JSObject')
   .parse(process.argv);
 
 const logger = (new Logger({
