@@ -11,7 +11,7 @@ program
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-v, --verbose', 'Output a lot')
   .option('-s, --silent', 'Do not output anything on purpose')
-  // TODO: .option('--clean', 'Remove all dist folders')
+  .option('-c, --clean', 'Remove all dist folders')
   // TODO: .option('--focus', 'Choose one route to focus on. Mount only that.')
   // TODO: .option('--export', 'Export the generated webpack config')
   // TODO: .option('--export-js', 'Export the generated webpack config as JSObject')
@@ -34,14 +34,22 @@ process.on('unhandledRejection', (reason) => {
   process.exit(1);
 });
 
-const app = express();
-app.program = program;
+if (process.env.NODE_ENV === 'development') {
+  logger.warn('Ahoy! Running in dev env.');
+}
 
-// TODO: Hand over program options as config to bootstrap and then aden itself,
+const app = express();
+
+// Note: Hand over program options as config to bootstrap and then aden itself,
 //       >> Do not rely on app.program
 bootstrap(app, {
-  verbose: program.verbose,
-  silent: program.silent,
+  path: program.app,
+  buildOnly: program.build,
+  cleanOnly: program.clean,
+  logger: {
+    verbose: program.verbose,
+    silent: program.silent,
+  },
 }).then((aden) => {
   const port = parseInt(program.port, 10) || aden.rootPage.port || 3000;
   app.listen(port, () => aden.logger.success(`Started server at port ${port}`));
