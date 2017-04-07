@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const bootstrap = require('./lib/backend/index.js');
-const Logger = require('./logger');
 const express = require('express');
 const program = require('commander');
 
@@ -17,19 +16,14 @@ program
   // TODO: .option('--export-js', 'Export the generated webpack config as JSObject')
   .parse(process.argv);
 
-const logger = (new Logger({
-  silent: program.silent,
-  verbose: program.verbose,
-})).fns;
-
 process.on('uncaughtException', (ex) => {
-  logger.error('UNCAUGHT EXCEPTION', ex);
+  console.error('UNCAUGHT EXCEPTION', ex);
   // TODO: restart
   process.exit(1);
 });
 
 process.on('unhandledRejection', (reason) => {
-  logger.error('Unhandled Promise Rejection', reason);
+  console.error('Unhandled Promise Rejection', reason);
   // TODO: restart
   process.exit(1);
 });
@@ -39,9 +33,12 @@ app.program = program;
 
 // TODO: Hand over program options as config to bootstrap and then aden itself,
 //       >> Do not rely on app.program
-bootstrap(app, logger, {}).then((aden) => {
+bootstrap(app, {
+  verbose: program.verbose,
+  silent: program.silent,
+}).then((aden) => {
   const port = parseInt(program.port, 10) || aden.rootPage.port || 3000;
-  app.listen(port, () => logger.success(`Started server at port ${port}`));
+  app.listen(port, () => aden.logger.success(`Started server at port ${port}`));
 }).catch((err) => {
-  logger.error('Fatal:', err);
+  console.error('Fatal:', err);
 });
