@@ -15,6 +15,7 @@ program
   // TODO: .option('--focus', 'Choose one route to focus on. Mount only that.')
   // TODO: .option('--export', 'Export the generated webpack config')
   // TODO: .option('--export-js', 'Export the generated webpack config as JSObject')
+  // TODO: .option('--statics [zeroOrOne]', 'Enable/disable statics serving')
   .parse(process.argv);
 
 const logger = (new Logger({
