@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-const bootstrap = require('./lib/backend/index.js');
+const bootstrap = require('./lib');
 const express = require('express');
 const program = require('commander');
-const Logger = require('./lib/backend/aden.logger');
+const Logger = require('./lib/aden.logger');
 
 program
   .usage('[options]')
