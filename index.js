@@ -6,12 +6,12 @@ const Logger = require('./lib/aden.logger');
 
 program
   .usage('[options]')
-  .option('-a, --app [path]', 'The path to the frontend app to serve')
   .option('-p, --port [port]', 'Specifiy the port to mount the server on')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-v, --verbose', 'Output a lot')
   .option('-s, --silent', 'Do not output anything on purpose')
   .option('-c, --clean', 'Remove all dist folders')
+  // TODO: .option('--dist', 'Override the dist path')
   // TODO: .option('--focus', 'Choose one route to focus on. Mount only that.')
   // TODO: .option('--export', 'Export the generated webpack config')
   // TODO: .option('--export-js', 'Export the generated webpack config as JSObject')
@@ -44,7 +44,7 @@ const app = express();
 // Note: Hand over program options as config to bootstrap and then aden itself,
 //       >> Do not rely on app.program
 bootstrap(app, {
-  path: program.app,
+  path: program.args[0], // What to do with multiple paths? Start one process per path.
   buildOnly: program.build,
   cleanOnly: program.clean,
   logger: {
