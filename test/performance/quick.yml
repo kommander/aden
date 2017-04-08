@@ -1,0 +1,18 @@
+config:
+  target: 'http://localhost:3001'
+  phases:
+    - duration: 60
+      arrivalRate: 200
+  defaults:
+    headers:
+      Authorization: 'Bearer 3ea1053f875ef8a75deb99217ad488e9bc4eb854'
+      Accept: 'text/html'
+
+scenarios:
+  - flow:
+    - get:
+        url: "/developer/apps"
+    - get:
+        url: "/developer"
+    - get:
+        url: "/"
