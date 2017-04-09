@@ -11,9 +11,10 @@ program
   .usage('[options]')
   .option('-p, --port [port]', 'Specifiy the port to mount the server on')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
-  .option('-v, --verbose', 'Output a lot')
-  .option('-s, --silent', 'Do not output anything on purpose')
   .option('-c, --clean', 'Remove all dist folders')
+  .option('-s, --silent', 'Do not output anything on purpose')
+  .option('-d, --debug', 'Debug output')
+  .option('-v, --verbose', 'Output a lot')
   // TODO: .option('--dist', 'Override the dist path')
   // TODO: .option('--focus', 'Choose one route to focus on. Mount only that.')
   // TODO: .option('--export', 'Export the generated webpack config')
@@ -25,6 +26,7 @@ program
 const logger = (new Logger({
   silent: program.silent,
   verbose: program.verbose,
+  debug: program.debug,
 })).fns;
 
 process.on('uncaughtException', (ex) => {
@@ -52,6 +54,7 @@ const aden = new Aden(app, {
   logger: {
     verbose: program.verbose,
     silent: program.silent,
+    debug: program.debug,
   },
 });
 
