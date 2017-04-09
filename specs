@@ -18,7 +18,6 @@ Checking behaviour for version 0.1.0.
     - provides a routing setup
     - provides a webpack config mapping
     - allows to load a root path
-    - provides a page rendering pipeline
     - provides a plugin system
     - allows to use different webpack/express versions per page (bckwrds cmptbl)
     - uses more aggressive timeouts
@@ -41,9 +40,9 @@ Checking behaviour for version 0.1.0.
     - monitors what plugins add to the core page
     - creates a documented page config schema with all added features
 
-  Aden Render
-    - has a default renderer
-    - allows to use custom rendering per page
+  Aden Sender
+    - has a default sender
+    - allows to use custom sender per page
 
   Aden Routing
     - mounts page paths on an express router
@@ -65,4 +64,3 @@ Checking behaviour for version 0.1.0.
 
   0 passing (17ms)
   37 pending
-
