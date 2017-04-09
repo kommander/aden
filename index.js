@@ -1,9 +1,12 @@
 #!/usr/bin/env node
-const bootstrap = require('./lib');
+const Aden = require('./lib/aden');
 const express = require('express');
 const program = require('commander');
 const Logger = require('./lib/aden.logger');
 
+/**
+ * Aden CLI
+ */
 program
   .usage('[options]')
   .option('-p, --port [port]', 'Specifiy the port to mount the server on')
@@ -15,7 +18,8 @@ program
   // TODO: .option('--focus', 'Choose one route to focus on. Mount only that.')
   // TODO: .option('--export', 'Export the generated webpack config')
   // TODO: .option('--export-js', 'Export the generated webpack config as JSObject')
-  // TODO: .option('--statics [zeroOrOne]', 'Enable/disable statics serving')
+  // TODO: .option('--no-statics', 'Disable statics serving')
+  // TODO: .option('--force', 'Enforce running even without .aden file in path')
   .parse(process.argv);
 
 const logger = (new Logger({
@@ -24,14 +28,12 @@ const logger = (new Logger({
 })).fns;
 
 process.on('uncaughtException', (ex) => {
-  logger.error('UNCAUGHT EXCEPTION', ex);
-  // TODO: restart
+  logger.error('FATAL: Uncaught Exception', ex);
   process.exit(1);
 });
 
 process.on('unhandledRejection', (reason) => {
-  logger.error('Unhandled Promise Rejection', reason);
-  // TODO: restart
+  logger.error('FATAL: Unhandled Promise Rejection', reason);
   process.exit(1);
 });
 
@@ -43,7 +45,7 @@ const app = express();
 
 // Note: Hand over program options as config to bootstrap and then aden itself,
 //       >> Do not rely on app.program
-bootstrap(app, {
+const aden = new Aden(app, {
   path: program.args[0], // What to do with multiple paths? Start one process per path.
   buildOnly: program.build,
   cleanOnly: program.clean,
@@ -51,9 +53,14 @@ bootstrap(app, {
     verbose: program.verbose,
     silent: program.silent,
   },
-}).then((aden) => {
+});
+
+aden.init().then((aden) => {
   const port = parseInt(program.port, 10) || aden.rootPage.port || 3000;
   app.listen(port, () => aden.logger.success(`Started server at port ${port}`));
 }).catch((err) => {
-  logger.error('Fatal:', err);
+  logger.error('FATAL:', err);
+  if (process.env.NODE_ENV !== 'development') {
+    process.exit(1);
+  }
 });
