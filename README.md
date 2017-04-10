@@ -1,24 +1,12 @@
 # Aden
-A backend for frontend server. Focus on your app.
+Backend For Frontend
 
 # WIP
-This project is work in progress.
+This project is work in progress. Feedback very welcome.
 
 ## Install
 ```
 npm install -g aden
-```
-
-## Run
-From aden repository:
-```
-NODE_ENV=development node index.js -a examples/app
-```
-(Point `-a` to any directory containing a `.aden` file)
-
-Globally:
-```
-aden -a examples/app
 ```
 
 ## Help
@@ -26,10 +14,43 @@ aden -a examples/app
 aden --help
 ```
 
+## Run
+### Development
+```
+aden -d examples/app
+```
+(Point to any directory containing a `.aden` file)
+
+From the repo:
+```
+node index -d examples/app
+```
+
+### Production
+Running in production requires an existing build,
+by default in a _.dist_ folder in the root folder of the app.
+
+To run a build:
+```
+aden examples/app -b
+```
+
+Aden assumes a production environment if none is explicitly specified.
+```
+aden examples/app
+```
+
 # About
-_Aden_ is an effort to allow convenient aggregation of data from many micro services, with a focus on frontend development.
+_Aden_ is an effort to allow convenient aggregation of data from services,
+with a focus on frontend development, packaging and deliver automation.
+
+It integrates [webpack](https://github.com/webpack/webpack) and
+[express](http://expressjs.com/) with an extensible [file](https://en.wikipedia.org/wiki/Computer_file) [tree](https://en.wikipedia.org/wiki/Tree_(data_structure)) [parser](https://en.wikipedia.org/wiki/Parsing),
+to generate frontend asset builds and allow for a classic webserver like behaviour
+during development, while setting up a non-mutable express app for production.
 
 
+---
 Copyright 2016 Sebastian Herrlinger
 
 Licensed under the Apache License, Version 2.0 (the "License");

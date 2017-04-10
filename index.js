@@ -13,7 +13,8 @@ program
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-c, --clean', 'Remove all dist folders')
   .option('-s, --silent', 'Do not output anything on purpose')
-  .option('-d, --debug', 'Debug output')
+  .option('-d, --dev', 'Run in development mode')
+  .option('--debug', 'Debug output')
   .option('-v, --verbose', 'Output a lot')
   // TODO: .option('--dist', 'Override the dist path')
   // TODO: .option('--focus', 'Choose one route to focus on. Mount only that.')
@@ -31,12 +32,16 @@ const logger = (new Logger({
 
 process.on('uncaughtException', (ex) => {
   logger.error('FATAL: Uncaught Exception', ex);
-  process.exit(1);
+  if (process.env.NODE_ENV !== 'development') {
+    process.exit(1);
+  }
 });
 
 process.on('unhandledRejection', (reason) => {
   logger.error('FATAL: Unhandled Promise Rejection', reason);
-  process.exit(1);
+  if (process.env.NODE_ENV !== 'development') {
+    process.exit(1);
+  }
 });
 
 if (process.env.NODE_ENV === 'development') {
@@ -56,9 +61,10 @@ const aden = new Aden(app, {
     silent: program.silent,
     debug: program.debug,
   },
+  dev: program.dev || process.env.NODE_ENV === 'development',
 });
 
-aden.init().then((aden) => {
+aden.init().then(() => {
   const port = parseInt(program.port, 10) || aden.rootPage.port || 3000;
   app.listen(port, () => aden.logger.success(`Started server at port ${port}`));
 }).catch((err) => {

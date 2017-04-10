@@ -1,0 +1,3 @@
+module.exports = {
+  send: 'Just whatever I put here.',
+};
