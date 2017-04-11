@@ -52,11 +52,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const app = express();
-
-// Note: Hand over program options as config to bootstrap and then aden itself,
-//       >> Do not rely on app.program
-const aden = new Aden(app, {
+const config = {
   // What to do with multiple paths? Start one process per path.
+  cwd: process.cwd(),
   path: program.args[0] || process.cwd(),
   buildOnly: program.build,
   cleanOnly: program.clean,
@@ -66,7 +64,13 @@ const aden = new Aden(app, {
     debug: program.debug,
   },
   dev: program.dev || process.env.NODE_ENV === 'development',
-});
+};
+
+logger.debug('cli config ', config);
+
+// Note: Hand over program options as config to bootstrap and then aden itself,
+//       >> Do not rely on app.program
+const aden = new Aden(app, config);
 
 aden.init().then(() => {
   const port = process.env.PORT || parseInt(program.port, 10) || aden.rootPage.port || 5000;
