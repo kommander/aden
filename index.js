@@ -71,7 +71,7 @@ logger.debug('cli config ', config);
 //       >> Do not rely on app.program
 const aden = new Aden(app, config);
 
-const rootPath = path.resolve(process.cwd(), program.args[0]);
+const rootPath = path.resolve('./', program.args[0]);
 
 aden.init(rootPath).then(() => {
   const port = process.env.PORT || parseInt(program.port, 10) || aden.rootPage.port || 5000;
