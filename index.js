@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const Aden = require('./lib/aden');
+const createAden = require('./lib/aden');
 const express = require('express');
 const program = require('commander');
 const Logger = require('./lib/aden.logger');
@@ -10,7 +10,7 @@ const path = require('path');
  */
 program
   .usage('[options]')
-  .option('-p, --port [port]', 'Specifiy the port to mount the server on')
+  .option('-p, --port [port]', 'Specifiy the port to mount the server on or $PORT')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-c, --clean', 'Remove all dist folders')
   .option('-s, --silent', 'Do not output anything on purpose')
@@ -65,15 +65,16 @@ const config = {
   dev: program.dev || process.env.NODE_ENV === 'development',
 };
 
-logger.debug('cli config ', config);
+const rootPath = path.resolve('./', program.args[0]);
+
+logger.debug('cli config ', {
+  rootPath,
+  config,
+});
 
 // Note: Hand over program options as config to bootstrap and then aden itself,
 //       >> Do not rely on app.program
-const aden = new Aden(app, config);
-
-const rootPath = path.resolve('./', program.args[0]);
-
-aden.init(rootPath).then(() => {
+createAden(app, config).init(rootPath).then((aden) => {
   const port = process.env.PORT || parseInt(program.port, 10) || aden.rootPage.port || 5000;
   app.listen(port, () => aden.logger.success(`Started server at port ${port}`));
 }).catch((err) => {
