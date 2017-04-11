@@ -1,1 +1,1 @@
-web: node index examples
+web: node index examples -p 80
