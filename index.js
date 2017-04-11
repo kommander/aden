@@ -67,7 +67,7 @@ const aden = new Aden(app, {
 });
 
 aden.init().then(() => {
-  const port = parseInt(program.port, 10) || aden.rootPage.port || 3000;
+  const port = process.env.PORT || parseInt(program.port, 10) || aden.rootPage.port || 5000;
   app.listen(port, () => aden.logger.success(`Started server at port ${port}`));
 }).catch((err) => {
   logger.error('FATAL:', err);
