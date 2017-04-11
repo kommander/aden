@@ -70,7 +70,7 @@ aden.init().then(() => {
   const port = process.env.PORT || parseInt(program.port, 10) || aden.rootPage.port || 5000;
   app.listen(port, () => aden.logger.success(`Started server at port ${port}`));
 }).catch((err) => {
-  logger.error('FATAL:', err);
+  logger.error('FATAL:', err, err._reason ? err._reason.stack : null);
   if (process.env.NODE_ENV !== 'development') {
     process.exit(1);
   }
