@@ -47,6 +47,8 @@ process.on('unhandledRejection', (reason) => {
 
 if (process.env.NODE_ENV === 'development') {
   logger.warn('Ahoy! Running in dev env.');
+} else {
+  logger.info(`Running in ${process.env.NODE_ENV || 'default production'} env.`);
 }
 
 const app = express();

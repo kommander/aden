@@ -6,7 +6,7 @@
   "preferGlobal": "false",
   "scripts": {
     "test": "make test",
-    "postinstall": "node index examples -b"
+    "postinstall": "node index examples -b --debug"
   },
   "bin": {
     "aden": "index.js"
