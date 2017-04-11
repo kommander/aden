@@ -15,6 +15,7 @@ program
   .option('-s, --silent', 'Do not output anything on purpose')
   .option('-d, --dev', 'Run in development mode')
   .option('--debug', 'Debug output')
+  // TODO: .option('-dd', 'Dev and debug')
   .option('-v, --verbose', 'Output a lot')
   // TODO: .option('--dist', 'Override the dist path')
   // TODO: .option('--focus', 'Choose one route to focus on. Mount only that.')
@@ -53,7 +54,8 @@ const app = express();
 // Note: Hand over program options as config to bootstrap and then aden itself,
 //       >> Do not rely on app.program
 const aden = new Aden(app, {
-  path: program.args[0], // What to do with multiple paths? Start one process per path.
+  // What to do with multiple paths? Start one process per path.
+  path: program.args[0] || process.cwd(),
   buildOnly: program.build,
   cleanOnly: program.clean,
   logger: {
