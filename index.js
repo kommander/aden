@@ -3,6 +3,7 @@ const Aden = require('./lib/aden');
 const express = require('express');
 const program = require('commander');
 const Logger = require('./lib/aden.logger');
+const path = require('path');
 
 /**
  * Aden CLI
@@ -55,7 +56,7 @@ const app = express();
 const config = {
   // What to do with multiple paths? Start one process per path.
   cwd: process.cwd(),
-  path: program.args[0] || process.cwd(),
+  path: path.resolve(process.cwd(), program.args[0]),
   buildOnly: program.build,
   cleanOnly: program.clean,
   logger: {
