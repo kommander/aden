@@ -55,8 +55,6 @@ if (process.env.NODE_ENV === 'development') {
 const app = express();
 const config = {
   // What to do with multiple paths? Start one process per path.
-  cwd: process.cwd(),
-  path: path.resolve(process.cwd(), program.args[0]),
   buildOnly: program.build,
   cleanOnly: program.clean,
   logger: {
@@ -73,7 +71,9 @@ logger.debug('cli config ', config);
 //       >> Do not rely on app.program
 const aden = new Aden(app, config);
 
-aden.init().then(() => {
+const rootPath = path.resolve(process.cwd(), program.args[0]);
+
+aden.init(rootPath).then(() => {
   const port = process.env.PORT || parseInt(program.port, 10) || aden.rootPage.port || 5000;
   app.listen(port, () => aden.logger.success(`Started server at port ${port}`));
 }).catch((err) => {
