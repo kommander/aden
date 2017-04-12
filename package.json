@@ -16,12 +16,7 @@
     "url": ""
   },
   "author": "Sebastian Herrlinger <rootkid815@gmail.com>",
-  "licenses": [
-    {
-      "type": "Apache-2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0"
-    }
-  ],
+  "license": "Apache-2.0",
   "dependencies": {
     "artillery": "^1.5.6",
     "bootstrap": "^3.3.6",
