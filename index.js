@@ -23,12 +23,15 @@ program
   // TODO: .option('--export-js', 'Export the generated webpack config as JSObject')
   // TODO: .option('--no-statics', 'Disable statics serving')
   // TODO: .option('--force', 'Enforce running even without .aden file in path')
+  .option('--logger-no-date', 'Omit date from log output')
   .parse(process.argv);
 
 const logger = (new Logger({
+  name: 'aden',
   silent: program.silent || false,
   verbose: program.verbose || process.env.NODE_VERBOSE || false,
   debug: program.debug || false,
+  noDate: !program.loggerDate || false,
 })).fns;
 
 process.on('uncaughtException', (ex) => {
@@ -54,14 +57,15 @@ if (process.env.NODE_ENV === 'development') {
 const app = express();
 const config = {
   // What to do with multiple paths? Start one process per path.
-  buildOnly: program.build,
-  cleanOnly: program.clean,
+  buildOnly: program.build || false,
+  cleanOnly: program.clean || false,
   logger: {
-    verbose: program.verbose,
-    silent: program.silent,
-    debug: program.debug,
+    verbose: program.verbose || process.env.NODE_VERBOSE || false,
+    silent: program.silent || false,
+    debug: program.debug || false,
+    noDate: !program.loggerDate || false,
   },
-  dev: program.dev || process.env.NODE_ENV === 'development',
+  dev: program.dev || process.env.NODE_ENV === 'development' || false,
 };
 
 const rootPath = path.resolve('./', program.args[0]);
