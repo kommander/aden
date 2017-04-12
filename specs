@@ -1,4 +1,4 @@
-Checking behaviour for version 0.1.2-alpha.3.
+Checking behaviour for version 0.1.2-alpha.4.
 
 
   Aden Build
@@ -44,6 +44,6 @@ Checking behaviour for version 0.1.2-alpha.3.
     - allows extension with loaders per page (.aden)
 
 
-  0 passing (13ms)
+  0 passing (11ms)
   22 pending
 
