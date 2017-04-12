@@ -10,3 +10,4 @@ artillery_report*
 .dist
 dist
 dump*
+.imdone
