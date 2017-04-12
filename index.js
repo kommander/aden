@@ -18,7 +18,6 @@ program
   .option('--debug', 'Debug output')
   // TODO: .option('-dd', 'Dev and debug')
   .option('-v, --verbose', 'Output a lot')
-  // TODO: .option('--dist', 'Override the dist path')
   // TODO: .option('--focus', 'Choose one route to focus on. Mount only that.')
   // TODO: .option('--export', 'Export the generated webpack config')
   // TODO: .option('--export-js', 'Export the generated webpack config as JSObject')
@@ -27,9 +26,9 @@ program
   .parse(process.argv);
 
 const logger = (new Logger({
-  silent: program.silent,
-  verbose: program.verbose,
-  debug: program.debug,
+  silent: program.silent || false,
+  verbose: program.verbose || process.env.NODE_VERBOSE || false,
+  debug: program.debug || false,
 })).fns;
 
 process.on('uncaughtException', (ex) => {
