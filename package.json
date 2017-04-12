@@ -48,7 +48,6 @@
     "webpack-hot-middleware": "^2.18.0"
   },
   "devDependencies": {
-    "artillery": "^1.4.1",
     "escape-string-regexp": "^1.0.5",
     "eslint": "^2.10.2",
     "eslint-config-airbnb": "^7.0.0",
