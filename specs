@@ -1,4 +1,4 @@
-Checking behaviour for version 0.1.0.
+Checking behaviour for version 0.1.1.
 
 
   Aden Build
@@ -12,37 +12,24 @@ Checking behaviour for version 0.1.0.
 
   Aden Core
     - provides a page tree parser
-    - provides page install facilities
     - provides a build system
     - provides a dev setup
     - provides a routing setup
     - provides a webpack config mapping
     - allows to load a root path
     - provides a plugin system
-    - allows to use different webpack/express versions per page (bckwrds cmptbl)
-    - uses more aggressive timeouts
 
   Aden Load
-    - allows to use Aden programatically
     - loads a root path and returns a page tree
 
   Aden Page (Parse)
-    - (dev mem fs) caches all files for page in tree first
-    - ...then updates the files in tree that changed
     - makes sure .aden rules
 
   Aden Plugin API
     - provides hooks
-    - ...describes hooks per core module
     - allows to extend the client core
     - loads no plugins per default
     - loads plugins in the order specified in .aden
-    - monitors what plugins add to the core page
-    - creates a documented page config schema with all added features
-
-  Aden Sender
-    - has a default sender
-    - allows to use custom sender per page
 
   Aden Routing
     - mounts page paths on an express router
@@ -56,11 +43,7 @@ Checking behaviour for version 0.1.0.
     - handles configuration generation per page
     - allows extension with loaders per page (.aden)
 
-  Aden Plugin NPM
-    - uses npm to gather dependencies in a page tree
-    - provides npm as a plugin
-    - provides the plugin interface for additional/other pkgmngrs to be used
 
+  0 passing (16ms)
+  22 pending
 
-  0 passing (17ms)
-  37 pending
