@@ -5,8 +5,7 @@
   "main": "lib/aden.js",
   "preferGlobal": "false",
   "scripts": {
-    "test": "make test",
-    "postinstall": "node index examples -b --debug"
+    "test": "make test"
   },
   "bin": {
     "aden": "index.js"
