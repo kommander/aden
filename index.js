@@ -22,6 +22,7 @@ program
   // TODO: .option('--export', 'Export the generated webpack config')
   // TODO: .option('--export-js', 'Export the generated webpack config as JSObject')
   // TODO: .option('--no-statics', 'Disable statics serving')
+  // Do not add -f to make it harder to mis-use
   // TODO: .option('--force', 'Enforce running even without .aden file in path')
   .option('--logger-no-date', 'Omit date from log output')
   .parse(process.argv);
