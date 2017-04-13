@@ -5,13 +5,14 @@ const program = require('commander');
 const Logger = require('./lib/aden.logger');
 const path = require('path');
 const _ = require('lodash');
+const pckgJson = require('./package.json');
 
 /**
  * Aden CLI
  */
 program
   .usage('[options]')
-  .option('-p, --port [port]', 'Specifiy the port to mount the server on or $PORT')
+  .option('-p, --port [port]', 'Override the port to mount the server on')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-c, --clean', 'Remove all dist folders')
   .option('-s, --silent', 'Do not output anything on purpose')
@@ -19,13 +20,15 @@ program
   .option('--debug', 'Debug output')
   // TODO: .option('-dd', 'Dev and debug')
   .option('-v, --verbose', 'Output a lot')
-  // TODO: .option('--focus', 'Choose one route to focus on. Mount only that.')
+  .option('--focus [path]', 'Choose one route to focus on. Mount only that.')
   // TODO: .option('--export', 'Export the generated webpack config')
   // TODO: .option('--export-js', 'Export the generated webpack config as JSObject')
   // TODO: .option('--no-statics', 'Disable statics serving')
   // Do not add -f to make it harder to mis-use
   // TODO: .option('--force', 'Enforce running even without .aden file in path')
   .option('--logger-no-date', 'Omit date from log output')
+  .option('--version', 'Show version string')
+  .version(pckgJson.version)
   .parse(process.argv);
 
 const loggerOptions = {
@@ -66,7 +69,7 @@ const config = {
 };
 
 // What to do with multiple paths? Start one process per path.
-const rootPath = path.resolve('./', program.args[0]);
+const rootPath = path.resolve('./', program.args[0] || '');
 
 logger.debug('cli config ', {
   rootPath,
@@ -76,28 +79,28 @@ logger.debug('cli config ', {
 let run = null;
 
 if (program.build) {
-  run = createAden(app, config).init(rootPath)
+  run = createAden(app, config).init(rootPath, program.focus)
     .then((aden) => aden.run('build'));
 }
 
-if (program.clean) {
-  run = createAden(app, config).init(rootPath)
+if (!run && program.clean) {
+  run = createAden(app, config).init(rootPath, program.focus)
     .then((aden) => aden.run('clean'));
 }
 
 const runServer = (aden) => {
-  const port = process.env.PORT || parseInt(program.port, 10) || aden.rootConfig.port || 5000;
+  const port = parseInt(program.port, 10) || process.env.PORT || aden.rootConfig.port || 5000;
   app.listen(port, () => aden.logger.success(`Started server at port ${port}`));
 };
 
-if (program.dev) {
-  run = createAden(app, config).init(rootPath)
+if (!run && program.dev) {
+  run = createAden(app, config).init(rootPath, program.focus)
     .then((aden) => aden.run('dev'))
     .then((aden) => runServer(aden));
 }
 
 if (!run) {
-  run = createAden(app, config).init(rootPath)
+  run = createAden(app, config).init(rootPath, program.focus)
     .then((aden) => aden.run('production'))
     .then((aden) => runServer(aden));
 }
