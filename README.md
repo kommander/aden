@@ -1,6 +1,11 @@
 # Aden
 Backend For Frontend
 
+> _"It's a website. Can't we just put it on a webserver?"_  
+> Anonymous
+
+Sure.
+
 # WIP
 This project is work in progress. Feedback very welcome.
 
