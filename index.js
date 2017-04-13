@@ -4,6 +4,7 @@ const express = require('express');
 const program = require('commander');
 const Logger = require('./lib/aden.logger');
 const path = require('path');
+const _ = require('lodash');
 
 /**
  * Aden CLI
@@ -27,13 +28,16 @@ program
   .option('--logger-no-date', 'Omit date from log output')
   .parse(process.argv);
 
-const logger = (new Logger({
-  name: 'aden',
+const loggerOptions = {
   silent: program.silent || false,
   verbose: program.verbose || process.env.NODE_VERBOSE || false,
   debug: program.debug || false,
   noDate: !program.loggerDate || false,
-})).fns;
+};
+
+const logger = (new Logger(_.extend(loggerOptions, {
+  name: 'aden',
+}))).fns;
 
 process.on('uncaughtException', (ex) => {
   logger.error('FATAL: Uncaught Exception', ex);
@@ -49,7 +53,7 @@ process.on('unhandledRejection', (reason) => {
   }
 });
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' || program.dev) {
   logger.warn('Ahoy! Running in dev env.');
 } else {
   logger.info(`Running in ${process.env.NODE_ENV || 'default production'} env.`);
@@ -57,18 +61,11 @@ if (process.env.NODE_ENV === 'development') {
 
 const app = express();
 const config = {
-  // What to do with multiple paths? Start one process per path.
-  buildOnly: program.build || false,
-  cleanOnly: program.clean || false,
-  logger: {
-    verbose: program.verbose || process.env.NODE_VERBOSE || false,
-    silent: program.silent || false,
-    debug: program.debug || false,
-    noDate: !program.loggerDate || false,
-  },
+  logger: loggerOptions,
   dev: program.dev || process.env.NODE_ENV === 'development' || false,
 };
 
+// What to do with multiple paths? Start one process per path.
 const rootPath = path.resolve('./', program.args[0]);
 
 logger.debug('cli config ', {
@@ -76,12 +73,36 @@ logger.debug('cli config ', {
   config,
 });
 
-// Note: Hand over program options as config to bootstrap and then aden itself,
-//       >> Do not rely on app.program
-createAden(app, config).init(rootPath).then((aden) => {
-  const port = process.env.PORT || parseInt(program.port, 10) || aden.rootPage.port || 5000;
+let run = null;
+
+if (program.build) {
+  run = createAden(app, config).init(rootPath)
+    .then((aden) => aden.run('build'));
+}
+
+if (program.clean) {
+  run = createAden(app, config).init(rootPath)
+    .then((aden) => aden.run('clean'));
+}
+
+const runServer = (aden) => {
+  const port = process.env.PORT || parseInt(program.port, 10) || aden.rootConfig.port || 5000;
   app.listen(port, () => aden.logger.success(`Started server at port ${port}`));
-}).catch((err) => {
+};
+
+if (program.dev) {
+  run = createAden(app, config).init(rootPath)
+    .then((aden) => aden.run('dev'))
+    .then((aden) => runServer(aden));
+}
+
+if (!run) {
+  run = createAden(app, config).init(rootPath)
+    .then((aden) => aden.run('production'))
+    .then((aden) => runServer(aden));
+}
+
+run.catch((err) => {
   logger.error('FATAL:', err, err._reason ? err._reason.stack : null);
   if (process.env.NODE_ENV !== 'development') {
     process.exit(1);
