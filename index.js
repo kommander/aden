@@ -42,20 +42,6 @@ const logger = (new Logger(_.extend(loggerOptions, {
   name: 'aden',
 }))).fns;
 
-process.on('uncaughtException', (ex) => {
-  logger.error('FATAL: Uncaught Exception', ex);
-  if (process.env.NODE_ENV !== 'development') {
-    process.exit(1);
-  }
-});
-
-process.on('unhandledRejection', (reason) => {
-  logger.error('FATAL: Unhandled Promise Rejection', reason);
-  if (process.env.NODE_ENV !== 'development') {
-    process.exit(1);
-  }
-});
-
 if (process.env.NODE_ENV === 'development' || program.dev) {
   logger.warn('Ahoy! Running in dev env.');
 } else {
@@ -107,7 +93,21 @@ if (!run) {
 
 run.catch((err) => {
   logger.error('FATAL:', err, err._reason ? err._reason.stack : null);
-  if (process.env.NODE_ENV !== 'development') {
+  if (process.env.NODE_ENV !== 'development' && !program.dev) {
+    process.exit(1);
+  }
+});
+
+process.on('uncaughtException', (ex) => {
+  logger.error('FATAL: Uncaught Exception', ex);
+  if (process.env.NODE_ENV !== 'development' && !program.dev) {
+    process.exit(1);
+  }
+});
+
+process.on('unhandledRejection', (reason) => {
+  logger.error('FATAL: Unhandled Promise Rejection', reason);
+  if (process.env.NODE_ENV !== 'development' && !program.dev) {
     process.exit(1);
   }
 });
