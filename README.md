@@ -47,16 +47,17 @@ aden examples/app
 
 # About
 _Aden_ is an effort to allow convenient aggregation of data from services,
-with a focus on frontend development, packaging and deliver automation.
+with a focus on frontend development, packaging and delivery automation.
 
-It integrates [webpack](https://github.com/webpack/webpack) and
+It integrates [webpack](https://github.com/webpack/webpack),
+[Babel](https://babeljs.io) and
 [express](http://expressjs.com/) with an extensible [file](https://en.wikipedia.org/wiki/Computer_file) [tree](https://en.wikipedia.org/wiki/Tree_(data_structure)) [parser](https://en.wikipedia.org/wiki/Parsing),
 to generate frontend asset builds and allow for a classic webserver like behaviour
-during development, while setting up a non-mutable express app for production.
+(during development), while setting up a non-mutable express app for production.
 
 
 ---
-Copyright 2016 Sebastian Herrlinger
+Copyright 2016/2017 Sebastian Herrlinger
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
