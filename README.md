@@ -22,13 +22,13 @@ aden --help
 ## Run
 ### Development
 ```
-aden -d examples/app
+aden -d docs
 ```
 (Point to any directory containing a `.aden` file)
 
 From the repo:
 ```
-node index -d examples/app
+node index -d docs
 ```
 
 ### Production
@@ -37,12 +37,12 @@ by default in a _.dist_ folder in the root folder of the app.
 
 To run a build:
 ```
-aden examples/app -b
+aden docs -b
 ```
 
 Aden assumes a production environment if none is explicitly specified.
 ```
-aden examples/app
+aden docs
 ```
 
 # About

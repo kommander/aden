@@ -3,7 +3,7 @@
 #
 
 NODE_ENV ?= development
-TEST_FOLDERS=test/integration test/unit
+TEST_FOLDERS=test/integration # test/unit
 VERSION = $(shell node -pe 'require("./package.json").version')
 
 export NODE_ENV
@@ -53,8 +53,6 @@ build:
 test:
 	@echo 'Checking behaviour for version '$(VERSION)'.'
 	@./node_modules/.bin/mocha $(TEST_FOLDERS) \
-		--require should \
-		--require "./dev/test.inject.js" \
 		--check-leaks \
 		--recursive \
 		--require "./dev/mocha.interface.js" \
@@ -69,7 +67,7 @@ report: coverage
 coverage:
 	@echo 'Creating coverage report.'
 	@node ./node_modules/istanbul/lib/cli.js cover \
-	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) --require should --require "./dev/test.inject.js" --require "./dev/mocha.interface.js" --ui she-bdd --recursive --reporter dot
+	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) --require "./dev/mocha.interface.js" --ui she-bdd --recursive --reporter dot
 .PHONY: coverage
 
 mincov: coverage

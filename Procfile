@@ -1,1 +1,1 @@
-web: node index examples --debug --logger-no-date
+web: node index docs --debug --logger-no-date
