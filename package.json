@@ -6,7 +6,8 @@
   "preferGlobal": "false",
   "scripts": {
     "test": "make test",
-    "heroku-postbuild": "node index examples -b --debug"
+    "heroku-postbuild": "node index examples -b --debug",
+    "coveralls": "make coveralls"
   },
   "bin": {
     "aden": "index.js"
@@ -53,6 +54,7 @@
     "webpack-hot-middleware": "^2.18.0"
   },
   "devDependencies": {
+    "coveralls": "^2.13.0",
     "escape-string-regexp": "^1.0.5",
     "eslint": "^2.10.2",
     "eslint-config-airbnb": "^7.0.0",
@@ -66,5 +68,8 @@
     "pug": "^2.0.0-beta6",
     "should": "^8.1.1",
     "supertest": "^3.0.0"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
   }
 }

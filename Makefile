@@ -4,6 +4,13 @@
 
 NODE_ENV ?= development
 TEST_FOLDERS=test/integration # test/unit
+MOCHA_OPTS=--check-leaks \
+	--recursive \
+	--full-trace \
+	--require "./dev/mocha.interface.js" \
+	--ui she-bdd \
+	--no-timeouts \
+	--bail
 VERSION = $(shell node -pe 'require("./package.json").version')
 
 export NODE_ENV
@@ -52,14 +59,7 @@ build:
 
 test:
 	@echo 'Checking behaviour for version '$(VERSION)'.'
-	@./node_modules/.bin/mocha $(TEST_FOLDERS) \
-		--check-leaks \
-		--recursive \
-		--full-trace \
-		--require "./dev/mocha.interface.js" \
-		--ui she-bdd \
-		--no-timeouts \
-		--bail \
+	@./node_modules/.bin/mocha $(TEST_FOLDERS) $(MOCHA_OPTS) \
 		--reporter spec
 .PHONY: test
 
@@ -70,7 +70,7 @@ report: coverage
 coverage:
 	@echo 'Creating coverage report.'
 	@node ./node_modules/istanbul/lib/cli.js cover \
-	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) --no-timeouts --bail --full-trace --require "./dev/mocha.interface.js" --ui she-bdd --recursive --reporter dot
+	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) $(MOCHA_OPTS) --reporter dot
 .PHONY: coverage
 
 mincov: coverage
@@ -78,6 +78,10 @@ mincov: coverage
 	# TODO: Reactivate with tests coming up
 	# @node ./node_modules/istanbul/lib/cli.js check-coverage --statements 90 --functions 90 --lines 90 --branches 90
 .PHONY: mincov
+
+coveralls:
+	@node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- $(MOCHA_OPTS) -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+.PHONY: coveralls
 
 specs:
 	@echo 'Creating specs file from tests.'
