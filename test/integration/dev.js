@@ -31,10 +31,6 @@ describe('dev', () => {
             }
             expect(res.status).toMatch(404);
 
-            fs.writeFileSync(
-              path.resolve(__dirname, '../tmpdata/dev', 'index.html'),
-              '<tag>content</tag>'
-            );
 
             // Mhhh... need to know when a build has finished
             an.on('dev:reload:done', () => {
@@ -52,6 +48,11 @@ describe('dev', () => {
                   an.shutdown(done);
                 });
             });
+
+            setTimeout(() => fs.writeFileSync(
+              path.resolve(__dirname, '../tmpdata/dev', 'index.html'),
+              '<tag>content</tag>'
+            ), 300);
           });
       });
   });
@@ -69,10 +70,6 @@ describe('dev', () => {
             }
             expect(res.status).toMatch(404);
 
-            fs.writeFileSync(
-              path.resolve(__dirname, '../tmpdata/dev/sub', 'index.html'),
-              '<tag>sub content</tag>'
-            );
 
             // Mhhh... need to know when a build has finished
             an.on('dev:reload:done', () => {
@@ -90,6 +87,10 @@ describe('dev', () => {
                   an.shutdown(done);
                 });
             });
+            setTimeout(() => fs.writeFileSync(
+              path.resolve(__dirname, '../tmpdata/dev/sub', 'index.html'),
+              '<tag>sub content</tag>'
+            ), 300);
           });
       });
   });
@@ -107,11 +108,6 @@ describe('dev', () => {
             }
             expect(res.status).toMatch(404);
 
-            fs.writeFileSync(
-              path.resolve(__dirname, '../tmpdata/dev2', '.get.js'),
-              'module.exports=()=>(req, res)=>{res.send("success")};'
-            );
-
             // Mhhh... need to know when a build has finished
             an.on('dev:reload:done', () => {
               request(an.app)
@@ -128,6 +124,11 @@ describe('dev', () => {
                   an.shutdown(done);
                 });
             });
+
+            setTimeout(() => fs.writeFileSync(
+              path.resolve(__dirname, '../tmpdata/dev2', '.get.js'),
+              'module.exports=()=>(req, res)=>{res.send("success")};'
+            ), 300);
           });
       });
   });
