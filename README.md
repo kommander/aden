@@ -1,5 +1,8 @@
 # Aden
-Backend For Frontend
+Webserver.
+
+[![Build Status](https://travis-ci.org/kommander/aden.png)](https://travis-ci.org/kommander/aden) [![Coverage Status](https://coveralls.io/repos/github/kommander/aden/badge.svg?branch=master)](https://coveralls.io/github/kommander/aden?branch=master)
+
 
 > _"It's a website. Can't we just put it on a webserver?"_  
 > Anonymous
