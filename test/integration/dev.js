@@ -51,7 +51,8 @@ describe('dev', () => {
 
             setTimeout(() => fs.writeFileSync(
               path.resolve(__dirname, '../tmpdata/dev', 'index.html'),
-              '<tag>content</tag>'
+              '<tag>content</tag>',
+              (writeErr) => (writeErr ? done(writeErr) : null)
             ), 300);
           });
       });
@@ -70,7 +71,6 @@ describe('dev', () => {
             }
             expect(res.status).toMatch(404);
 
-
             // Mhhh... need to know when a build has finished
             an.on('dev:reload:done', () => {
               request(an.app)
@@ -87,9 +87,11 @@ describe('dev', () => {
                   an.shutdown(done);
                 });
             });
+
             setTimeout(() => fs.writeFileSync(
               path.resolve(__dirname, '../tmpdata/dev/sub', 'index.html'),
-              '<tag>sub content</tag>'
+              '<tag>sub content</tag>',
+              (writeErr) => (writeErr ? done(writeErr) : null)
             ), 300);
           });
       });

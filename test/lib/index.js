@@ -23,6 +23,7 @@ function setup() {
       resolve();
     });
   }))
+  .then(() => new Promise((resolve) => setTimeout(resolve, 1000)))
   .then(() => new Promise((resolve) => {
     // Copy test data
     ncp(dataPath, tmpdataPath, (err) => {
@@ -32,7 +33,8 @@ function setup() {
       }
       resolve();
     });
-  }));
+  }))
+  .then(() => new Promise((resolve) => setTimeout(resolve, 1000)));
 }
 
 module.exports = {
