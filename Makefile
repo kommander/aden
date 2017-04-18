@@ -55,8 +55,11 @@ test:
 	@./node_modules/.bin/mocha $(TEST_FOLDERS) \
 		--check-leaks \
 		--recursive \
+		--full-trace \
 		--require "./dev/mocha.interface.js" \
 		--ui she-bdd \
+		--no-timeouts \
+		--bail \
 		--reporter spec
 .PHONY: test
 
@@ -67,7 +70,7 @@ report: coverage
 coverage:
 	@echo 'Creating coverage report.'
 	@node ./node_modules/istanbul/lib/cli.js cover \
-	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) --require "./dev/mocha.interface.js" --ui she-bdd --recursive --reporter dot
+	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) --no-timeouts --bail --full-trace --require "./dev/mocha.interface.js" --ui she-bdd --recursive --reporter dot
 .PHONY: coverage
 
 mincov: coverage

@@ -11,8 +11,7 @@ describe('HTML', () => {
         request(an.app)
           .get('/')
           .expect(200, () => {
-            an.destroy();
-            done();
+            an.shutdown(done);
           });
       });
   });
@@ -26,7 +25,21 @@ describe('HTML', () => {
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/^<!DOCTYPE html>/);
-            done();
+            an.shutdown(done);
+          });
+      });
+  });
+
+  she('delivers index.html at sub path', (done) => {
+    aden().init(path.resolve(__dirname, '../data/html'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/sub')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/^<!DOCTYPE html>/);
+            an.shutdown(done);
           });
       });
   });

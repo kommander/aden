@@ -11,8 +11,7 @@ describe('Aden Live', () => {
         request(an.app)
           .get('/')
           .expect(404, () => {
-            an.destroy();
-            done();
+            an.shutdown(done);
           });
       });
   });
