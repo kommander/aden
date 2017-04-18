@@ -80,7 +80,7 @@ mincov: coverage
 .PHONY: mincov
 
 coveralls:
-	@node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- $(MOCHA_OPTS) -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+	@node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly $(TEST_FOLDERS) -- $(MOCHA_OPTS) -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
 .PHONY: coveralls
 
 specs:
