@@ -59,7 +59,7 @@ build:
 
 test:
 	@echo 'Checking behaviour for version '$(VERSION)'.'
-	@./node_modules/.bin/mocha $(TEST_FOLDERS) $(MOCHA_OPTS) \
+	@./node_modules/.bin/mocha $(TEST_FOLDERS) $(MOCHA_OPTS) $(MOCHA) \
 		--reporter spec
 .PHONY: test
 
@@ -70,7 +70,7 @@ report: coverage
 coverage:
 	@echo 'Creating coverage report.'
 	@node ./node_modules/istanbul/lib/cli.js cover \
-	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) $(MOCHA_OPTS) --reporter dot
+	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) $(MOCHA_OPTS) $(MOCHA) --reporter dot
 .PHONY: coverage
 
 mincov: coverage
@@ -80,7 +80,7 @@ mincov: coverage
 .PHONY: mincov
 
 coveralls:
-	@node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly $(TEST_FOLDERS) -- $(MOCHA_OPTS) -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+	@node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly $(TEST_FOLDERS) -- $(MOCHA_OPTS) $(MOCHA) -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 .PHONY: coveralls
 
 specs:
