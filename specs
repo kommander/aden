@@ -1,49 +1,21 @@
-Checking behaviour for version 0.1.2-alpha.12.
+Checking behaviour for version 0.1.2-alpha.13.
 
 
-  Aden Build
-    - exports some build info json with dist for packaging
+  Basics
+    ✓ injects common.js into existing html (1746ms)
 
-  Aden Development
-    - provides live compile and reload facilities
+  Aden Live
+    ✓ has no root route without an entry (693ms)
 
-  Aden Init
-    - allows to use Aden programatically
+  Favicon
+    ✓ delivers favicon from root (634ms)
+    ✓ does not deliver favicon if there is none (610ms)
 
-  Aden Core
-    - provides a page tree parser
-    - provides a build system
-    - provides a dev setup
-    - provides a routing setup
-    - provides a webpack config mapping
-    - allows to load a root path
-    - provides a plugin system
-
-  Aden Load
-    - loads a root path and returns a page tree
-
-  Aden Page (Parse)
-    - makes sure .aden rules
-
-  Aden Plugin API
-    - provides hooks
-    - allows to extend the client core
-    - loads no plugins per default
-    - loads plugins in the order specified in .aden
-
-  Aden Routing
-    - mounts page paths on an express router
-    - provides a client side router with same abilities
-
-  Aden Serialize
-    - specifies a json schema to Serialize a page tree for production
-    - loads a serialized page tree and runs it
-
-  Aden Webpack
-    - handles configuration generation per page
-    - allows extension with loaders per page (.aden)
+  HTML
+    ✓ has a root route with index.html entry point (755ms)
+    ✓ delivers index.html at root path (634ms)
+    ✓ delivers index.html at sub path (630ms)
 
 
-  0 passing (13ms)
-  22 pending
+  7 passing (6s)
 
