@@ -55,4 +55,42 @@ describe('dev', () => {
           });
       });
   });
+
+  she('recognises changed watch keys', (done) => {
+    aden().init(path.resolve(__dirname, '../tmpdata/dev2'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/')
+          .end((err, res) => {
+            if (err) {
+              done(err);
+              return;
+            }
+            expect(res.status).toMatch(404);
+
+            fs.writeFileSync(
+              path.resolve(__dirname, '../tmpdata/dev2', '.get.js'),
+              'module.exports=()=>(req, res)=>{res.send("success")};'
+            );
+
+            // Mhhh... need to know when a build has finished
+            an.on('dev:reload:done', () => {
+              request(an.app)
+                .get('/')
+                // fckn hell. todo: use promisified supertest
+                .end((err2, res2) => {
+                  if (err2) {
+                    done(err2);
+                    return;
+                  }
+
+                  expect(res2.text).toMatch('success');
+
+                  an.shutdown(done);
+                });
+            });
+          });
+      });
+  });
 });
