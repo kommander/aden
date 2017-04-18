@@ -4,7 +4,7 @@ const request = require('supertest');
 
 describe('Favicon', () => {
   she('delivers favicon from root', (done) => {
-    aden().init(path.resolve(__dirname, '../data/favicon'))
+    aden().init(path.resolve(__dirname, '../tmpdata/favicon'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -20,7 +20,7 @@ describe('Favicon', () => {
   });
 
   she('does not deliver favicon if there is none', (done) => {
-    aden().init(path.resolve(__dirname, '../data/favicon/sub'))
+    aden().init(path.resolve(__dirname, '../tmpdata/favicon/sub'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
