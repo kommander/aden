@@ -5,7 +5,7 @@ const expect = require('expect');
 
 describe('Basics', () => {
   she('injects common.js into existing html', (done) => {
-    aden().init(path.resolve(__dirname, '../data/html'))
+    aden().init(path.resolve(__dirname, '../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)

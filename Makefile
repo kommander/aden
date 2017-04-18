@@ -9,8 +9,8 @@ MOCHA_OPTS=--check-leaks \
 	--full-trace \
 	--require "./dev/mocha.interface.js" \
 	--ui she-bdd \
-	--no-timeouts \
 	--bail \
+	--timeout 20000\
 	./test/lib/inject.js
 VERSION = $(shell node -pe 'require("./package.json").version')
 
