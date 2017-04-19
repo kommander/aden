@@ -51,8 +51,7 @@ describe('dev', () => {
 
             setTimeout(() => fs.writeFileSync(
               path.resolve(__dirname, '../tmpdata/dev', 'index.html'),
-              '<tag>content</tag>',
-              (writeErr) => (writeErr ? done(writeErr) : null)
+              '<tag>content</tag>'
             ), 300);
           });
       });
@@ -90,8 +89,7 @@ describe('dev', () => {
 
             setTimeout(() => fs.writeFileSync(
               path.resolve(__dirname, '../tmpdata/dev/sub', 'index.html'),
-              '<tag>sub content</tag>',
-              (writeErr) => (writeErr ? done(writeErr) : null)
+              '<tag>sub content</tag>'
             ), 300);
           });
       });
