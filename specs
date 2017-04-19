@@ -1,21 +1,27 @@
-Checking behaviour for version 0.1.2-alpha.13.
+Checking behaviour for version 0.1.2-alpha.14.
 
 
   Basics
-    ✓ injects common.js into existing html (1746ms)
+    ✓ injects common.js into existing html (1654ms)
 
-  Aden Live
-    ✓ has no root route without an entry (693ms)
+  dev
+    ✓ has no root route without an entry (607ms)
+webpack built 7ca1607a88644043f36c in 526ms
+    ✓ recognises new files and sets up the page (3741ms)
+webpack built 4bf2ae8f1b9c7d7b4440 in 515ms
+    ✓ recognises new files in sub folders and sets up the page (3635ms)
+webpack built 89b8a66568b7f2b85854 in 509ms
+    ✓ recognises changed watch keys (3592ms)
 
   Favicon
-    ✓ delivers favicon from root (634ms)
-    ✓ does not deliver favicon if there is none (610ms)
+    ✓ delivers favicon from root (486ms)
+    ✓ does not deliver favicon if there is none (588ms)
 
   HTML
-    ✓ has a root route with index.html entry point (755ms)
-    ✓ delivers index.html at root path (634ms)
-    ✓ delivers index.html at sub path (630ms)
+    ✓ has a root route with index.html entry point (617ms)
+    ✓ delivers index.html at root path (664ms)
+    ✓ delivers index.html at sub path (522ms)
 
 
-  7 passing (6s)
+  10 passing (18s)
 
