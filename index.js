@@ -45,7 +45,7 @@ const logger = (new Logger(_.extend(loggerOptions, {
 if (process.env.NODE_ENV === 'development' || program.dev) {
   logger.warn('Ahoy! Running in dev env.');
 } else {
-  logger.info(`Running in ${process.env.NODE_ENV || 'default production'} env.`);
+  logger.info(`Running in ${process.env.NODE_ENV || 'production (by default)'} env.`);
 }
 
 const app = express();
