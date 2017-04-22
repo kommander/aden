@@ -51,7 +51,7 @@ Watches filesystem for changes and sets up routes life for faster iteration. imp
 Builds your frontend for production via webpack (including babel transpiling, minification and uglification) and the corresponding backend for node.js and express.
 
 ##### Supported filetypes
-Aden can handle `.html`, `.js`, `.css`, and `.hbs` files for now. support is modular an can be turned off for less overhead.
+Aden can handle `.html`, `.js`, `.css`, `md` and `.hbs` files for now. support is modular an can be turned off for less overhead.
 
 
 
@@ -68,4 +68,12 @@ Aden can handle `.html`, `.js`, `.css`, and `.hbs` files for now. support is mod
     name: 'ZwErk',
   }; > .server
 
+    TODO:
+    how to deploy
+
+    TODO:
+    how to edit 404 pges // > make 404 folder.
+
+    TODO:
+    ways to add styling
  -->
