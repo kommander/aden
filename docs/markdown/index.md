@@ -1,3 +1,6 @@
+#Aden
+_**Rapid Prototyping for your Project**_
+
 ## Installation
 install aden via
 
@@ -47,33 +50,42 @@ _**Aden conveniently wraps the wall of configuration for webpack and the ever re
 
 ##### Devmode `-d`
 Watches filesystem for changes and sets up routes life for faster iteration. implements webpacks hot module reload.
+
 ##### Build `-b`
 Builds your frontend for production via webpack (including babel transpiling, minification and uglification) and the corresponding backend for node.js and express.
 
 ##### Supported filetypes
 Aden can handle `.html`, `.js`, `.css`, `md` and `.hbs` files for now. support is modular an can be turned off for less overhead.
 
+### .server file
 
+the .server file indicates the root folder for aden, but it also can return a configuration object.
 
+##### Configuration
+  <!--
+    TODO: options of .server file
+    TODO:
+      explain babel webpack configuration process.
+        module.exports = {
+          port: 3001,
+          route: '*',
+          loaders: [
+            { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
+          ],
+          name: 'ZwErk',
+        }; > .server
+  -->
 
-<!-- TODO:
-  explain babel webpack configuration process.
-
-  module.exports = {
-    port: 3001,
-    route: '*',
-    loaders: [
-      { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
-    ],
-    name: 'ZwErk',
-  }; > .server
+<!--
+    TODO:
+      i don't .get files
 
     TODO:
-    how to deploy
+      how to deploy // -> basically $ git push herocu master kappa
 
     TODO:
-    how to edit 404 pges // > make 404 folder.
+      how to edit 404 pges // -> make 404 folder.
 
     TODO:
-    ways to add styling
+      ways to add styling // -> .shared/some.css -> require(.shared/some.css) > *.js || /base.css
  -->
