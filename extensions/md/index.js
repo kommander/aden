@@ -3,7 +3,6 @@ const marked = require('marked');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const hogan = require('hogan.js');
-const cannot = require('cannot');
 
 /**
  * md
@@ -80,8 +79,12 @@ module.exports = (aden) => {
     }
   });
 
-  aden.hook('apply', ({ page, webpackConfigs }) => {
+  aden.hook('apply', ({ page, webpackConfigs /* , webpackEntry */ }) => {
     if (page.key.mdIndex.value) {
+      // if (page.key.mdIndex.value) {
+      //   webpackEntry.push(page.key.mdIndex.resolved);
+      // }
+
       const chunks = [page.entryName];
       if (page.commons) {
         chunks.unshift('commons');

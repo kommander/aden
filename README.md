@@ -3,14 +3,16 @@ Webserver.
 
 [![Build Status](https://travis-ci.org/kommander/aden.png)](https://travis-ci.org/kommander/aden) [![Coverage Status](https://coveralls.io/repos/github/kommander/aden/badge.svg?branch=master)](https://coveralls.io/github/kommander/aden?branch=master)
 
+Aden integrates [Webpack](https://github.com/webpack/webpack),
+[Babel](https://babeljs.io) and
+[Express](http://expressjs.com/) with an extensible [file](https://en.wikipedia.org/wiki/Computer_file) [tree](https://en.wikipedia.org/wiki/Tree_data_structure) [parser](https://en.wikipedia.org/wiki/Parsing),
+to generate frontend asset builds and allow for a classic webservere behaviour
+(during development), while setting up a non-mutable express app for production. The core aims to be un-opinionated about how you want your files to be handled and structured. All behaviours are controlled by opinionated and  interchangeable extensions.
 
 > _"It's a website. Can't we just put it on a webserver?"_  
 > Anonymous
 
 Sure.
-
-# WIP
-This project is work in progress. Feedback very welcome.
 
 ## Install
 ```
@@ -19,7 +21,7 @@ npm install -g aden
 
 ## Help
 ```
-aden --help
+aden -h
 ```
 
 ## Run
@@ -51,12 +53,6 @@ aden docs
 # About
 _Aden_ is an effort to allow convenient aggregation of data from services,
 with a focus on frontend development, packaging and delivery automation.
-
-It integrates [webpack](https://github.com/webpack/webpack),
-[Babel](https://babeljs.io) and
-[express](http://expressjs.com/) with an extensible [file](https://en.wikipedia.org/wiki/Computer_file) [tree](https://en.wikipedia.org/wiki/Tree_(data_structure)) [parser](https://en.wikipedia.org/wiki/Parsing),
-to generate frontend asset builds and allow for a classic webserver like behaviour
-(during development), while setting up a non-mutable express app for production.
 
 
 ---
