@@ -3,18 +3,36 @@ const path = require('path');
 
 module.exports = (aden) => {
   aden.registerKey('css', {
-    type: 'string',
-    value: 'index',
+    type: 'config',
+    value: {
+      entry: 'index',
+      global: 'base',
+    },
     inherit: true,
   });
 
+  // TODO: Gather all css files in page path and add them to the bundle
+  // TODO: Let an extension add to ingores (css -> css/style, js -> lib/components/...)
+
   aden.registerFile('cssFile', ({ page, fileInfo }) =>
-    fileInfo.file.match(/\.css$/) && fileInfo.name === page.key.css.value
+    fileInfo.file.match(/\.css$/) && fileInfo.name === page.key.css.value.entry
   );
 
-  aden.hook('apply', ({ page, webpackEntry }) => {
+  aden.registerFile('cssBaseFile', ({ page, fileInfo }) =>
+    fileInfo.file.match(/\.css$/)
+      && page.key.path.value === ''
+      && fileInfo.name === page.key.css.value.global
+  );
+
+  aden.hook('apply', ({ page, webpackEntry, webpackConfigs }) => {
     if (page.key.cssFile.value) {
       webpackEntry.push(page.key.cssFile.resolved);
+    }
+    if (page.key.cssBaseFile.value) {
+      Object.assign(webpackConfigs[0].entry, {
+        _cssBase: page.key.cssBaseFile.value,
+      });
+      webpackConfigs[0].globalChunks.push('_cssBase');
     }
   });
 

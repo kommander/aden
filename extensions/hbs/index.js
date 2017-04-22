@@ -111,7 +111,7 @@ module.exports = (aden) => {
       }
 
 
-      const chunks = [page.entryName];
+      const chunks = [page.entryName, 'global'];
       if (page.commons) {
         chunks.unshift('commons');
       }

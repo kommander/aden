@@ -59,7 +59,7 @@ module.exports = (aden) => {
         webpackEntry.push(page.key.htmlFile.resolved);
       }
 
-      const chunks = [page.entryName];
+      const chunks = [page.entryName, 'global'];
       if (page.commons) {
         chunks.unshift('commons');
       }
