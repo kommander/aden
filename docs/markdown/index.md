@@ -52,3 +52,20 @@ Builds your frontend for production via webpack (including babel transpiling, mi
 
 ##### Supported filetypes
 Aden can handle `.html`, `.js`, `.css`, and `.hbs` files for now. support is modular an can be turned off for less overhead.
+
+
+
+
+<!-- TODO:
+  explain babel webpack configuration process.
+
+  module.exports = {
+    port: 3001,
+    route: '*',
+    loaders: [
+      { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
+    ],
+    name: 'ZwErk',
+  }; > .server
+
+ -->
