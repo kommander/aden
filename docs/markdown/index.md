@@ -1,12 +1,12 @@
-#Aden
+##Aden
 _**Rapid Prototyping for your Project**_
 
-## Installation
+### Installation
 install aden via
 
 `npm i aden -g`
 
-## Getting started
+### Getting started
 
 - make an example folder
 - navigate to it
@@ -78,10 +78,10 @@ the .server file indicates the root folder for aden, but it also can return a co
 
 <!--
     TODO:
-      i don't .get files
+      i don't .get files ???? controllers - override standard route
 
     TODO:
-      how to deploy // -> basically $ git push herocu master kappa
+      how to deploy // -> basically $ git push heroku master kappa
 
     TODO:
       how to edit 404 pges // -> make 404 folder.
