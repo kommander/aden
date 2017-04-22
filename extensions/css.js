@@ -19,7 +19,8 @@ module.exports = (aden) => {
   });
 
   aden.hook('post:apply', ({ pages, webpackConfigs, paths }) => {
-    const extractPlugin = new ExtractTextPlugin('[name]-[hash].css', { allChunks: true });
+    const outputName = aden.isDEV ? '[name].css' : '[name]-[hash].css';
+    const extractPlugin = new ExtractTextPlugin(outputName, { allChunks: true });
     webpackConfigs[0].plugins.push(extractPlugin);
 
     const includePaths = [
