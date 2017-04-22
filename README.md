@@ -29,7 +29,7 @@ aden -h
 ```
 aden -d docs
 ```
-(Point to any directory containing a `.aden` file)
+(Point to any directory containing a `.server` file)
 
 From the repo:
 ```
