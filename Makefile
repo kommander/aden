@@ -77,8 +77,7 @@ coverage:
 
 mincov: coverage
 	@echo 'Checking minimum test coverage.'
-	# TODO: Reactivate with tests coming up
-	# @node ./node_modules/istanbul/lib/cli.js check-coverage --statements 90 --functions 90 --lines 90 --branches 90
+	@node ./node_modules/istanbul/lib/cli.js check-coverage --statements 60 --functions 50 --lines 60 --branches 60
 .PHONY: mincov
 
 coveralls:
