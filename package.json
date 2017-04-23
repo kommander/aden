@@ -41,6 +41,7 @@
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "mkdirp": "^0.5.1",
+    "mocha": "^3.2.0",
     "moment": "^2.18.1",
     "morgan": "^1.8.1",
     "mustache-loader": "^0.4.0",
