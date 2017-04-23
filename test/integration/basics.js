@@ -15,6 +15,7 @@ describe('Basics', () => {
             expect(res.text).toMatch(/<script type="text\/javascript" src="\/commons\.js">/ig);
             an.shutdown(done);
           });
-      });
+      })
+      .catch(done);
   });
 });

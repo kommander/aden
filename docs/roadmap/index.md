@@ -10,3 +10,6 @@
 
 ## Cluster
 - Provide default clustering setup via CLI `-w [num_of_workers_or_all_cpus]`
+
+## Tooling
+- Enable [Greenkeeper](https://greenkeeper.io/)

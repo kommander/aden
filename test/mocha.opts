@@ -1,4 +1,0 @@
---require expect
---check-leaks
---recursive
---reporter spec
