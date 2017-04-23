@@ -28,7 +28,7 @@ a, a:hover, a:active, a:visited {
 
 #errorPage #attribute {
   position: relative;
-  bottom: 6px;
+  bottom: 41px;
   right: 27px;
 }
 
@@ -53,14 +53,15 @@ a, a:hover, a:active, a:visited {
   text-align: left;
   font-weight: bolder;
   font-size: 290px;
-  transform : scale(1, 1.2);
+  transform : scale(1, 1.5);
   -webkit-transform:scale(1, 1.5); /* Safari and Chrome */
-  -moz-transform:scale(1,1.2); /* Firefox */
-  -ms-transform:scale(1,1.2); /* IE 9+ */
-  -o-transform:scale(1,1.2); /* Opera */
+  -moz-transform:scale(1,1.5); /* Firefox */
+  -ms-transform:scale(1,1.5); /* IE 9+ */
+  -o-transform:scale(1,1.5); /* Opera */
 }
 
 #errorPage #tooSad {
+  margin-bottom: 70px;
   display: inline-block;
   width: 405px;
   text-align: right;
@@ -68,11 +69,11 @@ a, a:hover, a:active, a:visited {
   line-height: 1.1;
   letter-spacing: 1px;
   font-weight: 600;
-  transform : scale(1, 1.2);
+  transform : scale(1, 1.5);
   -webkit-transform:scale(1, 1.5); /* Safari and Chrome */
-  -moz-transform:scale(1,1.2); /* Firefox */
-  -ms-transform:scale(1,1.2); /* IE 9+ */
-  -o-transform:scale(1,1.2); /* Opera */
+  -moz-transform:scale(1,1.5); /* Firefox */
+  -ms-transform:scale(1,1.5); /* IE 9+ */
+  -o-transform:scale(1,1.5); /* Opera */
 }
 
 #internalError {
@@ -81,7 +82,7 @@ a, a:hover, a:active, a:visited {
 
 #internalError #errorPage #attribute {
   position: relative;
-  bottom: 134px;
+  bottom: 169px;
   right: 0px;
 }
 
