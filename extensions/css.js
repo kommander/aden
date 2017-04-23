@@ -18,7 +18,7 @@ module.exports = (aden) => {
   });
 
   // TODO: Gather all css files in page path and add them to the bundle
-  // TODO: Let an extension add to ingores (css -> css/style, js -> lib/components/...)
+  // TODO: Let an extension add to ignores (css -> css/style, js -> lib/components/...)
 
   aden.registerFile('cssFile', ({ page, fileInfo }) =>
     fileInfo.file.match(/\.css$/) && fileInfo.name === page.key.css.value.entry

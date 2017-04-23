@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = (aden) => {
   aden.registerKey('js', {
     type: 'string',
@@ -12,17 +10,7 @@ module.exports = (aden) => {
     fileInfo.file.match(/\.(js|jsx)$/) && fileInfo.name === page.key.js.value
   );
 
-  aden.hook('post:apply', ({ pages, webpackConfigs, paths }) => {
-    const flatPages = aden.flattenPages(pages);
-    const includePaths = [
-      pages[0].rootPath,
-      path.resolve(pages[0].rootPath, 'node_modules'),
-      path.resolve(pages[0].rootPath, '../node_modules'),
-      path.resolve(pages[0].rootPath, '../../node_modules'),
-      paths.aden_node_modules,
-    ]
-    .concat(flatPages.map((page) => page.key.path.resolved));
-
+  aden.hook('post:apply', ({ pages, webpackConfigs }) => {
     webpackConfigs.forEach((config) => {
       config.module.rules.push({
         test: /\.js$/,
