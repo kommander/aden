@@ -43,12 +43,12 @@ module.exports = (aden) => {
   });
 
   aden.hook('post:apply', ({ pages, webpackConfigs }) => {
-    webpackConfigs[0].module.loaders.push({
+    webpackConfigs[0].module.rules.push({
       test: /\.html$/,
       include: [
         path.resolve(pages[0].rootPath, '../'),
       ].concat(aden.flattenPages(pages).map((page) => page.key.path.resolved)),
-      loader: 'html?attrs[]=img:src&attrs[]=link:href',
+      loader: 'html-loader?attrs[]=img:src&attrs[]=link:href',
     });
   });
 

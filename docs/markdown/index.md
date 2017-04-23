@@ -49,13 +49,13 @@ The `-d` flag puts aden in devmode. in devmode aden features hot module reload, 
 _**Aden conveniently wraps the wall of configuration for webpack and the ever repeating route/controller setup for express, removing a lot of cognitive overhead.**_
 
 ##### Devmode `-d`
-Watches filesystem for changes and sets up routes life for faster iteration. implements webpacks hot module reload.
+Watches filesystem for changes and sets up routes live for faster iteration, using webpacks hot module reload.
 
 ##### Build `-b`
-Builds your frontend for production via webpack (including babel transpiling, minification and uglification) and the corresponding backend for node.js and express.
+Builds your application for production via webpack (including babel transpiling, minification and uglification) and the corresponding backend for node.js and express.
 
 ##### Supported filetypes
-Aden can handle `.html`, `.js`, `.css`, `md` and `.hbs` files for now. support is modular an can be turned off for less overhead.
+Aden has default extensions for `.html`, `.js`, `.css`, `md` and `.hbs` files for now. Support is modular an can be toggled on/off.
 
 ### .server file
 
@@ -69,7 +69,7 @@ the .server file indicates the root folder for aden, but it also can return a co
         module.exports = {
           port: 3001,
           route: '*',
-          loaders: [
+          rules: [
             { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
           ],
           name: 'ZwErk',

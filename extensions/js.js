@@ -24,12 +24,12 @@ module.exports = (aden) => {
     .concat(flatPages.map((page) => page.key.path.resolved));
 
     webpackConfigs.forEach((config) => {
-      config.module.loaders.push({
+      config.module.rules.push({
         test: /\.js$/,
         include: [
           pages[0].rootPath,
         ],
-        loaders: [],
+        // loader: '',
       }, {
         test: /\.jsx?$/,
         loader: 'babel-loader',
@@ -37,10 +37,6 @@ module.exports = (aden) => {
           pages[0].rootPath,
         ],
         exclude: /node_modules/,
-      }, {
-        test: /\.json$/,
-        loader: 'json-loader',
-        include: includePaths,
       });
     });
   });

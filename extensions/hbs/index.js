@@ -127,7 +127,7 @@ module.exports = (aden) => {
 
       webpackConfigs[0].plugins.push(hbsPlugin);
 
-      webpackConfigs[0].module.loaders.push({
+      webpackConfigs[0].module.rules.push({
         test: /\.(mustache|hbs|handlebars)$/,
         include: [
           page.key.path.resolved,
@@ -136,7 +136,7 @@ module.exports = (aden) => {
           path.resolve(page.key.path.resolved, '../../node_modules'),
           path.resolve(page.rootPath, 'node_modules'),
         ],
-        loader: 'mustache',
+        loader: 'mustache-loader',
       });
     }
   });

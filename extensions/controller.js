@@ -1,9 +1,5 @@
-// const path = require('path');
-// const fs = require('fs');
-
 module.exports = (aden) => {
   // TODO: use page.getKey(name) and page.setKey(name, value)
-  // TODO: allow match fn instead of regex
   // TODO: only execute plugin hooks if file was matched
 
   aden.registerFile('getPath', /\.get\.jsx?$/, { key: {
@@ -22,33 +18,6 @@ module.exports = (aden) => {
     build: false,
     watch: true,
   } });
-
-  // aden.hook('apply', ({ webpackConfigs, page, paths }) => {
-  //   ['getPath', 'postPath', 'putPath', 'deletePath']
-  //     .filter((method) => page.key[method].value)
-  //     .forEach((method) =>
-  //       // TODO: use a createBaseConfig method
-  //       webpackConfigs.push({
-  //         target: 'node',
-  //         entry: page.key[method].resolved,
-  //         output: {
-  //           path: aden.rootConfig.dist,
-  //           filename: page.key[method].distFileName + '.js',
-  //         },
-  //         module: {
-  //           loaders: [],
-  //         },
-  //         extensions: ['', '.js', '.jsx', '.json'],
-  //         resolve: {
-  //           root: [page.key.path.resolved],
-  //         },
-  //         externals: fs.readdirSync(paths.aden_node_modules).map((module) =>
-  //           `require(${module})`
-  //         ),
-  //         devtool: aden.isDEV ? 'source-map' : false,
-  //       })
-  //     );
-  // });
 
   aden.hook('load', ({ page }) => {
     Object.assign(page, {
