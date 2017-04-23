@@ -77,7 +77,7 @@ coverage:
 
 mincov: coverage
 	@echo 'Checking minimum test coverage.'
-	@node ./node_modules/istanbul/lib/cli.js check-coverage --statements 60 --functions 50 --lines 60 --branches 60
+	@node ./node_modules/istanbul/lib/cli.js check-coverage --statements 60 --functions 60 --lines 60 --branches 50
 .PHONY: mincov
 
 coveralls:
