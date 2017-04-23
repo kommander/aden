@@ -85,7 +85,8 @@ module.exports = (aden) => {
       //   webpackEntry.push(page.key.mdIndex.resolved);
       // }
 
-      const chunks = [page.entryName, 'global'];
+      const chunks = ['global', page.entryName];
+
       if (page.commons) {
         chunks.unshift('commons');
       }

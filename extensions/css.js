@@ -11,6 +11,12 @@ module.exports = (aden) => {
     inherit: true,
   });
 
+  aden.registerKey('hasBaseFile', {
+    type: 'rpath',
+    value: false,
+    inherit: true,
+  });
+
   // TODO: Gather all css files in page path and add them to the bundle
   // TODO: Let an extension add to ingores (css -> css/style, js -> lib/components/...)
 
@@ -22,17 +28,20 @@ module.exports = (aden) => {
     fileInfo.file.match(/\.css$/)
       && page.key.path.value === ''
       && fileInfo.name === page.key.css.value.global
-  );
+      && page.key.hasBaseFile.value === false
+  , {
+    fn: ({ page, fileInfo }) =>
+      Object.assign(page.key.hasBaseFile, {
+        value: fileInfo.rpath,
+      }),
+  });
 
-  aden.hook('apply', ({ page, webpackEntry, webpackConfigs }) => {
+  aden.hook('apply', ({ page, webpackEntry }) => {
+    if (page.key.hasBaseFile.value) {
+      webpackEntry.push(page.key.hasBaseFile.resolved);
+    }
     if (page.key.cssFile.value) {
       webpackEntry.push(page.key.cssFile.resolved);
-    }
-    if (page.key.cssBaseFile.value) {
-      Object.assign(webpackConfigs[0].entry, {
-        _cssBase: page.key.cssBaseFile.value,
-      });
-      webpackConfigs[0].globalChunks.push('_cssBase');
     }
   });
 
