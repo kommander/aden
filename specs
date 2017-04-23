@@ -2,41 +2,35 @@ Checking behaviour for version 0.1.2-alpha.16.
 
 
   Basics
-    ✓ injects common.js into existing html (1956ms)
+    ✓ injects common.js into existing html (2052ms)
 
   CSS Extension
-    ✓ puts base.css into commons (1139ms)
-    ✓ includes page css (878ms)
+    ✓ puts base.css into commons (1317ms)
+    ✓ includes page css (940ms)
 
   dev
-    ✓ has no root route without an entry (590ms)
-webpack building...
-webpack built 9f033729724153e9dcfe in 544ms
-    ✓ recognises new files and sets up the page (3794ms)
-webpack building...
-webpack built cbe7aeb86e00ee872160 in 548ms
-    ✓ recognises new files in sub folders and sets up the page (3734ms)
-webpack building...
-webpack built 0117bc8d04b7882dbd4d in 516ms
-    ✓ recognises changed watch keys (3706ms)
+    ✓ has no root route without an entry (681ms)
+    ✓ recognises new files and sets up the page (3722ms)
+    ✓ recognises new files in sub folders and sets up the page (3818ms)
+    ✓ recognises changed watch keys (3782ms)
 
   Favicon
-    ✓ delivers favicon from root (583ms)
-    ✓ does not deliver favicon if there is none (675ms)
+    ✓ delivers favicon from root (595ms)
+    ✓ does not deliver favicon if there is none (547ms)
 
   HTML
-    ✓ has a root route with index.html entry point (618ms)
-    ✓ delivers index.html at root path (586ms)
-    ✓ delivers index.html at sub path (601ms)
+    ✓ has a root route with index.html entry point (612ms)
+    ✓ delivers index.html at root path (693ms)
+    ✓ delivers index.html at sub path (610ms)
 
   page keys (registerKey)
-    ✓ adds a named key to the page (601ms)
+    ✓ adds a named key to the page (587ms)
 
   MD Markdown Extension
-    ✓ has a root route with index.md entry point (1313ms)
-    ✓ delivers index.md at root path (1302ms)
-    ✓ delivers index.html at sub path (1162ms)
+    ✓ has a root route with index.md entry point (1317ms)
+    ✓ delivers index.md at root path (1303ms)
+    ✓ delivers index.html at sub path (1192ms)
 
 
-  16 passing (25s)
+  16 passing (26s)
 
