@@ -18,4 +18,19 @@ describe('CSS Extension', () => {
       })
       .catch(done);
   });
+
+  she('includes page css', (done) => {
+    aden().init(path.resolve(__dirname, '../tmpdata/cssbase'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/cssbase.sub.css')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/\.anotherTestClass/ig);
+            an.shutdown(done);
+          });
+      })
+      .catch(done);
+  });
 });
