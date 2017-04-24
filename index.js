@@ -42,7 +42,8 @@ const logger = (new Logger(_.extend(loggerOptions, {
   name: 'aden',
 }))).fns;
 
-if (process.env.NODE_ENV === 'development' || program.dev) {
+if (process.env.NODE_ENV === 'development'
+  || program.dev || program.new || program.nd) {
   logger.warn('Ahoy! Running in dev env.');
 } else {
   logger.info(`Running in ${process.env.NODE_ENV || 'production (by default)'} env.`);
@@ -51,7 +52,7 @@ if (process.env.NODE_ENV === 'development' || program.dev) {
 const app = express();
 const config = {
   logger: loggerOptions,
-  dev: program.dev || process.env.NODE_ENV === 'development' || false,
+  dev: program.dev || program.new || program.nd || process.env.NODE_ENV === 'development' || false,
 };
 
 // What to do with multiple paths? Start one process per path.
