@@ -2,35 +2,35 @@ Checking behaviour for version 0.1.2-alpha.16.
 
 
   Basics
-    ✓ injects common.js into existing html (2052ms)
+    ✓ injects common.js into existing html
 
   CSS Extension
-    ✓ puts base.css into commons (1317ms)
-    ✓ includes page css (940ms)
+    ✓ puts base.css into commons
+    ✓ includes page css
 
   dev
-    ✓ has no root route without an entry (681ms)
-    ✓ recognises new files and sets up the page (3722ms)
-    ✓ recognises new files in sub folders and sets up the page (3818ms)
-    ✓ recognises changed watch keys (3782ms)
+    ✓ has no root route without an entry
+    ✓ recognises new files and sets up the page (3833ms)
+    ✓ recognises new files in sub folders and sets up the page (3750ms)
+    ✓ recognises changed watch keys (3627ms)
 
   Favicon
-    ✓ delivers favicon from root (595ms)
-    ✓ does not deliver favicon if there is none (547ms)
+    ✓ delivers favicon from root
+    ✓ does not deliver favicon if there is none
 
   HTML
-    ✓ has a root route with index.html entry point (612ms)
-    ✓ delivers index.html at root path (693ms)
-    ✓ delivers index.html at sub path (610ms)
+    ✓ has a root route with index.html entry point
+    ✓ delivers index.html at root path
+    ✓ delivers index.html at sub path
 
   page keys (registerKey)
-    ✓ adds a named key to the page (587ms)
+    ✓ adds a named key to the page
 
   MD Markdown Extension
-    ✓ has a root route with index.md entry point (1317ms)
-    ✓ delivers index.md at root path (1303ms)
-    ✓ delivers index.html at sub path (1192ms)
+    ✓ has a root route with index.md entry point
+    ✓ delivers index.md at root path
+    ✓ delivers index.html at sub path
 
 
-  16 passing (26s)
+  16 passing (25s)
 
