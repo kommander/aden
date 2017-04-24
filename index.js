@@ -6,6 +6,7 @@ const Logger = require('./lib/aden.logger');
 const path = require('path');
 const _ = require('lodash');
 const pckgJson = require('./package.json');
+const open = require('open');
 
 /**
  * Aden CLI
@@ -14,6 +15,8 @@ program
   .usage('[options]')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-d, --dev', 'Run in development mode (live reload)')
+  .option('-n, --new [path]', 'Bootstrap a new page')
+  .option('--nd [path]', 'Bootstrap a new page and start the dev server')
   .option('-c, --clean', 'Remove all dist folders')
   .option('-f, --focus [path]', 'Choose one route to focus on. Mount only that.')
   .option('-p, --port [port]', 'Override the port to mount the server on')
@@ -62,6 +65,23 @@ logger.debug('cli config ', {
   config,
 });
 
+const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((resolve, reject) => {
+  const port = parseInt(program.port, 10) || process.env.PORT || aden.rootConfig.port || 5000;
+  aden.app.listen(port, (err) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    aden.logger.success(`Started server at port ${port}`);
+
+    if (doOpen) {
+      open(`http://localhost:${port}`);
+    }
+
+    resolve(aden);
+  });
+}));
+
 let run = null;
 
 if (program.build) {
@@ -69,24 +89,31 @@ if (program.build) {
     .then((aden) => aden.run('build'));
 }
 
+if (program.new || program.nd) {
+  const bootstrapPath = path.resolve(rootPath, program.new || program.nd);
+  run = createAden(app, config)
+    .bootstrap(bootstrapPath)
+    .then((aden) => aden.init(bootstrapPath, program.focus))
+    .then((aden) => aden.run('dev'))
+    .then((aden) => runServer(aden, true));
+}
+
 if (!run && program.clean) {
-  run = createAden(app, config).init(rootPath, program.focus)
+  run = createAden(app, config)
+    .init(rootPath, program.focus)
     .then((aden) => aden.run('clean'));
 }
 
-const runServer = (aden) => {
-  const port = parseInt(program.port, 10) || process.env.PORT || aden.rootConfig.port || 5000;
-  app.listen(port, () => aden.logger.success(`Started server at port ${port}`));
-};
-
 if (!run && program.dev) {
-  run = createAden(app, config).init(rootPath, program.focus)
+  run = createAden(app, config)
+    .init(rootPath, program.focus)
     .then((aden) => aden.run('dev'))
     .then((aden) => runServer(aden));
 }
 
 if (!run) {
-  run = createAden(app, config).init(rootPath, program.focus)
+  run = createAden(app, config)
+    .init(rootPath, program.focus)
     .then((aden) => aden.run('production'))
     .then((aden) => runServer(aden));
 }
