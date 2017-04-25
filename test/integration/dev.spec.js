@@ -6,7 +6,7 @@ const expect = require('expect');
 
 describe('dev', () => {
   she('has no root route without an entry', (done) => {
-    aden()
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/empty'))
       .then((an) => an.run('dev'))
       .then((an) => {
@@ -19,7 +19,7 @@ describe('dev', () => {
   });
 
   she('recognises new files and sets up the page', (done) => {
-    aden().init(path.resolve(__dirname, '../tmpdata/dev'))
+    aden({ dev: true }).init(path.resolve(__dirname, '../tmpdata/dev'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -58,7 +58,7 @@ describe('dev', () => {
   });
 
   she('recognises new files in sub folders and sets up the page', (done) => {
-    aden().init(path.resolve(__dirname, '../tmpdata/dev'))
+    aden({ dev: true }).init(path.resolve(__dirname, '../tmpdata/dev'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -96,7 +96,7 @@ describe('dev', () => {
   });
 
   she('recognises changed watch keys', (done) => {
-    aden().init(path.resolve(__dirname, '../tmpdata/dev2'))
+    aden({ dev: true }).init(path.resolve(__dirname, '../tmpdata/dev2'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)

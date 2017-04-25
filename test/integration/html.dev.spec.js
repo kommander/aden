@@ -5,7 +5,8 @@ const expect = require('expect');
 
 describe('HTML', () => {
   she('has a root route with index.html entry point', (done) => {
-    aden().init(path.resolve(__dirname, '../tmpdata/html'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -17,7 +18,8 @@ describe('HTML', () => {
   });
 
   she('delivers index.html at root path', (done) => {
-    aden().init(path.resolve(__dirname, '../tmpdata/html'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -31,7 +33,8 @@ describe('HTML', () => {
   });
 
   she('delivers index.html at sub path', (done) => {
-    aden().init(path.resolve(__dirname, '../tmpdata/html'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
