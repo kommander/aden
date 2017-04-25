@@ -71,13 +71,12 @@ report: coverage
 	@open ./coverage/lcov-report/index.html
 
 coverage:
-	@echo 'Creating coverage report.'
+	@echo 'Creating coverage report for version '$(VERSION)'.'
 	@node ./node_modules/istanbul/lib/cli.js cover \
 	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) $(MOCHA_OPTS) $(MOCHA)
 .PHONY: coverage
 
 mincov: coverage
-	@echo 'Checking minimum test coverage.'
 	@node ./node_modules/istanbul/lib/cli.js check-coverage --statements 60 --functions 60 --lines 60 --branches 50
 .PHONY: mincov
 
