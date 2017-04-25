@@ -1,8 +1,19 @@
-Checking behaviour for version 0.1.2-alpha.16.
+Creating coverage report.
 
 
-  Basics
+  Basics Dev
     ✓ injects common.js into existing html
+    ✓ routes custom status pages (404)
+    ✓ routes custom status pages (error)
+    ✓ uses custom status pages (404)
+    ✓ uses custom status pages (error)
+
+  Basics Prod
+    ✓ injects common.js into existing html
+    ✓ does not route custom status pages (404)
+    ✓ does not route custom status pages (error)
+    ✓ uses custom status pages (404)
+    ✓ uses custom status pages (error)
 
   CSS Extension
     ✓ puts base.css into commons
@@ -10,9 +21,9 @@ Checking behaviour for version 0.1.2-alpha.16.
 
   dev
     ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (3833ms)
-    ✓ recognises new files in sub folders and sets up the page (3750ms)
-    ✓ recognises changed watch keys (3627ms)
+    ✓ recognises new files and sets up the page (4256ms)
+    ✓ recognises new files in sub folders and sets up the page (4277ms)
+    ✓ recognises changed watch keys (4222ms)
 
   Favicon
     ✓ delivers favicon from root
@@ -26,11 +37,28 @@ Checking behaviour for version 0.1.2-alpha.16.
   page keys (registerKey)
     ✓ adds a named key to the page
 
-  MD Markdown Extension
+  MD Markdown Extension Dev
     ✓ has a root route with index.md entry point
     ✓ delivers index.md at root path
-    ✓ delivers index.html at sub path
+    ✓ delivers index.md at sub path
+    ✓ delivers additional md files at page path
+    ✓ delivers additional md files at page sub path
+
+  MD Markdown Extension Prod
+    ✓ has a root route with index.md entry point
+    ✓ delivers index.md at root path
+    ✓ delivers index.md at sub path
+    ✓ delivers additional md files at page path
+    ✓ delivers additional md files at page sub path
 
 
-  16 passing (25s)
+  32 passing (51s)
 
+
+=============================== Coverage summary ===============================
+Statements   : 82.68% ( 974/1178 )
+Branches     : 65.27% ( 295/452 )
+Functions    : 81.36% ( 48/59 )
+Lines        : 82.74% ( 959/1159 )
+================================================================================
+Checking minimum test coverage.
