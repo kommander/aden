@@ -1,5 +1,0 @@
-module.exports = {
-  send: () => {
-    throw new Error('provoked');
-  },
-};

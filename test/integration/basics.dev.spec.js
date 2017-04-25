@@ -42,7 +42,39 @@ describe('Basics Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/error')
+          .get('/500')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/Custom Error/ig);
+            an.shutdown(done);
+          });
+      })
+      .catch(done);
+  });
+
+  she('uses custom status pages (404)', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/custom'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/not_a_page_in_path')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/Custom 404/ig);
+            an.shutdown(done);
+          });
+      })
+      .catch(done);
+  });
+
+  she('uses custom status pages (error)', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/custom'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/provoke')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/Custom Error/ig);
