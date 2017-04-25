@@ -32,7 +32,7 @@ describe('MD Markdown Extension', () => {
       });
   });
 
-  she('delivers index.html at sub path', (done) => {
+  she('delivers index.md at sub path', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/md'))
       .then((an) => an.run('dev'))
@@ -42,6 +42,36 @@ describe('MD Markdown Extension', () => {
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/Sub Page/ig);
+            an.shutdown(done);
+          });
+      });
+  });
+
+  she('delivers additional md files at page path', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/another.md')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/Just a file/ig);
+            an.shutdown(done);
+          });
+      });
+  });
+
+  she('delivers additional md files at page sub path', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/sub/additional.md')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/yet another page/ig);
             an.shutdown(done);
           });
       });

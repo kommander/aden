@@ -36,15 +36,21 @@ module.exports = (aden) => {
     },
   });
 
+  const getWrapper = (page) => {
+    const builtFilePath = path.resolve(
+      aden.rootConfig.dist,
+      `${page.entryName}.html.md`
+    );
+
+    const wrapper = fs.readFileSync(builtFilePath, 'utf8');
+    const wrapperTemplate = hogan.compile(wrapper);
+
+    return wrapperTemplate;
+  };
+
   aden.hook('setup:route', ({ page }) => {
     if (page.key.mdIndex.value) {
-      const builtFilePath = path.resolve(
-        aden.rootConfig.dist,
-        `${page.entryName}.html.md`
-      );
-
-      const wrapper = fs.readFileSync(builtFilePath, 'utf8');
-      const wrapperTemplate = hogan.compile(wrapper);
+      const wrapperTemplate = getWrapper(page);
 
       const content = fs.readFileSync(page.key.mdIndex.resolved, 'utf8');
       const cached = marked(content);
@@ -77,10 +83,47 @@ module.exports = (aden) => {
         });
       }
     }
+
+    // Are there more md files than an index? Set them up.
+    if (page.key.mdFiles.value.length > 0) {
+      const wrapperTemplate = getWrapper(page);
+
+      page.key.mdFiles.value
+        .filter((file) => file.name !== page.key.md.value) // not index file
+        .forEach((fileInfo) => {
+          let controller;
+
+          if (!aden.isDEV) {
+            const content = fs.readFileSync(page.key.mdIndex.resolved, 'utf8');
+            const cached = marked(content);
+
+            controller = (req, res) => {
+              const html = wrapperTemplate.render({
+                body: cached,
+                page,
+              });
+
+              res.send(html);
+            };
+          } else {
+            controller = (req, res) => {
+              const liveContent = fs.readFileSync(fileInfo.resolved, 'utf8');
+              const html = wrapperTemplate.render({
+                body: marked(liveContent),
+                page,
+              });
+
+              res.send(html);
+            };
+          }
+
+          page.router.get(`/${fileInfo.file}`, controller);
+        });
+    }
   });
 
   aden.hook('apply', ({ page, webpackConfigs /* , webpackEntry */ }) => {
-    if (page.key.mdIndex.value) {
+    if (page.key.mdIndex.value || page.key.mdFiles.value.length > 0) {
       // if (page.key.mdIndex.value) {
       //   webpackEntry.push(page.key.mdIndex.resolved);
       // }
