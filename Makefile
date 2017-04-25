@@ -137,8 +137,9 @@ prerelease-rc: release
 
 release: dev specs
 	@printf "Current version is $(VERSION). This will publish version $(NEXT_VERSION). Press [enter] to continue." >&2
-	@NODE_ENV=production npm shrinkwrap --production
 	@read
+	@git-chore "release-$(NEXT_VERSION)"
+	@NODE_ENV=production npm shrinkwrap --production
 	@node -e '\
 		var j = require("./package.json");\
 		j.version = "$(NEXT_VERSION)";\
@@ -146,7 +147,7 @@ release: dev specs
 		require("fs").writeFileSync("./package.json", s);'
 	@git commit package.json specs -m 'Version $(NEXT_VERSION)'
 	@git tag -a "v$(NEXT_VERSION)" -m "Version $(NEXT_VERSION)"
-	@git push --tags origin HEAD:master
+	git push --tags --set-upstream origin "release-$(NEXT_VERSION)"
 	npm publish
 	@rm -rf npm-shrinkwrap.json
 .PHONY: release release-patch release-minor release-major
