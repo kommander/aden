@@ -84,7 +84,11 @@ let run = null;
 
 if (program.build) {
   run = createAden(app, config).init(rootPath, program.focus)
-    .then((aden) => aden.run('build'));
+    .then((aden) => aden.run('build'))
+    .then(() => {
+      logger.success('Build only done. Exiting.');
+      process.exit(0);
+    });
 }
 
 if (program.new || program.nd) {
@@ -99,7 +103,11 @@ if (program.new || program.nd) {
 if (!run && program.clean) {
   run = createAden(app, config)
     .init(rootPath, program.focus)
-    .then((aden) => aden.run('clean'));
+    .then((aden) => aden.run('clean'))
+    .then(() => {
+      logger.success('Clean up done. Exiting.');
+      process.exit(0);
+    });
 }
 
 if (!run && program.dev) {

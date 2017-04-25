@@ -4,7 +4,7 @@ const expect = require('expect');
 
 describe('page keys (registerKey)', () => {
   she('adds a named key to the page', (done) => {
-    aden()
+    aden({ dev: true })
       .registerKey('testKey', {
         value: 'test',
       })
