@@ -148,7 +148,7 @@ release: clean setup lint
 	@make specs
 	@git commit package.json specs -m 'Version $(NEXT_VERSION)'
 	@git tag -a "v$(NEXT_VERSION)" -m "Version $(NEXT_VERSION)"
-	git push --tags --set-upstream origin chore/release-$(NEXT_VERSION)
+	git push --tags --no-verify --set-upstream origin chore/release-$(NEXT_VERSION)
 	npm publish
 	@rm -rf npm-shrinkwrap.json
 .PHONY: release release-patch release-minor release-major
