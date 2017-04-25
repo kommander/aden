@@ -73,7 +73,7 @@ report: coverage
 coverage:
 	@echo 'Creating coverage report.'
 	@node ./node_modules/istanbul/lib/cli.js cover \
-	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) $(MOCHA_OPTS) $(MOCHA) --reporter dot
+	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) $(MOCHA_OPTS) $(MOCHA)
 .PHONY: coverage
 
 mincov: coverage
@@ -87,7 +87,7 @@ coveralls:
 
 specs:
 	@echo 'Creating specs file from tests.'
-	make test > specs
+	make mincov > specs
 	@echo 'Done.'
 .PHONY: specs
 
@@ -111,7 +111,7 @@ hooks:
 
 clean:
 	@echo "Housekeeping..."
-	rm -rf ./node_modules
+	# rm -rf ./node_modules
 	rm -rf ./coverage
 	rm -rf ./tmp
 	rm -rf ./test/tmp
@@ -135,7 +135,7 @@ prerelease-alpha: release
 prerelease-beta: release
 prerelease-rc: release
 
-release: dev specs
+release: clean setup lint
 	@printf "Current version is $(VERSION). This will publish version $(NEXT_VERSION). Press [enter] to continue." >&2
 	@read
 	@git-chore "release-$(NEXT_VERSION)"
@@ -145,9 +145,10 @@ release: dev specs
 		j.version = "$(NEXT_VERSION)";\
 		var s = JSON.stringify(j, null, 2);\
 		require("fs").writeFileSync("./package.json", s);'
+	@make specs
 	@git commit package.json specs -m 'Version $(NEXT_VERSION)'
 	@git tag -a "v$(NEXT_VERSION)" -m "Version $(NEXT_VERSION)"
-	git push --tags --set-upstream origin "release-$(NEXT_VERSION)"
+	git push --tags --set-upstream origin release-$(NEXT_VERSION)
 	npm publish
 	@rm -rf npm-shrinkwrap.json
 .PHONY: release release-patch release-minor release-major
