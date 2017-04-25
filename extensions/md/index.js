@@ -94,7 +94,7 @@ module.exports = (aden) => {
           let controller;
 
           if (!aden.isDEV) {
-            const content = fs.readFileSync(page.key.mdIndex.resolved, 'utf8');
+            const content = fs.readFileSync(fileInfo.resolved, 'utf8');
             const cached = marked(content);
 
             controller = (req, res) => {
