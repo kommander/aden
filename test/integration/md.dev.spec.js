@@ -3,9 +3,10 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('HTML', () => {
-  she('has a root route with index.html entry point', (done) => {
-    aden().init(path.resolve(__dirname, '../tmpdata/html'))
+describe('MD Markdown Extension', () => {
+  she('has a root route with index.md entry point', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -16,29 +17,31 @@ describe('HTML', () => {
       });
   });
 
-  she('delivers index.html at root path', (done) => {
-    aden().init(path.resolve(__dirname, '../tmpdata/html'))
+  she('delivers index.md at root path', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/')
           .end((err, res) => {
             if (err) done(err);
-            expect(res.text).toMatch(/^<!DOCTYPE html>/);
+            expect(res.text).toMatch(/Hello marked/ig);
             an.shutdown(done);
           });
       });
   });
 
   she('delivers index.html at sub path', (done) => {
-    aden().init(path.resolve(__dirname, '../tmpdata/html'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/sub')
           .end((err, res) => {
             if (err) done(err);
-            expect(res.text).toMatch(/^<!DOCTYPE html>/);
+            expect(res.text).toMatch(/Sub Page/ig);
             an.shutdown(done);
           });
       });

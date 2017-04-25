@@ -5,7 +5,8 @@ const expect = require('expect');
 
 describe('CSS Extension', () => {
   she('puts base.css into commons', (done) => {
-    aden().init(path.resolve(__dirname, '../tmpdata/cssbase'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/cssbase'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -20,7 +21,8 @@ describe('CSS Extension', () => {
   });
 
   she('includes page css', (done) => {
-    aden().init(path.resolve(__dirname, '../tmpdata/cssbase'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/cssbase'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)

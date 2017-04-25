@@ -5,7 +5,8 @@ const expect = require('expect');
 
 describe('Basics Dev', () => {
   she('injects common.js into existing html', (done) => {
-    aden({ dev: true }).init(path.resolve(__dirname, '../tmpdata/html'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -20,7 +21,8 @@ describe('Basics Dev', () => {
   });
 
   she('routes custom status pages (404)', (done) => {
-    aden({ dev: true }).init(path.resolve(__dirname, '../tmpdata/custom'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/custom'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -35,7 +37,8 @@ describe('Basics Dev', () => {
   });
 
   she('routes custom status pages (error)', (done) => {
-    aden({ dev: true }).init(path.resolve(__dirname, '../tmpdata/custom'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/custom'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
