@@ -17,3 +17,5 @@ docker-compose.yml
 .editorconfig
 .eslintrc
 artillery_report*
+.travis.yml
+Procfile
