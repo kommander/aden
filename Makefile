@@ -138,7 +138,7 @@ release: clean setup lint
 	@printf "Current version is $(VERSION). This will publish version $(NEXT_VERSION). Press [enter] to continue." >&2
 	@read
 	@git-chore "release-$(NEXT_VERSION)"
-	@NODE_ENV=production npm shrinkwrap --production
+	@npm shrinkwrap
 	@node -e '\
 		var j = require("./package.json");\
 		j.version = "$(NEXT_VERSION)";\
