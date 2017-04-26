@@ -21,11 +21,11 @@ module.exports = (aden) => {
   // TODO: Let an extension add to ignores (css -> css/style, js -> lib/components/...)
 
   aden.registerFile('cssFile', ({ page, fileInfo }) =>
-    fileInfo.file.match(/\.css|\.scss$/) && fileInfo.name === page.key.css.value.entry
+    fileInfo.file.match(/\.(css|scss)$/) && fileInfo.name === page.key.css.value.entry
   );
 
   aden.registerFile('cssBaseFile', ({ page, fileInfo }) =>
-    fileInfo.file.match(/\.css|\.scss$/)
+    fileInfo.file.match(/\.(css|scss)$/)
       && page.key.path.value === ''
       && fileInfo.name === page.key.css.value.global
       && page.key.hasBaseFile.value === false
@@ -41,20 +41,19 @@ module.exports = (aden) => {
       webpackEntry.push(page.key.hasBaseFile.resolved);
     }
     if (page.key.cssFile.value) {
-      console.log('cssfile', page.key.cssFile.resolved);
       webpackEntry.push(page.key.cssFile.resolved);
     }
   });
 
   aden.hook('post:apply', ({ pages, webpackConfigs, paths }) => {
     const extractCSSPlugin = new ExtractTextPlugin({
-      filename: aden.isDEV ? '[name].css' : '[id]-[hash].css',
+      filename: aden.isDEV ? '[name]-c.css' : '[id]-[hash]-c.css',
       allChunks: true,
     });
     webpackConfigs[0].plugins.push(extractCSSPlugin);
 
     const extractSCSSPlugin = new ExtractTextPlugin({
-      filename: aden.isDEV ? '[name].scss.css' : '[id]-[hash].css',
+      filename: aden.isDEV ? '[name]-s.css' : '[id]-[hash]-s.css',
       allChunks: true,
     });
     webpackConfigs[0].plugins.push(extractSCSSPlugin);
@@ -69,13 +68,21 @@ module.exports = (aden) => {
 
     webpackConfigs[0].module.rules.push(
       {
-        test: /\.css|\.scss$/,
+        test: /\.(css)$/,
         include: includePaths,
         loader: extractCSSPlugin.extract({
           fallback: require.resolve('style-loader'),
+          use: require.resolve('css-loader'),
+          // publicPath (?)
+        }),
+      },
+      {
+        test: /\.(scss)$/,
+        include: includePaths,
+        loader: extractSCSSPlugin.extract({
+          fallback: require.resolve('style-loader'),
           // use: require.resolve('css-loader'),
           use: [require.resolve('css-loader'), require.resolve('sass-loader')],
-          // publicPath (?)
         }),
       },
       {
