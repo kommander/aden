@@ -1,4 +1,4 @@
-Creating coverage report for version 0.2.0-alpha.3.
+Creating coverage report for version 0.2.0-alpha.4.
 
 
   Basics Dev
@@ -21,9 +21,9 @@ Creating coverage report for version 0.2.0-alpha.3.
 
   dev
     ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (4223ms)
-    ✓ recognises new files in sub folders and sets up the page (4252ms)
-    ✓ recognises changed watch keys (4193ms)
+    ✓ recognises new files and sets up the page (4220ms)
+    ✓ recognises new files in sub folders and sets up the page (4345ms)
+    ✓ recognises changed watch keys (4347ms)
 
   Favicon
     ✓ delivers favicon from root
@@ -56,8 +56,8 @@ Creating coverage report for version 0.2.0-alpha.3.
 
 
 =============================== Coverage summary ===============================
-Statements   : 82.68% ( 974/1178 )
+Statements   : 82.67% ( 973/1177 )
 Branches     : 65.27% ( 295/452 )
 Functions    : 81.36% ( 48/59 )
-Lines        : 82.74% ( 959/1159 )
+Lines        : 82.73% ( 958/1158 )
 ================================================================================
