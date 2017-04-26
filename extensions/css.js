@@ -66,30 +66,45 @@ module.exports = (aden) => {
         test: /\.css$/,
         include: includePaths,
         loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader',
+          fallback: require.resolve('style-loader'),
+          use: require.resolve('css-loader'),
           // publicPath (?)
         }),
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)?$/,
         include: includePaths,
-        loader: 'file-loader?name=images/[name]-[sha512:hash:base64:7].[ext]',
+        loader: require.resolve('file-loader'),
+        options: {
+          name: 'images/[name]-[sha512:hash:base64:7].[ext]',
+        },
       },
       {
         test: /\.(eot)(\?v=[0-9]\.[0-9]\.[0-9])?$|\.(svg)\?v=[0-9]\.[0-9]\.[0-9]?$/,
         include: includePaths,
-        loader: 'url-loader?limit=50000&mimetype=application/eot',
+        loader: require.resolve('url-loader'),
+        options: {
+          limit: 50000,
+          mimetype: 'application/eot',
+        },
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         include: includePaths,
-        loader: 'url-loader?limit=50000&mimetype=application/font-woff',
+        loader: require.resolve('url-loader'),
+        options: {
+          limit: 50000,
+          mimetype: 'application/font-woff',
+        },
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         include: includePaths,
-        loader: 'url-loader?limit=50000&mimetype=application/octet-stream',
+        loader: require.resolve('url-loader'),
+        options: {
+          limit: 50000,
+          mimetype: 'application/octet-stream',
+        },
       }
     );
   });

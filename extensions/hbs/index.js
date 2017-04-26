@@ -137,7 +137,7 @@ module.exports = (aden) => {
           path.resolve(page.key.path.resolved, '../../node_modules'),
           path.resolve(page.rootPath, 'node_modules'),
         ],
-        loader: 'mustache-loader',
+        loader: require.resolve('mustache-loader'),
       });
     }
   });

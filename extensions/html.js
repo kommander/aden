@@ -46,9 +46,11 @@ module.exports = (aden) => {
     webpackConfigs[0].module.rules.push({
       test: /\.html$/,
       include: [
-        path.resolve(pages[0].rootPath, '../'),
+        pages[0].rootPath,
+        path.resolve(pages[0].rootPath, '../node_modules'),
+        path.resolve(pages[0].rootPath, '../../node_modules'),
       ].concat(aden.flattenPages(pages).map((page) => page.key.path.resolved)),
-      loader: 'html-loader?attrs[]=img:src&attrs[]=link:href',
+      loader: require.resolve('html-loader'),
     });
   });
 
