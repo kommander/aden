@@ -1,10 +1,8 @@
-module.exports = (server) => {
-  console.log(server.id);
-  return (request, response, page) => {
-    console.log('request recieved');
+module.exports = () => {
+  return (request, response) => {
     const result = [{
-      message: 'great example text'
-    }]
+      message: 'great example text',
+    }];
     response.json(result[0]);
-  }
-}
+  };
+};

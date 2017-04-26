@@ -4,6 +4,8 @@ body {
   font-family: Helvetica, Arial, sans-serif;
   background-color: black;
   color: white;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /*div, span {
@@ -24,7 +26,20 @@ a, a:hover, a:active, a:visited {
   font-size: 24px;
 }
 
+#content-wrapper {
+  padding-top: 50px;
+}
 
+#top-bar {
+  margin-top: -10px;
+  font-size: 21px;
+  color: black;
+  background-color: blue !important;
+  height: 40px;
+  width: 100%;
+  position: fixed;
+
+}
 
 #errorPage #attribute {
   position: relative;

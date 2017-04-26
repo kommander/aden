@@ -1,4 +1,7 @@
-<button id="xhr-button">XHR Example</button>
+<div id="top-bar">Aden</div>
+<div id="content-wrapper">
+  <button id="xhr-button">XHR Example</button>
+</div>
 
 ## Aden
 _**Rapid Prototyping for your Project**_
@@ -11,9 +14,7 @@ install aden via
 ### Getting started
 
 make an example folder
-
 navigate to it
-
 type:
 
 ```
@@ -95,5 +96,7 @@ the .server file indicates the root folder for aden, but it also can return a co
       ways to add styling // -> .shared/some.css -> require(.shared/some.css) > *.js || /base.css
 
     TODO: -n -nd flag // -> new direcotory aden boilerplate script. -nd starts in devmode
+
+    TODO: How to style markdown content (content wrapping?)
 
  -->
