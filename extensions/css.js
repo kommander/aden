@@ -68,21 +68,38 @@ module.exports = (aden) => {
 
     webpackConfigs[0].module.rules.push(
       {
-        test: /\.(css)$/,
-        include: includePaths,
-        loader: extractCSSPlugin.extract({
-          fallback: require.resolve('style-loader'),
-          use: require.resolve('css-loader'),
-          // publicPath (?)
-        }),
-      },
-      {
         test: /\.(scss)$/,
         include: includePaths,
         loader: extractSCSSPlugin.extract({
           fallback: require.resolve('style-loader'),
           // use: require.resolve('css-loader'),
-          use: [require.resolve('css-loader'), require.resolve('sass-loader')],
+          use: [
+            {
+              loader: require.resolve('css-loader'),
+              options: {
+                modules: true,
+              },
+            },
+            // require.resolve('postcss-loader'),
+            require.resolve('sass-loader'),
+          ],
+        }),
+      },
+      {
+        test: /\.(css)$/,
+        include: includePaths,
+        loader: extractCSSPlugin.extract({
+          fallback: require.resolve('style-loader'),
+          use: [
+            {
+              loader: require.resolve('css-loader'),
+              options: {
+                modules: true,
+              },
+            },
+            // require.resolve('postcss-loader'),
+          ],
+          // publicPath (?)
         }),
       },
       {

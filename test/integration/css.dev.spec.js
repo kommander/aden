@@ -10,7 +10,7 @@ describe('CSS Extension', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/commons.css')
+          .get('/commons-c.css')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/\.aTestClass/ig);
@@ -26,7 +26,7 @@ describe('CSS Extension', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/cssbase.sub.css')
+          .get('/cssbase.sub-c.css')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/\.anotherTestClass/ig);
@@ -42,7 +42,7 @@ describe('CSS Extension', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/cssbase.sub2.css')
+          .get('/cssbase.sub2-s.css')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/\.scssTestClass/ig);

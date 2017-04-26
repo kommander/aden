@@ -7,4 +7,6 @@ h2 {
   font-family: sans-serif;
 }
 
-.aTestClass {}
+.aTestClass {
+  background-color: red;
+}
