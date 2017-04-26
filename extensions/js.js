@@ -20,7 +20,7 @@ module.exports = (aden) => {
         // loader: '',
       }, {
         test: /\.jsx?$/,
-        loader: 'babel-loader',
+        loader: require.resolve('babel-loader'),
         include: [
           pages[0].rootPath,
         ],

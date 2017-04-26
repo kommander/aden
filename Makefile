@@ -37,7 +37,6 @@ usage:
 	@echo '--------------------             : -----------'
 	@echo 'make report                      : Opening default browser with coverage report.'
 	@echo 'make hooks                       : Creates git hooks to run tests before a push (done by make dev)'
-	@echo 'make setup                       : Install all necessary dependencies'
 
 	@echo ''
 
@@ -90,13 +89,6 @@ specs:
 	@echo 'Done.'
 .PHONY: specs
 
-	# development should happen under production env, but we need some tools
-setup:
-	@echo "Installing dependencies."
-	@NODE_ENV=development npm install --only=dev --no-shrinkwrap --progress=true
-	@npm install --no-shrinkwrap --progress=true --production
-.PHONY: setup
-
 lint:
 	@node ./node_modules/eslint/bin/eslint.js --env node ./lib/**/*.js ./index.js
 	@echo "ESLint done."
@@ -118,7 +110,7 @@ clean:
 	@echo "Clean."
 .PHONY: clean
 
-dev: clean setup hooks lint test mincov
+dev: clean hooks lint test mincov
 .PHONY: dev
 
 release-patch: NEXT_VERSION = $(shell node -pe 'require("semver").inc("$(VERSION)", "patch")')
@@ -134,11 +126,12 @@ prerelease-alpha: release
 prerelease-beta: release
 prerelease-rc: release
 
-release: clean setup lint
+release: clean
 	@printf "Current version is $(VERSION). This will publish version $(NEXT_VERSION). Press [enter] to continue." >&2
 	@read
 	@git-chore "release-$(NEXT_VERSION)"
-	# @npm shrinkwrap
+	@make lint
+	@npm shrinkwrap
 	@node -e '\
 		var j = require("./package.json");\
 		j.version = "$(NEXT_VERSION)";\
