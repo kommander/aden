@@ -141,6 +141,8 @@ release: clean
 	@git commit package.json specs -m 'Version $(NEXT_VERSION)'
 	@git tag -a "v$(NEXT_VERSION)" -m "Version $(NEXT_VERSION)"
 	git push --tags --no-verify --set-upstream origin chore/release-$(NEXT_VERSION)
+	@printf "Press [enter] to publish $(NEXT_VERSION) to NPM." >&2
+	@read
 	npm publish
 	@rm -rf npm-shrinkwrap.json
 .PHONY: release release-patch release-minor release-major
