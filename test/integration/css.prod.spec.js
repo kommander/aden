@@ -3,16 +3,19 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('CSS Extension Dev', () => {
+describe('CSS Extension Prod', () => {
   she('puts common requires/imports into common css');
 
-  she('includes page css', (done) => {
-    aden({ dev: true })
+  she('includes page css (hashed name)', (done) => {
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/cssbase'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
+        // The hashed version of the filename for production
+        const fileName = an.webpackStats[0].assetsByChunkName['cssbase.sub'][1];
         request(an.app)
-          .get('/cssbase.sub.css')
+          .get(`/${fileName}`)
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/\.anotherTestClass/ig);
@@ -22,13 +25,16 @@ describe('CSS Extension Dev', () => {
       .catch(done);
   });
 
-  she('includes page scss', (done) => {
-    aden({ dev: true })
+  she('includes page scss (hashed name)', (done) => {
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/cssbase'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
+        // The hashed version of the filename for production
+        const fileName = an.webpackStats[0].assetsByChunkName['cssbase.sub2'][1];
         request(an.app)
-          .get('/cssbase.sub2.css')
+          .get(`/${fileName}`)
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/\.scssTestClass/ig);
@@ -39,12 +45,15 @@ describe('CSS Extension Dev', () => {
   });
 
   she('takes care of images', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/cssbase'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
+        const fileName = an.webpackStats[0].assets
+          .filter((asset) => asset.name.match(/^images/))[0].name;
         request(an.app)
-          .get('/images/test.png')
+          .get(`/${fileName}`)
           .end((err, res) => {
             if (err) done(err);
             expect(res.status).toMatch(200);
