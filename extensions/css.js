@@ -6,14 +6,7 @@ module.exports = (aden) => {
     type: 'config',
     value: {
       entry: 'index',
-      global: 'base',
     },
-    inherit: true,
-  });
-
-  aden.registerKey('hasBaseFile', {
-    type: 'rpath',
-    value: false,
     inherit: true,
   });
 
@@ -24,22 +17,7 @@ module.exports = (aden) => {
     fileInfo.file.match(/\.(css|scss)$/) && fileInfo.name === page.key.css.value.entry
   );
 
-  aden.registerFile('cssBaseFile', ({ page, fileInfo }) =>
-    fileInfo.file.match(/\.(css|scss)$/)
-      && page.key.path.value === ''
-      && fileInfo.name === page.key.css.value.global
-      && page.key.hasBaseFile.value === false
-  , {
-    fn: ({ page, fileInfo }) =>
-      Object.assign(page.key.hasBaseFile, {
-        value: fileInfo.rpath,
-      }),
-  });
-
   aden.hook('apply', ({ page, webpackEntry }) => {
-    if (page.key.hasBaseFile.value) {
-      webpackEntry.push(page.key.hasBaseFile.resolved);
-    }
     if (page.key.cssFile.value) {
       webpackEntry.push(page.key.cssFile.resolved);
     }
@@ -47,16 +25,10 @@ module.exports = (aden) => {
 
   aden.hook('post:apply', ({ pages, webpackConfigs, paths }) => {
     const extractCSSPlugin = new ExtractTextPlugin({
-      filename: aden.isDEV ? '[name]-c.css' : '[id]-[hash]-c.css',
+      filename: aden.isDEV ? '[name].css' : '[id]-[hash].css',
       allChunks: true,
     });
     webpackConfigs[0].plugins.push(extractCSSPlugin);
-
-    const extractSCSSPlugin = new ExtractTextPlugin({
-      filename: aden.isDEV ? '[name]-s.css' : '[id]-[hash]-s.css',
-      allChunks: true,
-    });
-    webpackConfigs[0].plugins.push(extractSCSSPlugin);
 
     const includePaths = [
       pages[0].rootPath,
@@ -66,40 +38,23 @@ module.exports = (aden) => {
       paths.aden_node_modules,
     ];
 
-    webpackConfigs[0].module.rules.push(
+    webpackConfigs[0].module.rules.unshift(
       {
-        test: /\.(scss)$/,
-        include: includePaths,
-        loader: extractSCSSPlugin.extract({
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
           fallback: require.resolve('style-loader'),
-          // use: require.resolve('css-loader'),
-          use: [
-            {
-              loader: require.resolve('css-loader'),
-              options: {
-                modules: true,
-              },
-            },
-            // require.resolve('postcss-loader'),
-            require.resolve('sass-loader'),
-          ],
+          // resolve-url-loader may be chained before sass-loader if necessary
+          use: [require.resolve('css-loader'), require.resolve('sass-loader')],
+          allChunks: true,
         }),
       },
       {
-        test: /\.(css)$/,
-        include: includePaths,
-        loader: extractCSSPlugin.extract({
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
           fallback: require.resolve('style-loader'),
-          use: [
-            {
-              loader: require.resolve('css-loader'),
-              options: {
-                modules: true,
-              },
-            },
-            // require.resolve('postcss-loader'),
-          ],
-          // publicPath (?)
+          // resolve-url-loader may be chained before sass-loader if necessary
+          use: [require.resolve('css-loader')],
+          allChunks: true,
         }),
       },
       {
