@@ -65,10 +65,10 @@ body, html {
 pre,
 code {
   font-family: Menlo, Monaco, "Courier New", monospace;
+  background-color: #fafafa;
 }
 
 pre {
-  padding: .5rem;
   line-height: 1.25;
   overflow-x: scroll;
 }
@@ -111,7 +111,7 @@ body {
 p,
 .modest-p {
   font-size: 1rem;
-  margin-bottom: 1.3rem;
+  margin-bottom: .3rem;
 }
 
 h1,
@@ -122,7 +122,7 @@ h3,
 .modest-h3,
 h4,
 .modest-h4 {
-  margin: 1.414rem 0 .5rem;
+  margin: 1.214rem 0 .1rem;
   font-weight: inherit;
   line-height: 1.42;
 }
@@ -173,6 +173,8 @@ svg,
 select,
 textarea {
   max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700);
@@ -191,7 +193,7 @@ body {
   margin: 0 auto;
   max-width: 48rem;
   line-height: 1.45;
-  padding: .25rem;
+  padding: .5rem;
 }
 
 h1,
@@ -207,8 +209,8 @@ h1,
 h2,
 h3 {
   border-bottom: 2px solid #fafafa;
-  margin-bottom: 1.15rem;
-  padding-bottom: .5rem;
+  margin-bottom: .15rem;
+  padding-bottom: .1rem;
   text-align: left;
 }
 

@@ -1,4 +1,3 @@
-
 body {
   font-size: 12px;
   font-family: Helvetica, Arial, sans-serif;
@@ -74,20 +73,4 @@ a, a:hover, a:active, a:visited {
   -moz-transform:scale(1,1.5); /* Firefox */
   -ms-transform:scale(1,1.5); /* IE 9+ */
   -o-transform:scale(1,1.5); /* Opera */
-}
-
-#internalError {
-  background-color: darkred;
-}
-
-#internalError #errorPage #attribute {
-  position: relative;
-  bottom: 169px;
-  right: 0px;
-}
-
-#internalError #errorPage #attribute a {
-  padding-right: 17px;
-  color: darkred;
-  font-size: 16px;
 }
