@@ -1,15 +1,14 @@
 # Aden
 
-Webserver.
-
-[![Build Status](https://travis-ci.org/kommander/aden.png)](https://travis-ci.org/kommander/aden) [![Coverage Status](https://coveralls.io/repos/github/kommander/aden/badge.svg?branch=master)](https://coveralls.io/github/kommander/aden?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/kommander/aden.svg)](https://greenkeeper.io/)
-
+[![Build Status](https://travis-ci.org/kommander/aden.png)](https://travis-ci.org/kommander/aden) [![Coverage Status](https://coveralls.io/repos/github/kommander/aden/badge.svg?branch=master)](https://coveralls.io/github/kommander/aden?branch=master)
 
 Aden integrates [Webpack](https://github.com/webpack/webpack),
 [Babel](https://babeljs.io) and
 [Express](http://expressjs.com/) with an extensible [file](https://en.wikipedia.org/wiki/Computer_file) [tree](https://en.wikipedia.org/wiki/Tree_data_structure) [parser](https://en.wikipedia.org/wiki/Parsing),
-to generate frontend asset builds and allow for a classic webservere behaviour
-(during development), while setting up a non-mutable express app for production. The core aims to be un-opinionated about how you want your files to be handled and structured. All behaviours are controlled by opinionated and  interchangeable extensions.
+to generate frontend asset builds and allow for a classic webserver behaviour
+(during development), while setting up a non-mutable express app for production.
+
+The actual _/docs_ from this repository are running on _aden_ at [aden.zwerk.io](http://aden.zwerk.io).
 
 > _"It's a website. Can't we just put it on a webserver?"_  
 > Anonymous
