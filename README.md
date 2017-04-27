@@ -1,6 +1,6 @@
 # Aden
 
-[![Build Status](https://travis-ci.org/kommander/aden.png)](https://travis-ci.org/kommander/aden) [![Coverage Status](https://coveralls.io/repos/github/kommander/aden/badge.svg?branch=master)](https://coveralls.io/github/kommander/aden?branch=master)
+[![Build Status](https://travis-ci.org/kommander/aden.png)](https://travis-ci.org/kommander/aden) [![Coverage Status](https://coveralls.io/repos/github/kommander/aden/badge.svg?branch=master)](https://coveralls.io/github/kommander/aden?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/kommander/aden.svg)](https://greenkeeper.io/)
 
 Aden integrates [Webpack](https://github.com/webpack/webpack),
 [Babel](https://babeljs.io) and
@@ -8,7 +8,9 @@ Aden integrates [Webpack](https://github.com/webpack/webpack),
 to generate frontend asset builds and allow for a classic webserver behaviour
 (during development), while setting up a non-mutable express app for production.
 
+
 The actual _/docs_ from this repository are running on _aden_ at [aden.zwerk.io](http://aden.zwerk.io).
+
 
 > _"It's a website. Can't we just put it on a webserver?"_  
 > Anonymous
