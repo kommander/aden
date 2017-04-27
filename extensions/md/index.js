@@ -75,16 +75,16 @@ module.exports = (aden) => {
 
   aden.hook('setup:route', ({ page }) => {
     if (page.key.mdIndex.value) {
-      const wrapperTemplate = getWrapper(page);
+      const cachedWrapperTemplate = getWrapper(page);
 
       const content = fs.readFileSync(page.key.mdIndex.resolved, 'utf8');
       const cached = marked(content, page.key.md.value.marked);
 
-      if (!aden.isDEV) {
+      if (aden.isPROD) {
         Object.assign(page, {
           get: (req, res, thepage, data) => {
             // todo: make sure to send correct headers
-            const html = wrapperTemplate.render({
+            const html = cachedWrapperTemplate.render({
               body: cached,
               page: thepage,
               data,
@@ -97,7 +97,7 @@ module.exports = (aden) => {
         Object.assign(page, {
           get: (req, res, thepage, data) => {
             const liveContent = fs.readFileSync(page.key.mdIndex.resolved, 'utf8');
-            const html = wrapperTemplate.render({
+            const html = getWrapper(page).render({
               body: marked(liveContent, page.key.md.value.marked),
               page: thepage,
               data,
@@ -111,19 +111,19 @@ module.exports = (aden) => {
 
     // Are there more md files than an index? Set them up.
     if (page.key.mdFiles.value.length > 0) {
-      const wrapperTemplate = getWrapper(page);
+      const cachedWrapperTemplate = getWrapper(page);
 
       page.key.mdFiles.value
         .filter((file) => file.name !== page.key.md.value) // not index file
         .forEach((fileInfo) => {
           let controller;
 
-          if (!aden.isDEV) {
+          if (aden.isPROD) {
             const content = fs.readFileSync(fileInfo.resolved, 'utf8');
             const cached = marked(content, page.key.md.value.marked);
 
             controller = (req, res) => {
-              const html = wrapperTemplate.render({
+              const html = cachedWrapperTemplate.render({
                 body: cached,
                 page,
               });
@@ -133,7 +133,7 @@ module.exports = (aden) => {
           } else {
             controller = (req, res) => {
               const liveContent = fs.readFileSync(fileInfo.resolved, 'utf8');
-              const html = wrapperTemplate.render({
+              const html = getWrapper(page).render({
                 body: marked(liveContent, page.key.md.value.marked),
                 page,
               });
@@ -149,9 +149,9 @@ module.exports = (aden) => {
 
   aden.hook('apply', ({ page, webpackConfigs, webpackEntry }) => {
     if (page.key.mdIndex.value || page.key.mdFiles.value.length > 0) {
-      if (page.key.mdIndex.value) {
-        webpackEntry.push(page.key.mdIndex.resolved);
-      }
+      // if (page.key.mdIndex.value) {
+      //   webpackEntry.push(page.key.mdIndex.resolved);
+      // }
 
       const chunks = ['global', page.entryName];
 
