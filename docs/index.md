@@ -1,5 +1,3 @@
-<div id="top-bar">Aden</div>
-
 
 ### Aden
 _**Rapid Prototyping for your Project**_
