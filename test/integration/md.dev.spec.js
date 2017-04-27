@@ -76,4 +76,19 @@ describe('MD Markdown Extension Dev', () => {
           });
       });
   });
+
+  she('wraps md in given layout (layout.default.html|hbs|md)', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/wrap')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/id="wrapper"/ig);
+            an.shutdown(done);
+          });
+      });
+  });
 });
