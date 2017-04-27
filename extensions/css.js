@@ -40,20 +40,20 @@ module.exports = (aden) => {
 
     webpackConfigs[0].module.rules.unshift(
       {
-        test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: require.resolve('style-loader'),
-          // resolve-url-loader may be chained before sass-loader if necessary
-          use: [require.resolve('css-loader'), require.resolve('sass-loader')],
-          allChunks: true,
-        }),
-      },
-      {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: require.resolve('style-loader'),
           // resolve-url-loader may be chained before sass-loader if necessary
           use: [require.resolve('css-loader')],
+          allChunks: true,
+        }),
+      },
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          fallback: require.resolve('style-loader'),
+          // resolve-url-loader may be chained before sass-loader if necessary
+          use: [require.resolve('css-loader'), require.resolve('sass-loader')],
           allChunks: true,
         }),
       },
