@@ -60,9 +60,13 @@ module.exports = (aden) => {
       {
         test: /\.(png|svg|jpg|jpeg|gif)?$/,
         include: includePaths,
-        loader: require.resolve('file-loader'),
-        options: {
-          name: 'images/[name]-[sha512:hash:base64:7].[ext]',
+        use: {
+          loader: require.resolve('file-loader'),
+          options: {
+            name: aden.isDEV
+              ? 'images/[name].[ext]'
+              : 'images/[sha512:hash:base64:7].[ext]',
+          },
         },
       },
       {
