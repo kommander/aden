@@ -13,12 +13,6 @@ module.exports = (aden) => {
   aden.hook('post:apply', ({ pages, webpackConfigs }) => {
     webpackConfigs.forEach((config) => {
       config.module.rules.push({
-        test: /\.js$/,
-        include: [
-          pages[0].rootPath,
-        ],
-        // loader: '',
-      }, {
         test: /\.jsx?$/,
         loader: require.resolve('babel-loader'),
         include: [
