@@ -1,17 +1,15 @@
 <div id="top-bar">Aden</div>
-<div id="content-wrapper">
-  <button id="xhr-button">XHR Example</button>
-</div>
 
-## Aden
+
+### Aden
 _**Rapid Prototyping for your Project**_
 
-### Installation
+#### Installation
 install aden via
 
 `npm i aden -g`
 
-### Getting started
+#### Getting started
 
 make an example folder
 navigate to it
@@ -37,7 +35,7 @@ echo "This is another route aden just created for me"  > index.html
 
 `localhost:5000/sub`
 
-### What exactly did i just do?
+#### What exactly did i just do?
 
 The `.server` file designates it's folder to be the root of the server filesystem. it can contain configuration options or middlewares. aden parses all subdirecorys contained by the root for index files and sets up routes corresponding to the filesystem.
 
@@ -46,57 +44,34 @@ The `.server` file designates it's folder to be the root of the server filesyste
 The `-d` flag puts aden in devmode. in devmode aden features hot module reload, watches your filesystem for changes and generates new routes as you change files and directorys.
 
 
-### TL;DR
+#### TL;DR
 `npm i aden -g` => `touch .server` => `aden -d` => use filesystem like a webserver of the days of olde.
 
+#### Routes
+Aden can do more than just serve files out of a static file system.
+To set up a route for, say, a custom xhr api, just
 
-### Features
+```
+mkdir route
+touch .get.js
+echo controller > .get.js
+```
+
+Aden set up a get route at root/route. check out this example:
+<div id="content-wrapper">
+  <button id="xhr-button">XHR Example</button>
+</div>
+
+#### Features
 
 _**Aden conveniently wraps the wall of configuration for webpack and the ever repeating route/controller setup for express, removing a lot of cognitive overhead.**_
 
-##### Devmode `-d`
-Watches filesystem for changes and sets up routes live for faster iteration, using webpacks hot module reload.
+__Devmode__ `-d` Watches filesystem for changes and sets up routes live for faster iteration, using webpacks hot module reload.
 
-##### Build `-b`
-Builds your application for production via webpack (including babel transpiling, minification and uglification) and the corresponding backend for node.js and express.
+__Build__ `-b` Builds your application for production via webpack  (including babel transpiling, minification and uglification) and the corresponding backend for node.js and express.
 
-##### Supported filetypes
+###### Supported filetypes
 Aden has default extensions for `.html`, `.js`, `.css`, `md` and `.hbs` files for now. Support is modular an can be toggled on/off.
 
-### .server file
-
+###### .server file
 the .server file indicates the root folder for aden, but it also can return a configuration object.
-
-##### Configuration
-  <!--
-    TODO: options of .server file
-    TODO:
-      explain babel webpack configuration process.
-        module.exports = {
-          port: 3001,
-          route: '*',
-          rules: [
-            { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
-          ],
-          name: 'ZwErk',
-        }; > .server
-  -->
-
-<!--
-    TODO:
-      i don't .get files ???? controllers - override standard route
-
-    TODO:
-      how to deploy // -> basically $ git push heroku master kappa
-
-    TODO:
-      how to edit 404 pges // -> make 404 folder.
-
-    TODO:
-      ways to add styling // -> .shared/some.css -> require(.shared/some.css) > *.js || /base.css
-
-    TODO: -n -nd flag // -> new direcotory aden boilerplate script. -nd starts in devmode
-
-    TODO: How to style markdown content (content wrapping?)
-
- -->
