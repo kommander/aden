@@ -10,8 +10,12 @@ const hogan = require('hogan.js');
 module.exports = (aden) => {
   // TODO: use short keys for ext config { md: { entry: 'index', markedOptions, ... }}
   aden.registerKey('md', {
-    type: 'string',
-    value: 'index',
+    type: 'config',
+    value: {
+      entry: 'index',
+      marked: {},
+      layout: 'default',
+    },
     inherit: true,
   });
 
@@ -19,16 +23,37 @@ module.exports = (aden) => {
     type: 'rpath',
   });
 
-  aden.registerKey('marked', {
-    type: 'config',
-    value: {},
+  aden.registerKey('mdLayout', {
+    type: 'rpath',
+    inherit: true,
+  });
+
+  aden.registerKey('mdLayouts', {
+    type: 'stringarray',
+    inherit: true,
+    value: [],
   });
 
   // TODO: use page.getKey(name) and page.setKey(name, value)
   aden.registerFiles('mdFiles', /\.md$/, {
     fn: ({ page, fileInfo }) => {
-      if (fileInfo.name === page.key.md.value) {
+      if (fileInfo.name === page.key.md.value.entry) {
         Object.assign(page.key.mdIndex, {
+          value: fileInfo.rpath,
+        });
+        return;
+      }
+    },
+  });
+
+  aden.registerFiles('mdLayoutFiles', /^layout\..*?\.(html|hbs|md)$/, {
+    fn: ({ page, fileInfo }) => {
+      Object.assign(page.key.mdLayouts, {
+        value: page.key.mdLayouts.value.concat([{ fileInfo }]),
+      });
+
+      if (fileInfo.name.match(page.key.md.value.layout)) {
+        Object.assign(page.key.mdLayout, {
           value: fileInfo.rpath,
         });
         return;
@@ -53,7 +78,7 @@ module.exports = (aden) => {
       const wrapperTemplate = getWrapper(page);
 
       const content = fs.readFileSync(page.key.mdIndex.resolved, 'utf8');
-      const cached = marked(content);
+      const cached = marked(content, page.key.md.value.marked);
 
       if (!aden.isDEV) {
         Object.assign(page, {
@@ -73,7 +98,7 @@ module.exports = (aden) => {
           get: (req, res, thepage, data) => {
             const liveContent = fs.readFileSync(page.key.mdIndex.resolved, 'utf8');
             const html = wrapperTemplate.render({
-              body: marked(liveContent),
+              body: marked(liveContent, page.key.md.value.marked),
               page: thepage,
               data,
             });
@@ -95,7 +120,7 @@ module.exports = (aden) => {
 
           if (!aden.isDEV) {
             const content = fs.readFileSync(fileInfo.resolved, 'utf8');
-            const cached = marked(content);
+            const cached = marked(content, page.key.md.value.marked);
 
             controller = (req, res) => {
               const html = wrapperTemplate.render({
@@ -109,7 +134,7 @@ module.exports = (aden) => {
             controller = (req, res) => {
               const liveContent = fs.readFileSync(fileInfo.resolved, 'utf8');
               const html = wrapperTemplate.render({
-                body: marked(liveContent),
+                body: marked(liveContent, page.key.md.value.marked),
                 page,
               });
 
@@ -122,11 +147,11 @@ module.exports = (aden) => {
     }
   });
 
-  aden.hook('apply', ({ page, webpackConfigs /* , webpackEntry */ }) => {
+  aden.hook('apply', ({ page, webpackConfigs, webpackEntry }) => {
     if (page.key.mdIndex.value || page.key.mdFiles.value.length > 0) {
-      // if (page.key.mdIndex.value) {
-      //   webpackEntry.push(page.key.mdIndex.resolved);
-      // }
+      if (page.key.mdIndex.value) {
+        webpackEntry.push(page.key.mdIndex.resolved);
+      }
 
       const chunks = ['global', page.entryName];
 
@@ -135,7 +160,7 @@ module.exports = (aden) => {
       }
 
       const mdPlugin = new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'empty.html'),
+        template: page.key.mdLayout.resolved || path.resolve(__dirname, 'empty.html'),
         filename: `../${page.entryName}.html.md`,
         chunks,
         inject: page.inject,
@@ -144,6 +169,19 @@ module.exports = (aden) => {
       });
 
       webpackConfigs[0].plugins.push(mdPlugin);
+
+      webpackConfigs[0].module.rules.push({
+        test: /\.md$/,
+        use: [
+          {
+            loader: require.resolve('html-loader'),
+          },
+          {
+            loader: require.resolve('markdown-loader'),
+            // options: {},
+          },
+        ],
+      });
     }
   });
 

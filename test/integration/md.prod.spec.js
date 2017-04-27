@@ -6,10 +6,8 @@ const expect = require('expect');
 describe('MD Markdown Extension Prod', () => {
   she('has a root route with index.md entry point', (done) => {
     aden()
-      .init(path.resolve(__dirname, '../tmpdata/md2'))
+      .init(path.resolve(__dirname, '../tmpdata/md'))
       .then((an) => an.run('build'))
-      .then((an) => new Promise((resolve) => an.shutdown(() => resolve(an))))
-      .then(() => aden().init(path.resolve(__dirname, '../tmpdata/md2')))
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
@@ -22,10 +20,8 @@ describe('MD Markdown Extension Prod', () => {
 
   she('delivers index.md at root path', (done) => {
     aden()
-      .init(path.resolve(__dirname, '../tmpdata/md2'))
+      .init(path.resolve(__dirname, '../tmpdata/md'))
       .then((an) => an.run('build'))
-      .then((an) => new Promise((resolve) => an.shutdown(() => resolve(an))))
-      .then(() => aden().init(path.resolve(__dirname, '../tmpdata/md2')))
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
@@ -40,10 +36,8 @@ describe('MD Markdown Extension Prod', () => {
 
   she('delivers index.md at sub path', (done) => {
     aden()
-      .init(path.resolve(__dirname, '../tmpdata/md2'))
+      .init(path.resolve(__dirname, '../tmpdata/md'))
       .then((an) => an.run('build'))
-      .then((an) => new Promise((resolve) => an.shutdown(() => resolve(an))))
-      .then(() => aden().init(path.resolve(__dirname, '../tmpdata/md2')))
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
@@ -58,10 +52,8 @@ describe('MD Markdown Extension Prod', () => {
 
   she('delivers additional md files at page path', (done) => {
     aden()
-      .init(path.resolve(__dirname, '../tmpdata/md2'))
+      .init(path.resolve(__dirname, '../tmpdata/md'))
       .then((an) => an.run('build'))
-      .then((an) => new Promise((resolve) => an.shutdown(() => resolve(an))))
-      .then(() => aden().init(path.resolve(__dirname, '../tmpdata/md2')))
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
@@ -76,10 +68,8 @@ describe('MD Markdown Extension Prod', () => {
 
   she('delivers additional md files at page sub path', (done) => {
     aden()
-      .init(path.resolve(__dirname, '../tmpdata/md2'))
+      .init(path.resolve(__dirname, '../tmpdata/md'))
       .then((an) => an.run('build'))
-      .then((an) => new Promise((resolve) => an.shutdown(() => resolve(an))))
-      .then(() => aden().init(path.resolve(__dirname, '../tmpdata/md2')))
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
@@ -87,6 +77,22 @@ describe('MD Markdown Extension Prod', () => {
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/yet another page/ig);
+            an.shutdown(done);
+          });
+      });
+  });
+
+  she('wraps md in given layout (layout.default.html|hbs|md)', (done) => {
+    aden()
+      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
+      .then((an) => {
+        request(an.app)
+          .get('/wrap')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/id="wrapper"/ig);
             an.shutdown(done);
           });
       });
