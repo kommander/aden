@@ -173,6 +173,8 @@ svg,
 select,
 textarea {
   max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700);

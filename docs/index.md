@@ -1,5 +1,8 @@
 
 ### Aden
+
+![Aden](favicon.ico)
+
 _**Rapid Prototyping for your Project**_
 
 #### Installation
