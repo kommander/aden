@@ -3,4 +3,10 @@ h1 {
   font-size: 14px;
 }
 
-.aTestClass {}
+h2 {
+  font-family: sans-serif;
+}
+
+.aTestClass {
+  background-color: red;
+}
