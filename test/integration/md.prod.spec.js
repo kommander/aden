@@ -15,7 +15,8 @@ describe('MD Markdown Extension Prod', () => {
           .expect(200, () => {
             an.shutdown(done);
           });
-      });
+      })
+      .catch(done);
   });
 
   she('delivers index.md at root path', (done) => {
@@ -31,7 +32,8 @@ describe('MD Markdown Extension Prod', () => {
             expect(res.text).toMatch(/Hello marked/ig);
             an.shutdown(done);
           });
-      });
+      })
+      .catch(done);
   });
 
   she('delivers index.md at sub path', (done) => {
@@ -47,7 +49,8 @@ describe('MD Markdown Extension Prod', () => {
             expect(res.text).toMatch(/Sub Page/ig);
             an.shutdown(done);
           });
-      });
+      })
+      .catch(done);
   });
 
   she('delivers additional md files at page path', (done) => {
@@ -63,7 +66,8 @@ describe('MD Markdown Extension Prod', () => {
             expect(res.text).toMatch(/Just a file/ig);
             an.shutdown(done);
           });
-      });
+      })
+      .catch(done);
   });
 
   she('delivers additional md files at page sub path', (done) => {
@@ -79,7 +83,8 @@ describe('MD Markdown Extension Prod', () => {
             expect(res.text).toMatch(/yet another page/ig);
             an.shutdown(done);
           });
-      });
+      })
+      .catch(done);
   });
 
   she('wraps md in given layout (layout.default.html|hbs|md)', (done) => {
@@ -95,7 +100,8 @@ describe('MD Markdown Extension Prod', () => {
             expect(res.text).toMatch(/id="wrapper"/ig);
             an.shutdown(done);
           });
-      });
+      })
+      .catch(done);
   });
 
   she('includes images in the build', (done) => {
@@ -113,6 +119,48 @@ describe('MD Markdown Extension Prod', () => {
             expect(res.status).toMatch(200);
             an.shutdown(done);
           });
-      });
+      })
+      .catch(done);
+  });
+
+  she('includes images required from sub path in the build', (done) => {
+    aden()
+      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
+      .then((an) => {
+        // In production images use a hash only name,
+        // where images with same content become the same resource
+        const fileName = an.webpackStats[0].assets
+          .filter((asset) => asset.name.match(/^images/))[0].name;
+        request(an.app)
+          .get(`/${fileName}`)
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.status).toMatch(200);
+            an.shutdown(done);
+          });
+      })
+      .catch(done);
+  });
+
+  she('includes images from sub path in the build', (done) => {
+    aden()
+      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
+      .then((an) => {
+        // resolve sub-test.png
+        const fileName = an.webpackStats[0].assets
+          .filter((asset) => asset.name.match(/^images/))[1].name;
+        request(an.app)
+          .get(`/${fileName}`)
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.status).toMatch(200);
+            an.shutdown(done);
+          });
+      })
+      .catch(done);
   });
 });

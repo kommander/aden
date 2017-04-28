@@ -106,4 +106,34 @@ describe('MD Markdown Extension Dev', () => {
           });
       });
   });
+
+  she('includes images required from sub path in the build', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/images/test2.png')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.status).toMatch(200);
+            an.shutdown(done);
+          });
+      });
+  });
+
+  she('includes images from sub path in the build', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/images/sub-test.png')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.status).toMatch(200);
+            an.shutdown(done);
+          });
+      });
+  });
 });

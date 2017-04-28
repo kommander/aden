@@ -1,5 +1,4 @@
 const fs = require('fs');
-const marked = require('marked');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const hogan = require('hogan.js');
@@ -149,7 +148,7 @@ module.exports = (aden) => {
     }
   });
 
-  aden.hook('post:apply', ({ page, webpackConfigs, webpackEntry }) => {
+  aden.hook('post:apply', ({ webpackConfigs }) => {
     webpackConfigs[0].module.rules.push({
       test: /\.md$/,
       use: [
@@ -159,18 +158,15 @@ module.exports = (aden) => {
         },
         {
           loader: require.resolve('markdown-loader'),
+          // TODO: take marked options from .server config md key
           // options: {},
         },
       ],
     });
   });
 
-  aden.hook('apply', ({ page, webpackConfigs, webpackEntry }) => {
+  aden.hook('apply', ({ page, webpackConfigs }) => {
     if (page.key.mdIndex.value || page.key.mdFiles.value.length > 0) {
-      // if (page.key.mdIndex.value) {
-      //   webpackEntry.push(page.key.mdIndex.resolved);
-      // }
-
       const chunks = ['global', page.entryName];
 
       if (page.commons) {
