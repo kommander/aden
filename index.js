@@ -26,6 +26,12 @@ program
   .option('-v, --verbose', 'Output a lot')
   // IDEA: .option('--export', 'Export the generated webpack config')
   // IDEA: .option('--export-js', 'Export the generated webpack config as JSObject')
+
+  // (?) Eject would create all the boilerplate again so you can "run your own app"
+  // -> generates the webpack config once for the project
+  // -> sets up scripts to run the build and a dev server
+  // TODO: .option('--eject', 'Setup the project to run standalone webpack builds without aden')
+
   .option('--logger-no-date', 'Omit date from log output')
   .option('--version', 'Show version string')
   .version(pckgJson.version)
