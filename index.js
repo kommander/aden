@@ -12,7 +12,7 @@ const open = require('open');
  * Aden CLI
  */
 program
-  .usage('[options]')
+  .usage('[rootpath][options]')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-d, --dev', 'Run in development mode (live reload)')
   .option('-n, --new [path]', 'Bootstrap a new page')

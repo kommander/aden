@@ -18,6 +18,9 @@ The actual _/docs_ from this repository are running on _aden_ at [aden.zwerk.io]
 
 Sure.
 
+## Prerequisites
+[Node 6+](https://nodejs.org/en/) and [NPM 3+](https://www.npmjs.com/).
+
 ## Install
 ```
 npm install -g aden
@@ -26,32 +29,53 @@ npm install -g aden
 ## Help
 ```
 aden -h
+
+Usage: aden [rootpath][options]
+
+  Options:
+
+    -h, --help          output usage information
+    -b, --build         Will only build out the app assets and exit (not start the server)
+    -d, --dev           Run in development mode (live reload)
+    -n, --new [path]    Bootstrap a new page
+    --nd [path]         Bootstrap a new page and start the dev server
+    -c, --clean         Remove all dist folders
+    -f, --focus [path]  Choose one route to focus on. Mount only that.
+    -p, --port [port]   Override the port to mount the server on
+    --debug             Debug output
+    -s, --silent        Do not output anything on purpose
+    -v, --verbose       Output a lot
+    --logger-no-date    Omit date from log output
+    --version           Show version string
+    -V, --version       output the version number
 ```
 
 ## Run
 ### Development
+To confirm aden is installed correctly, try running the docs from the repository.
 ```
-aden -d docs
+aden -d path/to/docs
 ```
 (Point to any directory containing a `.server` file)
 
 From the repo:
 ```
-node index -d docs
+node index -d path/to/docs
 ```
 
 ### Production
 Running in production requires an existing build,
 by default in a _.dist_ folder in the root folder of the app.
 
-To run a build:
+To create a build:
 ```
-aden docs -b
+aden [path] -b
 ```
 
 Aden assumes a production environment if none is explicitly specified.
+To run an existing build:
 ```
-aden docs
+aden [path]
 ```
 
 # About
