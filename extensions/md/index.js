@@ -26,7 +26,7 @@ module.exports = (aden) => {
   aden.registerKey('mdLayout', {
     type: 'rpath',
     inherit: true,
-    value: path.resolve(__dirname, 'empty.html'),
+    default: path.resolve(__dirname, 'empty.html'),
     build: true,
   });
 
