@@ -10,13 +10,13 @@ to generate frontend asset builds and allow for a classic webserver behaviour
 You can still do everything you can do with an express app, like route globbing (_/*_) or parameters (_/:id_). (Support for Koa is on the [Roadmap](http://aden.zwerk.io/roadmap)).
 
 
-The actual _/docs_ from this repository are running on _aden_ at [aden.zwerk.io](http://aden.zwerk.io).
+The actual _/docs_ from this repository are running on a heroku _aden_ instance at [aden.zwerk.io](http://aden.zwerk.io).
 
 
 > _"It's a website. Can't we just put it on a webserver?"_  
 > Anonymous
 
-Sure.
+Sure. Aden provides _zero-config_ application development.
 
 ## Prerequisites
 [Node 6+](https://nodejs.org/en/) and [NPM 3+](https://www.npmjs.com/).
@@ -49,6 +49,7 @@ Usage: aden [rootpath][options]
     --version           Show version string
     -V, --version       output the version number
 ```
+Aden runs in _production_ by default, without any CLI options.
 
 ## Run
 ### Development
@@ -81,7 +82,7 @@ aden [path]
 # About
 _Aden_ is an effort to allow convenient aggregation of data from services,
 with a focus on frontend development, packaging and delivery automation.
-
+**Goal**: From idea to production with one server.
 
 ---
 Copyright 2016/2017 Sebastian Herrlinger
