@@ -58,7 +58,7 @@ module.exports = (aden) => {
         }),
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)?$/,
+        test: /\.(png|svg|jpg|jpeg|gif|ico)?$/,
         include: includePaths,
         use: {
           loader: require.resolve('file-loader'),
