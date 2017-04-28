@@ -97,4 +97,22 @@ describe('MD Markdown Extension Prod', () => {
           });
       });
   });
+
+  she('includes images in the build', (done) => {
+    aden()
+      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
+      .then((an) => {
+        const fileName = an.webpackStats[0].assets
+          .filter((asset) => asset.name.match(/^images/))[0].name;
+        request(an.app)
+          .get(`/${fileName}`)
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.status).toMatch(200);
+            an.shutdown(done);
+          });
+      });
+  });
 });

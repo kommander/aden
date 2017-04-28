@@ -91,4 +91,19 @@ describe('MD Markdown Extension Dev', () => {
           });
       });
   });
+
+  she('includes images in the build', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/images/test.png')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.status).toMatch(200);
+            an.shutdown(done);
+          });
+      });
+  });
 });
