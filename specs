@@ -1,4 +1,4 @@
-Creating coverage report for version 0.2.0-alpha.5.
+Creating coverage report for version 0.2.0-alpha.6.
 
 
   Basics Dev
@@ -15,16 +15,28 @@ Creating coverage report for version 0.2.0-alpha.5.
     ✓ uses custom status pages (404)
     ✓ uses custom status pages (error)
 
-  CSS Extension
+  Core Dev
+    - calls a build hook for keys marked as build
+    - resolves dist and distFileName for keys marked as build
+    - resolves dist and distFileName for file array keys marked as build
+
+  CSS Extension Dev
     - puts common requires/imports into common css
     ✓ includes page css
     ✓ includes page scss
+    ✓ takes care of images
+
+  CSS Extension Prod
+    - puts common requires/imports into common css
+    ✓ includes page css (hashed name)
+    ✓ includes page scss (hashed name)
+    ✓ takes care of images
 
   dev
     ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (4381ms)
-    ✓ recognises new files in sub folders and sets up the page (4510ms)
-    ✓ recognises changed watch keys (4335ms)
+    ✓ recognises new files and sets up the page (4276ms)
+    ✓ recognises new files in sub folders and sets up the page (4430ms)
+    ✓ recognises changed watch keys (4313ms)
 
   Favicon
     ✓ delivers favicon from root
@@ -41,9 +53,13 @@ Creating coverage report for version 0.2.0-alpha.5.
   MD Markdown Extension Dev
     ✓ has a root route with index.md entry point
     ✓ delivers index.md at root path
-    ✓ delivers index.md at sub path
+    ✓ delivers index.md at sub path (2631ms)
     ✓ delivers additional md files at page path
     ✓ delivers additional md files at page sub path
+    ✓ wraps md in given layout (layout.default.html|hbs|md)
+    ✓ includes images in the build
+    ✓ includes images required from sub path in the build
+    ✓ includes images from sub path in the build (2613ms)
 
   MD Markdown Extension Prod
     ✓ has a root route with index.md entry point
@@ -51,15 +67,19 @@ Creating coverage report for version 0.2.0-alpha.5.
     ✓ delivers index.md at sub path
     ✓ delivers additional md files at page path
     ✓ delivers additional md files at page sub path
+    ✓ wraps md in given layout (layout.default.html|hbs|md)
+    ✓ includes images in the build
+    ✓ includes images required from sub path in the build
+    ✓ includes images from sub path in the build
 
 
-  32 passing (53s)
-  1 pending
+  44 passing (1m)
+  5 pending
 
 
 =============================== Coverage summary ===============================
-Statements   : 82.58% ( 967/1171 )
-Branches     : 64.8% ( 289/446 )
+Statements   : 83% ( 986/1188 )
+Branches     : 65.5% ( 300/458 )
 Functions    : 81.36% ( 48/59 )
-Lines        : 82.64% ( 952/1152 )
+Lines        : 83.08% ( 972/1170 )
 ================================================================================
