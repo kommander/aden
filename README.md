@@ -46,14 +46,14 @@ Usage: aden [rootpath][options]
     -s, --silent        Do not output anything on purpose
     -v, --verbose       Output a lot
     --logger-no-date    Omit date from log output
-    --version           Show version string
     -V, --version       output the version number
 ```
 Aden runs in _production_ by default, without any CLI options.
 
 ## Run
 ### Development
-To confirm aden is installed correctly, try running the docs from the repository.
+To confirm aden is installed correctly, try running the docs from the repository,
+or check out the getting started guide at [aden.zwerk.io](http:\\aden.zwerk.io)
 ```
 aden -d path/to/docs
 ```
