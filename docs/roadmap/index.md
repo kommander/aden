@@ -14,9 +14,6 @@
 - Handle dotfiles as special case again (ignored by default)
 - Add `KEY_TYPE_CONFIG` behaviour to inherit a `.server` config key for extensions
 
-### Cluster
-- Provide default clustering setup via CLI `-w [num_of_workers_or_all_cpus]`
-
 ## Version 0.3
 ### Extensions
 - Add default behaviour `{ default: {}, development: {}, test: {}, production: {} }`
@@ -36,7 +33,9 @@ with a function returning a target URL string or a plain string URL target.
 - Use aliases from `.server`
 - Tree-shaking with webpack 2
 - Separate bundles for vendor and common application code (common.js already exists)
-- Allow build to be published on github pages
 - [Optimize incremental builds](http://engineering.invisionapp.com/post/optimizing-webpack/)
 - Multi-Process compilation with [happypack](https://github.com/amireh/happypack)
 - [Code Splitting](https://github.com/webpack/docs/wiki/code-splitting)
+
+## Version 0.4
+- Allow build to be published on github pages (http://import.jekyllrb.com/)

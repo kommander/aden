@@ -18,7 +18,7 @@ program
   .option('-d, --dev', 'Run in development mode (live reload)')
   .option('-n, --new [path]', 'Bootstrap a new page')
   .option('--nd [path]', 'Bootstrap a new page and start the dev server')
-  .option('-w, --workers [num]', 'Start with given [num] of workers')
+  .option('-w, --workers [num]', 'Start with given [num] of workers, or all CPUs.')
   .option('-c, --clean', 'Remove all dist folders')
   .option('-f, --focus [path]', 'Choose one route to focus on. Mount only that.')
   .option('-p, --port [port]', 'Override the port to mount the server on')
@@ -134,7 +134,7 @@ if (!run) {
   // Default clustering for production
   if (program.workers && cluster.isMaster) {
     run = Promise.resolve().then(() => {
-      const max = parseInt(program.workers, 10);
+      const max = parseInt(program.workers, 10) || require('os').cpus().length;
       const workersById = {};
       let numWorkersListening = 0;
       let exitStatus = 0;
