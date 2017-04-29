@@ -28,32 +28,33 @@ npm install -g aden
 
 ## Help
 ```
-aden -h
+$ aden -h
 
 Usage: aden [rootpath][options]
 
   Options:
 
-    -h, --help          output usage information
-    -b, --build         Will only build out the app assets and exit (not start the server)
-    -d, --dev           Run in development mode (live reload)
-    -n, --new [path]    Bootstrap a new page
-    --nd [path]         Bootstrap a new page and start the dev server
-    -c, --clean         Remove all dist folders
-    -f, --focus [path]  Choose one route to focus on. Mount only that.
-    -p, --port [port]   Override the port to mount the server on
-    --debug             Debug output
-    -s, --silent        Do not output anything on purpose
-    -v, --verbose       Output a lot
-    --logger-no-date    Omit date from log output
-    --version           Show version string
-    -V, --version       output the version number
+    -h, --help           output usage information
+    -b, --build          Will only build out the app assets and exit (not start the server)
+    -d, --dev            Run in development mode (live reload)
+    -n, --new [path]     Bootstrap a new page
+    --nd [path]          Bootstrap a new page and start the dev server
+    -w, --workers [num]  Start with given [num] of workers, or all CPUs.
+    -c, --clean          Remove all dist folders
+    -f, --focus [path]   Choose one route to focus on. Mount only that.
+    -p, --port [port]    Override the port to mount the server on
+    --debug              Debug output
+    -s, --silent         Do not output anything on purpose
+    -v, --verbose        Output a lot
+    --logger-no-date     Omit date from log output
+    -V, --version        output the version number
 ```
 Aden runs in _production_ by default, without any CLI options.
 
 ## Run
 ### Development
-To confirm aden is installed correctly, try running the docs from the repository.
+To confirm aden is installed correctly, try running the docs from the repository,
+or check out the getting started guide at [aden.zwerk.io](http:\\aden.zwerk.io)
 ```
 aden -d path/to/docs
 ```

@@ -5,8 +5,8 @@
 -  ✓ NPM last tested version 3.8.3
 
 **Framework Agnostic**
-- Builds and serves (React, Preact, Inferno, Vue, etc.)
-- No specific project structure to follow
+-  ✓ Builds and serves (React, Preact, Inferno, Vue, etc.)
+-  ✓ No specific project structure to follow
 
 **Basics**
 -  ✓ Auto generate webpack entry points from file tree
@@ -17,6 +17,9 @@
 -  ✓ Serve static resources
 -  ✓ Out-of-the-Box support for: md, html, js, jsx, css, scss, images (png, jpg, gif, ico), fonts
 -  ✓ Appliction level Plugins and loaders for webpack
+
+**Cluster**
+-  ✓ Provides default clustering setup via CLI `-w [num_of_workers]` (or all CPUs by default)
 
 **Server Side Rendering**
 -  ✓ Build dynamic resources
