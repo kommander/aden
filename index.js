@@ -2,9 +2,8 @@
 const createAden = require('./lib/aden');
 const express = require('express');
 const program = require('commander');
-const Logger = require('./lib/aden.logger');
+const logger = require('./lib/aden.logger');
 const path = require('path');
-const _ = require('lodash');
 const pckgJson = require('./package.json');
 const open = require('open');
 const cluster = require('cluster');
@@ -34,37 +33,35 @@ program
   // -> sets up scripts to run the build and a dev server
   // TODO: .option('--eject', 'Setup the project to run standalone webpack builds without aden')
 
-  .option('--logger-no-date', 'Omit date from log output')
+  .option('--log-no-date', 'Omit date from log output')
   .version(pckgJson.version)
   .parse(process.argv);
 
-const loggerOptions = {
+const logOptions = {
   silent: program.silent || false,
   verbose: program.verbose || process.env.NODE_VERBOSE || false,
   debug: program.debug || false,
-  noDate: !program.loggerDate || false,
+  noDate: !program.logDate || false,
 };
 
-const logger = (new Logger(_.extend(loggerOptions, {
-  name: 'aden',
-}))).fns;
+const log = logger(logOptions).namespace('aden cli'); // eslint-disable-line
 
 if (program.dev || program.new || program.nd) {
-  logger.warn('Ahoy! Running in dev env.');
+  log.warn('Ahoy! Running in dev env.');
 } else {
-  logger.info(`Running in ${process.env.NODE_ENV || 'production (by default)'} env.`);
+  log.info(`Running in ${process.env.NODE_ENV || 'production (by default)'} env.`);
 }
 
 const app = express();
 const config = {
-  logger: loggerOptions,
+  logger: logOptions,
   dev: program.dev || program.new || program.nd || false,
 };
 
 // What to do with multiple paths? Start one process per path.
 const rootPath = path.resolve('./', program.args[0] || '');
 
-logger.debug('cli config ', {
+log.debug('cli config ', {
   rootPath,
   config,
 });
@@ -79,7 +76,7 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
 
     const type = cluster.isMaster ? 'server' : 'worker';
 
-    aden.logger.success(`Started ${type} at port ${port}`);
+    aden.log.success(`Started ${type} at port ${port}`);
 
     if (doOpen) {
       open(`http://localhost:${port}`);
@@ -99,7 +96,7 @@ if (program.build) {
   run = createAden(app, config).init(rootPath, program.focus)
     .then((aden) => aden.run('build'))
     .then(() => {
-      logger.success('Build only done. Exiting.');
+      log.success('Build only done. Exiting.');
       process.exit(0);
     });
 }
@@ -118,7 +115,7 @@ if (!run && program.clean) {
     .init(rootPath, program.focus)
     .then((aden) => aden.run('clean'))
     .then(() => {
-      logger.success('Clean up done. Exiting.');
+      log.success('Clean up done. Exiting.');
       process.exit(0);
     });
 }
@@ -140,11 +137,11 @@ if (!run) {
       let exitStatus = 0;
 
       cluster.on('fork', (worker) => {
-        logger.info(`Forked worker ${worker.id}`);
+        log.info(`Forked worker ${worker.id}`);
         workersById[worker.id] = worker;
 
         worker.on('error', (err) => {
-          logger.error('Worker Error', err);
+          log.error('Worker Error', err);
         });
 
         worker.on('exit', (code, signal) => {
@@ -152,28 +149,28 @@ if (!run) {
           numWorkersListening--;
 
           if (code > 0) {
-            logger.error('Worker Exit with Error', { code, signal });
+            log.error('Worker Exit with Error', { code, signal });
             exitStatus = 1;
             // TODO: Determine if viable for restart
           } else {
-            logger.info('Worker Exit Normal', { code, signal });
+            log.info('Worker Exit Normal', { code, signal });
           }
 
           const numWorkers = numberOfWorkers(workersById);
           if (numWorkers === 0) {
-            logger.info('No workers left, exiting');
+            log.info('No workers left, exiting');
             process.exit(exitStatus);
           }
         });
       });
 
       cluster.on('listening', (worker, address) => {
-        logger.success(`Worker ${worker.id} listening at ${address.address
+        log.success(`Worker ${worker.id} listening at ${address.address
           || '127.0.0.1'}:${address.port}`);
 
         numWorkersListening++;
         if (numWorkersListening === max) {
-          logger.success(`${numWorkersListening} workers listening at ${address.address
+          log.success(`${numWorkersListening} workers listening at ${address.address
             || '127.0.0.1'}:${address.port}`);
         }
       });
@@ -192,21 +189,21 @@ if (!run) {
 }
 
 run.catch((err) => {
-  logger.error('FATAL:', err, err._reason ? err._reason.stack : null);
+  log.error('FATAL:', err, err._reason ? err._reason.stack : null);
   if (process.env.NODE_ENV !== 'development' && !program.dev) {
     process.exit(1);
   }
 });
 
 process.on('uncaughtException', (ex) => {
-  logger.error('FATAL: Uncaught Exception', ex);
+  log.error('FATAL: Uncaught Exception', ex);
   if (process.env.NODE_ENV !== 'development' && !program.dev) {
     process.exit(1);
   }
 });
 
 process.on('unhandledRejection', (reason) => {
-  logger.error('FATAL: Unhandled Promise Rejection', reason);
+  log.error('FATAL: Unhandled Promise Rejection', reason);
   if (process.env.NODE_ENV !== 'development' && !program.dev) {
     process.exit(1);
   }

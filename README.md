@@ -16,7 +16,7 @@ The actual _/docs_ from this repository are running on a heroku _aden_ instance 
 > _"It's a website. Can't we just put it on a webserver?"_  
 > Anonymous
 
-Sure. Aden provides _zero-config_ application development.
+Sure. Aden provides _zero-config_ web application development.
 
 ## Prerequisites
 [Node 6+](https://nodejs.org/en/) and [NPM 3+](https://www.npmjs.com/).
@@ -83,10 +83,9 @@ aden [path]
 # About
 _Aden_ is an effort to allow convenient aggregation of data from services,
 with a focus on frontend development, packaging and delivery automation.
-**Goal**: From idea to production with one server.
 
 ---
-Copyright 2016/2017 Sebastian Herrlinger
+Copyright 1997-2017 Sebastian Herrlinger
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
