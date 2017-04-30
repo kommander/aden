@@ -87,7 +87,8 @@ describe('MD Markdown Extension Prod', () => {
       .catch(done);
   });
 
-  she('wraps md in given layout (layout.default.html|hbs|md)', (done) => {
+  // +ext: hbs|handlebars|mustache|md|markdown
+  she('wraps md in given layout (layout.default.html)', (done) => {
     aden()
       .init(path.resolve(__dirname, '../tmpdata/md'))
       .then((an) => an.run('build'))
