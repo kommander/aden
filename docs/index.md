@@ -31,7 +31,8 @@ _**Aden will do that for you.**_
 ```
 mkdir sub
 cd sub
-echo "This is another route aden just created for me"  > index.html
+echo "This is another route aden just created for me"
+> index.html
 ```
 
 `localhost:5000/sub`
