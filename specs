@@ -1,18 +1,18 @@
-Creating coverage report for version 0.2.0-alpha.7.
+Creating coverage report for version 0.2.0-alpha.8.
 
 
   Basics Dev
-    ✓ injects common.js into existing html (3648ms)
-    ✓ routes custom status pages (404) (3314ms)
-    ✓ routes custom status pages (error) (2988ms)
-    ✓ uses custom status pages (404) (2652ms)
-    ✓ uses custom status pages (error) (3218ms)
+    ✓ injects common.js into existing html (3316ms)
+    ✓ routes custom status pages (404) (3071ms)
+    ✓ routes custom status pages (error) (2729ms)
+    ✓ uses custom status pages (404) (2543ms)
+    ✓ uses custom status pages (error) (2764ms)
 
   Basics Prod
     ✓ injects common.js into existing html
     ✓ does not route custom status pages (404)
     ✓ does not route custom status pages (error)
-    ✓ uses custom status pages (404) (2685ms)
+    ✓ uses custom status pages (404)
     ✓ uses custom status pages (error)
 
   Core Dev
@@ -22,21 +22,21 @@ Creating coverage report for version 0.2.0-alpha.7.
 
   CSS Extension Dev
     - puts common requires/imports into common css
-    ✓ includes page css (3382ms)
-    ✓ includes page scss (3400ms)
-    ✓ takes care of images (3394ms)
+    ✓ includes page css (3157ms)
+    ✓ includes page scss (3486ms)
+    ✓ takes care of images (2740ms)
 
   CSS Extension Prod
     - puts common requires/imports into common css
-    ✓ includes page css (hashed name) (2518ms)
+    ✓ includes page css (hashed name)
     ✓ includes page scss (hashed name)
-    ✓ takes care of images
+    ✓ takes care of images (2556ms)
 
   dev
     ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (6882ms)
-    ✓ recognises new files in sub folders and sets up the page (6446ms)
-    ✓ recognises changed watch keys (5687ms)
+    ✓ recognises new files and sets up the page (6263ms)
+    ✓ recognises new files in sub folders and sets up the page (6550ms)
+    ✓ recognises changed watch keys (6867ms)
 
   Favicon
     ✓ delivers favicon from root
@@ -49,31 +49,31 @@ Creating coverage report for version 0.2.0-alpha.7.
 
   HTML
     ✓ has a root route with index.html entry point
-    ✓ delivers index.html at root path (2567ms)
+    ✓ delivers index.html at root path
     ✓ delivers index.html at sub path
 
   page keys (registerKey)
-    ✓ adds a named key to the page (2936ms)
+    ✓ adds a named key to the page
 
   MD Markdown Extension Dev
-    ✓ has a root route with index.md entry point (3229ms)
-    ✓ delivers index.md at root path (3133ms)
-    ✓ delivers index.md at sub path (2986ms)
-    ✓ delivers additional md files at page path (2780ms)
-    ✓ delivers additional md files at page sub path (2771ms)
-    ✓ wraps md in given layout (layout.default.html|hbs|md) (2812ms)
-    ✓ includes images in the build (3249ms)
-    ✓ includes images required from sub path in the build (2668ms)
-    ✓ includes images from sub path in the build (2945ms)
+    ✓ has a root route with index.md entry point (2702ms)
+    ✓ delivers index.md at root path (2644ms)
+    ✓ delivers index.md at sub path (3069ms)
+    ✓ delivers additional md files at page path (2596ms)
+    ✓ delivers additional md files at page sub path (2561ms)
+    ✓ wraps md in given layout (layout.default.html|hbs|md) (2579ms)
+    ✓ includes images in the build (2591ms)
+    ✓ includes images required from sub path in the build (3007ms)
+    ✓ includes images from sub path in the build (2636ms)
 
   MD Markdown Extension Prod
     ✓ has a root route with index.md entry point
-    ✓ delivers index.md at root path (2752ms)
-    ✓ delivers index.md at sub path
-    ✓ delivers additional md files at page path
+    ✓ delivers index.md at root path
+    ✓ delivers index.md at sub path (2505ms)
+    ✓ delivers additional md files at page path (2631ms)
     ✓ delivers additional md files at page sub path
     ✓ wraps md in given layout (layout.default.html)
-    ✓ includes images in the build (2742ms)
+    ✓ includes images in the build
     ✓ includes images required from sub path in the build
     ✓ includes images from sub path in the build
 
