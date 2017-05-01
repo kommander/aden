@@ -1,18 +1,18 @@
-Creating coverage report for version 0.2.0-alpha.6.
+Creating coverage report for version 0.2.0-alpha.7.
 
 
   Basics Dev
-    ✓ injects common.js into existing html
-    ✓ routes custom status pages (404)
-    ✓ routes custom status pages (error)
-    ✓ uses custom status pages (404)
-    ✓ uses custom status pages (error)
+    ✓ injects common.js into existing html (3648ms)
+    ✓ routes custom status pages (404) (3314ms)
+    ✓ routes custom status pages (error) (2988ms)
+    ✓ uses custom status pages (404) (2652ms)
+    ✓ uses custom status pages (error) (3218ms)
 
   Basics Prod
     ✓ injects common.js into existing html
     ✓ does not route custom status pages (404)
     ✓ does not route custom status pages (error)
-    ✓ uses custom status pages (404)
+    ✓ uses custom status pages (404) (2685ms)
     ✓ uses custom status pages (error)
 
   Core Dev
@@ -22,64 +22,69 @@ Creating coverage report for version 0.2.0-alpha.6.
 
   CSS Extension Dev
     - puts common requires/imports into common css
-    ✓ includes page css
-    ✓ includes page scss
-    ✓ takes care of images
+    ✓ includes page css (3382ms)
+    ✓ includes page scss (3400ms)
+    ✓ takes care of images (3394ms)
 
   CSS Extension Prod
     - puts common requires/imports into common css
-    ✓ includes page css (hashed name)
+    ✓ includes page css (hashed name) (2518ms)
     ✓ includes page scss (hashed name)
     ✓ takes care of images
 
   dev
     ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (4276ms)
-    ✓ recognises new files in sub folders and sets up the page (4430ms)
-    ✓ recognises changed watch keys (4313ms)
+    ✓ recognises new files and sets up the page (6882ms)
+    ✓ recognises new files in sub folders and sets up the page (6446ms)
+    ✓ recognises changed watch keys (5687ms)
 
   Favicon
     ✓ delivers favicon from root
     ✓ does not deliver favicon if there is none
 
+  HBS
+    ✓ has a root route with index.hbs entry point
+    ✓ delivers index.hbs at root path
+    ✓ delivers index.hbs at sub path
+
   HTML
     ✓ has a root route with index.html entry point
-    ✓ delivers index.html at root path
+    ✓ delivers index.html at root path (2567ms)
     ✓ delivers index.html at sub path
 
   page keys (registerKey)
-    ✓ adds a named key to the page
+    ✓ adds a named key to the page (2936ms)
 
   MD Markdown Extension Dev
-    ✓ has a root route with index.md entry point
-    ✓ delivers index.md at root path
-    ✓ delivers index.md at sub path (2631ms)
-    ✓ delivers additional md files at page path
-    ✓ delivers additional md files at page sub path
-    ✓ wraps md in given layout (layout.default.html|hbs|md)
-    ✓ includes images in the build
-    ✓ includes images required from sub path in the build
-    ✓ includes images from sub path in the build (2613ms)
+    ✓ has a root route with index.md entry point (3229ms)
+    ✓ delivers index.md at root path (3133ms)
+    ✓ delivers index.md at sub path (2986ms)
+    ✓ delivers additional md files at page path (2780ms)
+    ✓ delivers additional md files at page sub path (2771ms)
+    ✓ wraps md in given layout (layout.default.html|hbs|md) (2812ms)
+    ✓ includes images in the build (3249ms)
+    ✓ includes images required from sub path in the build (2668ms)
+    ✓ includes images from sub path in the build (2945ms)
 
   MD Markdown Extension Prod
     ✓ has a root route with index.md entry point
-    ✓ delivers index.md at root path
+    ✓ delivers index.md at root path (2752ms)
     ✓ delivers index.md at sub path
     ✓ delivers additional md files at page path
     ✓ delivers additional md files at page sub path
-    ✓ wraps md in given layout (layout.default.html|hbs|md)
-    ✓ includes images in the build
+    ✓ wraps md in given layout (layout.default.html)
+    ✓ includes images in the build (2742ms)
     ✓ includes images required from sub path in the build
     ✓ includes images from sub path in the build
 
 
-  44 passing (1m)
+  47 passing (2m)
   5 pending
 
 
 =============================== Coverage summary ===============================
-Statements   : 83% ( 986/1188 )
-Branches     : 65.5% ( 300/458 )
-Functions    : 81.36% ( 48/59 )
-Lines        : 83.08% ( 972/1170 )
+Statements   : 83.29% ( 1002/1203 )
+Branches     : 65.74% ( 307/467 )
+Functions    : 81.67% ( 49/60 )
+Lines        : 83.43% ( 987/1183 )
 ================================================================================
