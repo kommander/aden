@@ -20,7 +20,7 @@
 - Proxy Extension. To proxy a path containing a `.proxy` or `.proxy.js` file,
 with a function returning a target URL string or a plain string URL target.
 - React Extension (providing all the babel boilerplate and loaders)
-- Default Linting Extension
+- Default Linting (Linting as core feature, extendable via hooks to add plugins etc.)
 
 ### Server
 - Support for [Koa](http://koajs.com/)
