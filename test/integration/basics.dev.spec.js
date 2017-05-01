@@ -83,4 +83,8 @@ describe('Basics Dev', () => {
       })
       .catch(done);
   });
+
+  she('// Things Aden already does but are untested...');
+  she('ignores dot files/folders for page parsing');
+  she('does not expose bare assets from page tree');
 });

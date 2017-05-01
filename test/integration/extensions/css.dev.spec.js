@@ -1,4 +1,4 @@
-const aden = require('../../lib/aden');
+const aden = require('../../../lib/aden');
 const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
@@ -8,7 +8,7 @@ describe('CSS Extension Dev', () => {
 
   she('includes page css', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/cssbase'))
+      .init(path.resolve(__dirname, '../../tmpdata/cssbase'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -24,7 +24,7 @@ describe('CSS Extension Dev', () => {
 
   she('includes page scss', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/cssbase'))
+      .init(path.resolve(__dirname, '../../tmpdata/cssbase'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -40,7 +40,7 @@ describe('CSS Extension Dev', () => {
 
   she('takes care of images', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/cssbase'))
+      .init(path.resolve(__dirname, '../../tmpdata/cssbase'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)

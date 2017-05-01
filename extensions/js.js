@@ -11,10 +11,12 @@ module.exports = (aden) => {
   );
 
   aden.hook('post:apply', ({ pages, webpackConfigs }) => {
+    // on-board babel by default
     webpackConfigs.forEach((config) => {
       config.module.rules.push({
         test: /\.jsx?$/,
         loader: require.resolve('babel-loader'),
+        // TODO: default plugins: es2015
         include: [
           pages[0].rootPath,
         ],
@@ -23,7 +25,6 @@ module.exports = (aden) => {
     });
   });
 
-  // TODO: on-board babel again by default
   aden.hook('apply', ({ page, webpackEntry }) => {
     if (page.key.jsFile.value) {
       webpackEntry.push(page.key.jsFile.resolved);

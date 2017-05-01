@@ -1,4 +1,4 @@
-const aden = require('../../lib/aden');
+const aden = require('../../../lib/aden');
 const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
@@ -6,7 +6,7 @@ const expect = require('expect');
 describe('MD Markdown Extension Dev', () => {
   she('has a root route with index.md entry point', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -19,7 +19,7 @@ describe('MD Markdown Extension Dev', () => {
 
   she('delivers index.md at root path', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -34,7 +34,7 @@ describe('MD Markdown Extension Dev', () => {
 
   she('delivers index.md at sub path', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -49,7 +49,7 @@ describe('MD Markdown Extension Dev', () => {
 
   she('delivers additional md files at page path', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -64,7 +64,7 @@ describe('MD Markdown Extension Dev', () => {
 
   she('delivers additional md files at page sub path', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -79,7 +79,7 @@ describe('MD Markdown Extension Dev', () => {
 
   she('wraps md in given layout (layout.default.html|hbs|md)', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -94,7 +94,7 @@ describe('MD Markdown Extension Dev', () => {
 
   she('includes images in the build', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -109,7 +109,7 @@ describe('MD Markdown Extension Dev', () => {
 
   she('includes images required from sub path in the build', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -124,7 +124,7 @@ describe('MD Markdown Extension Dev', () => {
 
   she('includes images from sub path in the build', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/md'))
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
