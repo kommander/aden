@@ -74,5 +74,31 @@ __Build__ `-b` Builds your application for production via webpack  (including ba
 ###### Supported filetypes
 Aden has default extensions for `.html`, `.js`, `.css`, `md` and `.hbs` files for now. Support is modular an can be toggled on/off.
 
+
 ###### .server file
-the .server file indicates the root folder for aden, but it also can return a configuration object.
+the __.server__ file indicates the root folder for aden, but it also can return a configuration object.
+
+###### status pages
+
+```
+mkdir 404
+touch index.html
+echo error file not found > index.html
+```
+
+aden will assume /404, /403 or /500 routes to contain status pages and render the contents on the corresponding status.
+
+
+###### Configuration
+ aden comes with preconfigurated webpack. However, the `.server` file can export a webpack configuration file to override them.
+
+```
+module.exports = {
+  port: 3000,
+  route: '*',
+  rules: [
+    { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
+  ],
+  name: 'yourprojectname',
+}; > .server
+```
