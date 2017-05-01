@@ -10,7 +10,6 @@ module.exports = (aden) => {
     inherit: true,
   });
 
-  // TODO: Gather all css files in page path and add them to the bundle
   // TODO: Let an extension add to ignores (css -> css/style, js -> lib/components/...)
 
   aden.registerFile('cssFile', ({ page, fileInfo }) =>
