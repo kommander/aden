@@ -15,8 +15,12 @@ module.exports = (aden) => {
     webpackConfigs.forEach((config) => {
       config.module.rules.push({
         test: /\.jsx?$/,
-        loader: require.resolve('babel-loader'),
-        // TODO: default plugins: es2015
+        use: {
+          loader: require.resolve('babel-loader'),
+          options: {
+            presets: [require.resolve('babel-preset-env'), require.resolve('babel-preset-es2015')],
+          },
+        },
         include: [
           pages[0].rootPath,
         ],
