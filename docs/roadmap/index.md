@@ -2,7 +2,7 @@
 
 ## Version 0.2
 ### Attitudes (Extensions)
-- Activate/Deactivate attitudes in config `{ attitudes: ['!jsx', '!md', 'html']} > .server`
+- use app level attitudes (override default attitudes with same name)
 - autoprefix by default for CSS Extension
 - jsx default language extras (es2016/17, polyfills)
 - Re-introduce `base.css|scss`

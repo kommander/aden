@@ -25,7 +25,6 @@ module.exports = (aden) => {
     value: {},
   });
 
-  // TODO: use page.getKey(name) and page.setKey(name, value)
   aden.registerFiles('hbsFiles', /\.hbs$/, {
     fn: ({ page, fileInfo }) => {
       if (fileInfo.name === page.key.hbs.value) {
@@ -109,7 +108,6 @@ module.exports = (aden) => {
 
   aden.hook('apply', ({ page, webpackConfigs, webpackEntry }) => {
     if (page.key.hbsIndex.value) {
-      // && page.bundleTemplate === true) {
       if (aden.isDEV) {
         webpackEntry.push(page.key.hbsIndex.resolved);
       }
