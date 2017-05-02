@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = (aden) => {
   // TODO: use short keys for ext config { md: { entry: 'index', markedOptions, ... }}
   aden.registerKey('md', {
-    type: 'custom',
+    type: 'object',
     config: true,
     value: {
       entry: 'index',
@@ -122,9 +122,12 @@ module.exports = (aden) => {
       loader: require.resolve('markdown-loader'),
     };
 
-    if (pages[0].key.md.value.marked) {
+    // The loader treats an empty object as options with parseQuery(),
+    // which is deprecated. Might show different behaviour with md-loader versions > 2.0.0
+    const markedOpts = pages[0].key.md.value.marked;
+    if (markedOpts && Object.keys(markedOpts).length > 0) {
       Object.assign(markdownLoader, {
-        options: pages[0].key.md.value.marked,
+        options: markedOpts,
       });
     }
 
