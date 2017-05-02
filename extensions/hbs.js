@@ -61,7 +61,7 @@ module.exports = (aden) => {
   aden.hook('setup:route', ({ page }) => {
     if (page.key.hbsIndex.value) {
       if (aden.isPROD) {
-        const wrapperTemplate = page.key.getLayout.value
+        const wrapperTemplate = page.key.getLayout && page.key.getLayout.value
           ? page.key.getLayout.value()
           : { render: ({ body }) => body };
 
@@ -87,7 +87,7 @@ module.exports = (aden) => {
             const liveContent = fs.readFileSync(page.key.hbsIndex.dist, 'utf8');
             const template = hogan.compile(liveContent);
             const live = template.render({ page: thepage, data });
-            const html = (page.key.getLayout.value
+            const html = (page.key.getLayout && page.key.getLayout.value
               ? page.key.getLayout.value()
               : { render: ({ body }) => body })
               .render({
