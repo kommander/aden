@@ -14,9 +14,4 @@ module.exports = (aden) => {
       });
     }
   });
-
-  return {
-    key: 'favicon',
-    version: '0.1.0',
-  };
 };

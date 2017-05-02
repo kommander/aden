@@ -24,6 +24,7 @@ const escapeRe = require('escape-string-regexp');
  *
  * @param {Suite} suite Root suite.
  */
+ /* istanbul ignore next */
 module.exports = Mocha.interfaces['she-bdd'] = function sheBdd(suite) {
   const suites = [suite];
 

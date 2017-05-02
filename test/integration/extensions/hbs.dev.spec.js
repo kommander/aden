@@ -1,12 +1,12 @@
-const aden = require('../../lib/aden');
+const aden = require('../../../lib/aden');
 const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('HBS', () => {
+describe('HBS Dev', () => {
   she('has a root route with index.hbs entry point', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/hbs'))
+      .init(path.resolve(__dirname, '../../tmpdata/hbs'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -20,7 +20,7 @@ describe('HBS', () => {
 
   she('delivers index.hbs at root path', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/hbs'))
+      .init(path.resolve(__dirname, '../../tmpdata/hbs'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -36,7 +36,7 @@ describe('HBS', () => {
 
   she('delivers index.hbs at sub path', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/hbs'))
+      .init(path.resolve(__dirname, '../../tmpdata/hbs'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)

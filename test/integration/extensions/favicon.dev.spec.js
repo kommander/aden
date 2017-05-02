@@ -1,11 +1,11 @@
-const aden = require('../../lib/aden');
+const aden = require('../../../lib/aden');
 const path = require('path');
 const request = require('supertest');
 
-describe('Favicon', () => {
+describe('Favicon Dev', () => {
   she('delivers favicon from root', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/favicon'))
+      .init(path.resolve(__dirname, '../../tmpdata/favicon'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -22,7 +22,7 @@ describe('Favicon', () => {
 
   she('does not deliver favicon if there is none', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/favicon/sub'))
+      .init(path.resolve(__dirname, '../../tmpdata/favicon/sub'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)

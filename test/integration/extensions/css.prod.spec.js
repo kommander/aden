@@ -1,4 +1,4 @@
-const aden = require('../../lib/aden');
+const aden = require('../../../lib/aden');
 const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
@@ -8,7 +8,7 @@ describe('CSS Extension Prod', () => {
 
   she('includes page css (hashed name)', (done) => {
     aden()
-      .init(path.resolve(__dirname, '../tmpdata/cssbase'))
+      .init(path.resolve(__dirname, '../../tmpdata/cssbase'))
       .then((an) => an.run('build'))
       .then((an) => an.run('production'))
       .then((an) => {
@@ -27,7 +27,7 @@ describe('CSS Extension Prod', () => {
 
   she('includes page scss (hashed name)', (done) => {
     aden()
-      .init(path.resolve(__dirname, '../tmpdata/cssbase'))
+      .init(path.resolve(__dirname, '../../tmpdata/cssbase'))
       .then((an) => an.run('build'))
       .then((an) => an.run('production'))
       .then((an) => {
@@ -46,7 +46,7 @@ describe('CSS Extension Prod', () => {
 
   she('takes care of images', (done) => {
     aden()
-      .init(path.resolve(__dirname, '../tmpdata/cssbase'))
+      .init(path.resolve(__dirname, '../../tmpdata/cssbase'))
       .then((an) => an.run('build'))
       .then((an) => an.run('production'))
       .then((an) => {

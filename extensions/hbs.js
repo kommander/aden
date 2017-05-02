@@ -25,7 +25,6 @@ module.exports = (aden) => {
     value: {},
   });
 
-  // TODO: use page.getKey(name) and page.setKey(name, value)
   aden.registerFiles('hbsFiles', /\.hbs$/, {
     fn: ({ page, fileInfo }) => {
       if (fileInfo.name === page.key.hbs.value) {
@@ -61,7 +60,7 @@ module.exports = (aden) => {
   aden.hook('setup:route', ({ page }) => {
     if (page.key.hbsIndex.value) {
       if (aden.isPROD) {
-        const wrapperTemplate = page.key.getLayout.value
+        const wrapperTemplate = page.key.getLayout && page.key.getLayout.value
           ? page.key.getLayout.value()
           : { render: ({ body }) => body };
 
@@ -87,7 +86,7 @@ module.exports = (aden) => {
             const liveContent = fs.readFileSync(page.key.hbsIndex.dist, 'utf8');
             const template = hogan.compile(liveContent);
             const live = template.render({ page: thepage, data });
-            const html = (page.key.getLayout.value
+            const html = (page.key.getLayout && page.key.getLayout.value
               ? page.key.getLayout.value()
               : { render: ({ body }) => body })
               .render({
@@ -103,9 +102,12 @@ module.exports = (aden) => {
     }
   });
 
+  aden.hook('post:apply', ({ webpackConfigs }) => {
+    webpackConfigs[0].resolve.extensions.push('.hbs', '.mustache', '.handlebars');
+  });
+
   aden.hook('apply', ({ page, webpackConfigs, webpackEntry }) => {
     if (page.key.hbsIndex.value) {
-      // && page.bundleTemplate === true) {
       if (aden.isDEV) {
         webpackEntry.push(page.key.hbsIndex.resolved);
       }
@@ -132,9 +134,4 @@ module.exports = (aden) => {
       });
     }
   });
-
-  return {
-    key: 'hbs',
-    version: '0.2.0',
-  };
 };

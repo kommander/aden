@@ -39,6 +39,8 @@ module.exports = (aden) => {
   });
 
   aden.hook('post:apply', ({ pages, webpackConfigs }) => {
+    webpackConfigs[0].resolve.extensions.push('.html');
+
     webpackConfigs[0].module.rules.push({
       test: /\.html$/,
       include: [
@@ -52,7 +54,6 @@ module.exports = (aden) => {
 
   aden.hook('apply', ({ page, webpackConfigs, webpackEntry }) => {
     if (page.key.htmlFile.value) {
-      // && page.bundleTemplate === true) {
       if (aden.isDEV) {
         webpackEntry.push(page.key.htmlFile.resolved);
       }
@@ -64,7 +65,7 @@ module.exports = (aden) => {
       }
 
       const htmlPlugin = new HtmlWebpackPlugin({
-        template: page.key.htmlFile.resolved, // `!!ejs!${page.key.htmlFile.resolved}`,
+        template: page.key.htmlFile.resolved,
         filename: page.key.htmlFile.dist,
         chunks,
         inject: page.inject,
@@ -76,9 +77,4 @@ module.exports = (aden) => {
       webpackConfigs[0].plugins.push(htmlPlugin);
     }
   });
-
-  return {
-    key: 'html',
-    version: '0.2.0',
-  };
 };
