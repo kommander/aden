@@ -17,6 +17,7 @@ module.exports = (aden) => {
 
   aden.registerKey('hbsIndex', {
     type: 'rpath',
+    build: true,
   });
 
   aden.registerKey('templates', {
@@ -59,18 +60,14 @@ module.exports = (aden) => {
 
   aden.hook('setup:route', ({ page }) => {
     if (page.key.hbsIndex.value) {
-      const builtFilePath = path.resolve(
-        aden.rootConfig.dist,
-        `${page.entryName}.html.hbs`
-      );
+      if (aden.isPROD) {
+        const wrapperTemplate = page.key.getLayout.value
+          ? page.key.getLayout.value()
+          : { render: ({ body }) => body };
 
-      const wrapper = fs.readFileSync(builtFilePath, 'utf8');
-      const wrapperTemplate = hogan.compile(wrapper);
+        const hbsContent = fs.readFileSync(page.key.hbsIndex.dist, 'utf8');
+        const cachedTemplate = hogan.compile(hbsContent);
 
-      const hbsContent = fs.readFileSync(page.key.hbsIndex.resolved, 'utf8');
-      const cachedTemplate = hogan.compile(hbsContent);
-
-      if (!aden.isDEV) {
         Object.assign(page, {
           get: (req, res, thepage, data) => {
             // todo: make sure to send correct headers
@@ -87,14 +84,17 @@ module.exports = (aden) => {
       } else {
         Object.assign(page, {
           get: (req, res, thepage, data) => {
-            const liveContent = fs.readFileSync(page.key.hbsIndex.resolved, 'utf8');
+            const liveContent = fs.readFileSync(page.key.hbsIndex.dist, 'utf8');
             const template = hogan.compile(liveContent);
-            const body = template.render({ page: thepage, data });
-            const html = wrapperTemplate.render({
-              body,
-              page: thepage,
-              data,
-            });
+            const live = template.render({ page: thepage, data });
+            const html = (page.key.getLayout.value
+              ? page.key.getLayout.value()
+              : { render: ({ body }) => body })
+              .render({
+                body: live,
+                page: thepage,
+                data,
+              });
 
             res.send(html);
           },
@@ -110,20 +110,11 @@ module.exports = (aden) => {
         webpackEntry.push(page.key.hbsIndex.resolved);
       }
 
-
-      const chunks = ['global', page.entryName];
-
-      if (page.commons) {
-        chunks.unshift('commons');
-      }
-
       const hbsPlugin = new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'empty.html'),
-        filename: `../${page.entryName}.html.hbs`,
-        chunks,
-        inject: page.inject,
+        template: page.key.hbsIndex.resolved,
+        filename: page.key.hbsIndex.dist,
+        inject: false,
         cache: false,
-        title: page.title || page.name || 'No Title',
       });
 
       webpackConfigs[0].plugins.push(hbsPlugin);

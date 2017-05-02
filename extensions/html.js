@@ -12,17 +12,13 @@ module.exports = (aden) => {
 
   // TODO: use page.getKey(name) and page.setKey(name, value)
   aden.registerFile('htmlFile', ({ page, fileInfo }) =>
-    fileInfo.file.match(/\.html$/) && fileInfo.name === page.key.html.value
+    fileInfo.file.match(/\.html$/) && fileInfo.name === page.key.html.value,
+    { key: { build: true } }
   );
 
   aden.hook('setup:route', ({ page }) => {
     if (page.key.htmlFile.value) {
-      const builtFilePath = path.resolve(
-        aden.rootConfig.dist,
-        `${page.entryName}.html`
-      );
-
-      const htmlContent = fs.readFileSync(builtFilePath, 'utf8');
+      const htmlContent = fs.readFileSync(page.key.htmlFile.dist, 'utf8');
 
       if (!aden.isDEV) {
         Object.assign(page, {
@@ -34,7 +30,7 @@ module.exports = (aden) => {
       } else {
         Object.assign(page, {
           get: (req, res) => {
-            const liveContent = fs.readFileSync(builtFilePath, 'utf8');
+            const liveContent = fs.readFileSync(page.key.htmlFile.dist, 'utf8');
             res.send(liveContent);
           },
         });
@@ -69,7 +65,7 @@ module.exports = (aden) => {
 
       const htmlPlugin = new HtmlWebpackPlugin({
         template: page.key.htmlFile.resolved, // `!!ejs!${page.key.htmlFile.resolved}`,
-        filename: `../${page.entryName}.html`,
+        filename: page.key.htmlFile.dist,
         chunks,
         inject: page.inject,
         cache: false,

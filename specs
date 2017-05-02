@@ -1,12 +1,12 @@
-Creating coverage report for version 0.2.0-alpha.5.
+Creating coverage report for version 0.2.0-alpha.8.
 
 
   Basics Dev
-    ✓ injects common.js into existing html
-    ✓ routes custom status pages (404)
-    ✓ routes custom status pages (error)
-    ✓ uses custom status pages (404)
-    ✓ uses custom status pages (error)
+    ✓ injects common.js into existing html (3316ms)
+    ✓ routes custom status pages (404) (3071ms)
+    ✓ routes custom status pages (error) (2729ms)
+    ✓ uses custom status pages (404) (2543ms)
+    ✓ uses custom status pages (error) (2764ms)
 
   Basics Prod
     ✓ injects common.js into existing html
@@ -15,20 +15,37 @@ Creating coverage report for version 0.2.0-alpha.5.
     ✓ uses custom status pages (404)
     ✓ uses custom status pages (error)
 
-  CSS Extension
+  Core Dev
+    - calls a build hook for keys marked as build
+    - resolves dist and distFileName for keys marked as build
+    - resolves dist and distFileName for file array keys marked as build
+
+  CSS Extension Dev
     - puts common requires/imports into common css
-    ✓ includes page css
-    ✓ includes page scss
+    ✓ includes page css (3157ms)
+    ✓ includes page scss (3486ms)
+    ✓ takes care of images (2740ms)
+
+  CSS Extension Prod
+    - puts common requires/imports into common css
+    ✓ includes page css (hashed name)
+    ✓ includes page scss (hashed name)
+    ✓ takes care of images (2556ms)
 
   dev
     ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (4381ms)
-    ✓ recognises new files in sub folders and sets up the page (4510ms)
-    ✓ recognises changed watch keys (4335ms)
+    ✓ recognises new files and sets up the page (6263ms)
+    ✓ recognises new files in sub folders and sets up the page (6550ms)
+    ✓ recognises changed watch keys (6867ms)
 
   Favicon
     ✓ delivers favicon from root
     ✓ does not deliver favicon if there is none
+
+  HBS
+    ✓ has a root route with index.hbs entry point
+    ✓ delivers index.hbs at root path
+    ✓ delivers index.hbs at sub path
 
   HTML
     ✓ has a root route with index.html entry point
@@ -39,27 +56,35 @@ Creating coverage report for version 0.2.0-alpha.5.
     ✓ adds a named key to the page
 
   MD Markdown Extension Dev
-    ✓ has a root route with index.md entry point
-    ✓ delivers index.md at root path
-    ✓ delivers index.md at sub path
-    ✓ delivers additional md files at page path
-    ✓ delivers additional md files at page sub path
+    ✓ has a root route with index.md entry point (2702ms)
+    ✓ delivers index.md at root path (2644ms)
+    ✓ delivers index.md at sub path (3069ms)
+    ✓ delivers additional md files at page path (2596ms)
+    ✓ delivers additional md files at page sub path (2561ms)
+    ✓ wraps md in given layout (layout.default.html|hbs|md) (2579ms)
+    ✓ includes images in the build (2591ms)
+    ✓ includes images required from sub path in the build (3007ms)
+    ✓ includes images from sub path in the build (2636ms)
 
   MD Markdown Extension Prod
     ✓ has a root route with index.md entry point
     ✓ delivers index.md at root path
-    ✓ delivers index.md at sub path
-    ✓ delivers additional md files at page path
+    ✓ delivers index.md at sub path (2505ms)
+    ✓ delivers additional md files at page path (2631ms)
     ✓ delivers additional md files at page sub path
+    ✓ wraps md in given layout (layout.default.html)
+    ✓ includes images in the build
+    ✓ includes images required from sub path in the build
+    ✓ includes images from sub path in the build
 
 
-  32 passing (53s)
-  1 pending
+  47 passing (2m)
+  5 pending
 
 
 =============================== Coverage summary ===============================
-Statements   : 82.58% ( 967/1171 )
-Branches     : 64.8% ( 289/446 )
-Functions    : 81.36% ( 48/59 )
-Lines        : 82.64% ( 952/1152 )
+Statements   : 83.29% ( 1002/1203 )
+Branches     : 65.74% ( 307/467 )
+Functions    : 81.67% ( 49/60 )
+Lines        : 83.43% ( 987/1183 )
 ================================================================================

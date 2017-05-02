@@ -1,5 +1,4 @@
 const fs = require('fs');
-const marked = require('marked');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const hogan = require('hogan.js');
@@ -14,28 +13,17 @@ module.exports = (aden) => {
     value: {
       entry: 'index',
       marked: {},
-      layout: 'default',
     },
     inherit: true,
   });
 
   aden.registerKey('mdIndex', {
     type: 'rpath',
-  });
-
-  aden.registerKey('mdLayout', {
-    type: 'rpath',
-    inherit: true,
-  });
-
-  aden.registerKey('mdLayouts', {
-    type: 'stringarray',
-    inherit: true,
-    value: [],
+    build: true,
   });
 
   // TODO: use page.getKey(name) and page.setKey(name, value)
-  aden.registerFiles('mdFiles', /\.md$/, {
+  aden.registerFiles('mdFiles', /\.(md|markdown)$/, {
     fn: ({ page, fileInfo }) => {
       if (fileInfo.name === page.key.md.value.entry) {
         Object.assign(page.key.mdIndex, {
@@ -44,43 +32,17 @@ module.exports = (aden) => {
         return;
       }
     },
-  });
-
-  aden.registerFiles('mdLayoutFiles', /^layout\..*?\.(html|hbs|md)$/, {
-    fn: ({ page, fileInfo }) => {
-      Object.assign(page.key.mdLayouts, {
-        value: page.key.mdLayouts.value.concat([{ fileInfo }]),
-      });
-
-      if (fileInfo.name.match(page.key.md.value.layout)) {
-        Object.assign(page.key.mdLayout, {
-          value: fileInfo.rpath,
-        });
-        return;
-      }
+    key: {
+      build: true,
     },
   });
 
-  const getWrapper = (page) => {
-    const builtFilePath = path.resolve(
-      aden.rootConfig.dist,
-      `${page.entryName}.html.md`
-    );
-
-    const wrapper = fs.readFileSync(builtFilePath, 'utf8');
-    const wrapperTemplate = hogan.compile(wrapper);
-
-    return wrapperTemplate;
-  };
-
   aden.hook('setup:route', ({ page }) => {
     if (page.key.mdIndex.value) {
-      const cachedWrapperTemplate = getWrapper(page);
-
-      const content = fs.readFileSync(page.key.mdIndex.resolved, 'utf8');
-      const cached = marked(content, page.key.md.value.marked);
-
       if (aden.isPROD) {
+        const cachedWrapperTemplate = page.key.getLayout.value ? page.key.getLayout.value() : { render: ({ body }) => body };
+        const cached = fs.readFileSync(page.key.mdIndex.dist, 'utf8');
+
         Object.assign(page, {
           get: (req, res, thepage, data) => {
             // todo: make sure to send correct headers
@@ -96,12 +58,15 @@ module.exports = (aden) => {
       } else {
         Object.assign(page, {
           get: (req, res, thepage, data) => {
-            const liveContent = fs.readFileSync(page.key.mdIndex.resolved, 'utf8');
-            const html = getWrapper(page).render({
-              body: marked(liveContent, page.key.md.value.marked),
-              page: thepage,
-              data,
-            });
+            const liveContent = fs.readFileSync(page.key.mdIndex.dist, 'utf8');
+            const html = (page.key.getLayout.value
+              ? page.key.getLayout.value()
+              : { render: ({ body }) => body })
+              .render({
+                body: liveContent,
+                page: thepage,
+                data,
+              });
 
             res.send(html);
           },
@@ -111,16 +76,16 @@ module.exports = (aden) => {
 
     // Are there more md files than an index? Set them up.
     if (page.key.mdFiles.value.length > 0) {
-      const cachedWrapperTemplate = getWrapper(page);
-
       page.key.mdFiles.value
         .filter((file) => file.name !== page.key.md.value) // not index file
         .forEach((fileInfo) => {
           let controller;
 
           if (aden.isPROD) {
-            const content = fs.readFileSync(fileInfo.resolved, 'utf8');
-            const cached = marked(content, page.key.md.value.marked);
+            const cached = fs.readFileSync(fileInfo.dist, 'utf8');
+            const cachedWrapperTemplate = page.key.getLayout.value
+              ? page.key.getLayout.value()
+              : { render: ({ body }) => body };
 
             controller = (req, res) => {
               const html = cachedWrapperTemplate.render({
@@ -132,11 +97,14 @@ module.exports = (aden) => {
             };
           } else {
             controller = (req, res) => {
-              const liveContent = fs.readFileSync(fileInfo.resolved, 'utf8');
-              const html = getWrapper(page).render({
-                body: marked(liveContent, page.key.md.value.marked),
-                page,
-              });
+              const liveContent = fs.readFileSync(fileInfo.dist, 'utf8');
+              const html = (page.key.getLayout.value
+                ? page.key.getLayout.value()
+                : { render: ({ body }) => body })
+                .render({
+                  body: liveContent,
+                  page,
+                });
 
               res.send(html);
             };
@@ -147,40 +115,44 @@ module.exports = (aden) => {
     }
   });
 
-  aden.hook('apply', ({ page, webpackConfigs, webpackEntry }) => {
+  aden.hook('post:apply', ({ webpackConfigs }) => {
+    webpackConfigs[0].module.rules.push({
+      test: /\.(md|markdown)$/,
+      use: [
+        {
+          loader: require.resolve('html-loader'),
+          // options: {},
+        },
+        {
+          loader: require.resolve('markdown-loader'),
+          // TODO: take marked options from .server config md key
+          // options: {},
+        },
+      ],
+    });
+  });
+
+  aden.hook('apply', ({ page, webpackConfigs }) => {
     if (page.key.mdIndex.value || page.key.mdFiles.value.length > 0) {
-      // if (page.key.mdIndex.value) {
-      //   webpackEntry.push(page.key.mdIndex.resolved);
-      // }
-
-      const chunks = ['global', page.entryName];
-
-      if (page.commons) {
-        chunks.unshift('commons');
+      if (page.key.mdIndex.value) {
+        const mdIndexPlugin = new HtmlWebpackPlugin({
+          template: page.key.mdIndex.resolved,
+          filename: page.key.mdIndex.dist,
+          inject: false,
+          cache: false,
+        });
+        webpackConfigs[0].plugins.push(mdIndexPlugin);
       }
 
-      const mdPlugin = new HtmlWebpackPlugin({
-        template: page.key.mdLayout.resolved || path.resolve(__dirname, 'empty.html'),
-        filename: `../${page.entryName}.html.md`,
-        chunks,
-        inject: page.inject,
-        cache: false,
-        title: page.title || page.name || 'No Title',
-      });
+      page.key.mdFiles.value.forEach((mdFile) => {
+        const mdPlugin = new HtmlWebpackPlugin({
+          template: mdFile.resolved,
+          filename: mdFile.dist,
+          inject: false,
+          cache: false,
+        });
 
-      webpackConfigs[0].plugins.push(mdPlugin);
-
-      webpackConfigs[0].module.rules.push({
-        test: /\.md$/,
-        use: [
-          {
-            loader: require.resolve('html-loader'),
-          },
-          {
-            loader: require.resolve('markdown-loader'),
-            // options: {},
-          },
-        ],
+        webpackConfigs[0].plugins.push(mdPlugin);
       });
     }
   });
@@ -188,5 +160,6 @@ module.exports = (aden) => {
   return {
     key: 'md',
     version: '0.1.0',
+    uses: 'layout', // no hard dependencies
   };
 };

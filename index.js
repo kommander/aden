@@ -2,21 +2,22 @@
 const createAden = require('./lib/aden');
 const express = require('express');
 const program = require('commander');
-const Logger = require('./lib/aden.logger');
+const logger = require('./lib/aden.logger');
 const path = require('path');
-const _ = require('lodash');
 const pckgJson = require('./package.json');
 const open = require('open');
+const cluster = require('cluster');
 
 /**
  * Aden CLI
  */
 program
-  .usage('[options]')
+  .usage('[rootpath][options]')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-d, --dev', 'Run in development mode (live reload)')
   .option('-n, --new [path]', 'Bootstrap a new page')
   .option('--nd [path]', 'Bootstrap a new page and start the dev server')
+  .option('-w, --workers [num]', 'Start with given [num] of workers, or all CPUs.')
   .option('-c, --clean', 'Remove all dist folders')
   .option('-f, --focus [path]', 'Choose one route to focus on. Mount only that.')
   .option('-p, --port [port]', 'Override the port to mount the server on')
@@ -26,38 +27,41 @@ program
   .option('-v, --verbose', 'Output a lot')
   // IDEA: .option('--export', 'Export the generated webpack config')
   // IDEA: .option('--export-js', 'Export the generated webpack config as JSObject')
-  .option('--logger-no-date', 'Omit date from log output')
-  .option('--version', 'Show version string')
+
+  // (?) Eject would create all the boilerplate again so you can "run your own app"
+  // -> generates the webpack config once for the project
+  // -> sets up scripts to run the build and a dev server
+  // TODO: .option('--eject', 'Setup the project to run standalone webpack builds without aden')
+
+  .option('--log-no-date', 'Omit date from log output')
   .version(pckgJson.version)
   .parse(process.argv);
 
-const loggerOptions = {
+const logOptions = {
   silent: program.silent || false,
   verbose: program.verbose || process.env.NODE_VERBOSE || false,
   debug: program.debug || false,
-  noDate: !program.loggerDate || false,
+  noDate: !program.logDate || false,
 };
 
-const logger = (new Logger(_.extend(loggerOptions, {
-  name: 'aden',
-}))).fns;
+const log = logger(logOptions).namespace('aden cli'); // eslint-disable-line
 
 if (program.dev || program.new || program.nd) {
-  logger.warn('Ahoy! Running in dev env.');
+  log.warn('Ahoy! Running in dev env.');
 } else {
-  logger.info(`Running in ${process.env.NODE_ENV || 'production (by default)'} env.`);
+  log.info(`Running in ${process.env.NODE_ENV || 'production (by default)'} env.`);
 }
 
 const app = express();
 const config = {
-  logger: loggerOptions,
+  logger: logOptions,
   dev: program.dev || program.new || program.nd || false,
 };
 
 // What to do with multiple paths? Start one process per path.
 const rootPath = path.resolve('./', program.args[0] || '');
 
-logger.debug('cli config ', {
+log.debug('cli config ', {
   rootPath,
   config,
 });
@@ -69,7 +73,10 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
       reject(err);
       return;
     }
-    aden.logger.success(`Started server at port ${port}`);
+
+    const type = cluster.isMaster ? 'server' : 'worker';
+
+    aden.log.success(`Started ${type} at port ${port}`);
 
     if (doOpen) {
       open(`http://localhost:${port}`);
@@ -79,13 +86,17 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
   });
 }));
 
+const numberOfWorkers = (workersById) => Object.keys(workersById)
+  .filter((key) => workersById.hasOwnProperty(key))
+  .length;
+
 let run = null;
 
 if (program.build) {
   run = createAden(app, config).init(rootPath, program.focus)
     .then((aden) => aden.run('build'))
     .then(() => {
-      logger.success('Build only done. Exiting.');
+      log.success('Build only done. Exiting.');
       process.exit(0);
     });
 }
@@ -104,7 +115,7 @@ if (!run && program.clean) {
     .init(rootPath, program.focus)
     .then((aden) => aden.run('clean'))
     .then(() => {
-      logger.success('Clean up done. Exiting.');
+      log.success('Clean up done. Exiting.');
       process.exit(0);
     });
 }
@@ -117,28 +128,82 @@ if (!run && program.dev) {
 }
 
 if (!run) {
-  run = createAden(app, config)
-    .init(rootPath, program.focus)
-    .then((aden) => aden.run('production'))
-    .then((aden) => runServer(aden));
+  // Default clustering for production
+  if (program.workers && cluster.isMaster) {
+    run = Promise.resolve().then(() => {
+      const max = parseInt(program.workers, 10) || require('os').cpus().length;
+      const workersById = {};
+      let numWorkersListening = 0;
+      let exitStatus = 0;
+
+      cluster.on('fork', (worker) => {
+        log.info(`Forked worker ${worker.id}`);
+        workersById[worker.id] = worker;
+
+        worker.on('error', (err) => {
+          log.error('Worker Error', err);
+        });
+
+        worker.on('exit', (code, signal) => {
+          delete workersById[worker.id];
+          numWorkersListening--;
+
+          if (code > 0) {
+            log.error('Worker Exit with Error', { code, signal });
+            exitStatus = 1;
+            // TODO: Determine if viable for restart
+          } else {
+            log.info('Worker Exit Normal', { code, signal });
+          }
+
+          const numWorkers = numberOfWorkers(workersById);
+          if (numWorkers === 0) {
+            log.info('No workers left, exiting');
+            process.exit(exitStatus);
+          }
+        });
+      });
+
+      cluster.on('listening', (worker, address) => {
+        log.success(`Worker ${worker.id} listening at ${address.address
+          || '127.0.0.1'}:${address.port}`);
+
+        numWorkersListening++;
+        if (numWorkersListening === max) {
+          log.success(`${numWorkersListening} workers listening at ${address.address
+            || '127.0.0.1'}:${address.port}`);
+        }
+      });
+
+      // Initial fork
+      for (let i = 0; i < max; i++) {
+        cluster.fork();
+      }
+    });
+  } else {
+    run = createAden(app, config)
+      .init(rootPath, program.focus)
+      .then((aden) => aden.run('production'))
+      .then((aden) => runServer(aden));
+  }
 }
 
 run.catch((err) => {
-  logger.error('FATAL:', err, err._reason ? err._reason.stack : null);
+  log.error('FATAL:', err, err._reason ? err._reason.stack : null);
   if (process.env.NODE_ENV !== 'development' && !program.dev) {
     process.exit(1);
   }
 });
 
 process.on('uncaughtException', (ex) => {
-  logger.error('FATAL: Uncaught Exception', ex);
+  log.error('FATAL: Uncaught Exception', ex);
   if (process.env.NODE_ENV !== 'development' && !program.dev) {
     process.exit(1);
   }
 });
 
 process.on('unhandledRejection', (reason) => {
-  logger.error('FATAL: Unhandled Promise Rejection', reason);
+  log.error('FATAL: Unhandled Promise Rejection', reason);
   if (process.env.NODE_ENV !== 'development' && !program.dev) {
     process.exit(1);
   }
