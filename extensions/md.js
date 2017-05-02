@@ -116,8 +116,17 @@ module.exports = (aden) => {
     }
   });
 
-  aden.hook('post:apply', ({ webpackConfigs }) => {
+  aden.hook('post:apply', ({ webpackConfigs, pages }) => {
     webpackConfigs[0].resolve.extensions.push('.md', '.markdown');
+    const markdownLoader = {
+      loader: require.resolve('markdown-loader'),
+    };
+
+    if (pages[0].key.md.value.marked) {
+      Object.assign(markdownLoader, {
+        options: pages[0].key.md.value.marked,
+      });
+    }
 
     webpackConfigs[0].module.rules.push({
       test: /\.(md|markdown)$/,
@@ -126,11 +135,7 @@ module.exports = (aden) => {
           loader: require.resolve('html-loader'),
           // options: {},
         },
-        {
-          loader: require.resolve('markdown-loader'),
-          // TODO: take marked options from .server config md key
-          // options: {},
-        },
+        markdownLoader,
       ],
     });
   });

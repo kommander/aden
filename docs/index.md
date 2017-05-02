@@ -23,7 +23,9 @@ aden -d
 ```
 
 Open your web browser at `localhost:5000` => Hello World!
+
 <!-- css and js -->
+
 Aden just set up an express server and configured it to deliver the index.html file located in your root directory.
 
 now you can add `index.html` or `index.js` files to subdirectorys of your root folder, without worrying about setting up routes or delivering payload.
@@ -103,7 +105,7 @@ aden will assume /404, /403 or /500 routes to contain status pages and render th
 ###### Configuration
  aden comes with preconfigurated webpack. However, the `.server` file can export a webpack configuration file to override them.
 
-```
+```js
 module.exports = {
   port: 3000,
   route: '*',

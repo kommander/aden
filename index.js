@@ -121,6 +121,7 @@ if (!run && program.clean) {
 }
 
 if (!run && program.dev) {
+  process.traceDeprecation = true;
   run = createAden(app, config)
     .init(rootPath, program.focus)
     .then((aden) => aden.run('dev'))
