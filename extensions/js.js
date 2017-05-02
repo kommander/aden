@@ -36,9 +36,4 @@ module.exports = (aden) => {
       webpackEntry.push(page.key.jsFile.resolved);
     }
   });
-
-  return {
-    key: 'js',
-    version: '0.2.0',
-  };
 };

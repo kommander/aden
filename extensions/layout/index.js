@@ -87,9 +87,4 @@ module.exports = (aden) => {
       });
     }
   });
-
-  return {
-    key: 'layout',
-    version: '0.1.0',
-  };
 };

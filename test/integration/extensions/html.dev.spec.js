@@ -3,7 +3,7 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('HTML', () => {
+describe('HTML Dev', () => {
   she('has a root route with index.html entry point', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/html'))

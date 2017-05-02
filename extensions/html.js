@@ -78,9 +78,4 @@ module.exports = (aden) => {
       webpackConfigs[0].plugins.push(htmlPlugin);
     }
   });
-
-  return {
-    key: 'html',
-    version: '0.2.0',
-  };
 };

@@ -1,7 +1,5 @@
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
-const hogan = require('hogan.js');
 
 /**
  * md
@@ -160,10 +158,4 @@ module.exports = (aden) => {
       });
     }
   });
-
-  return {
-    key: 'md',
-    version: '0.1.0',
-    uses: 'layout', // no hard dependencies
-  };
 };

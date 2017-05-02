@@ -99,9 +99,4 @@ module.exports = (aden) => {
       }
     );
   });
-
-  return {
-    key: 'css',
-    version: '0.2.1',
-  };
 };

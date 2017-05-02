@@ -3,7 +3,7 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('HBS', () => {
+describe('HBS Dev', () => {
   she('has a root route with index.hbs entry point', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/hbs'))

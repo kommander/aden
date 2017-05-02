@@ -136,9 +136,4 @@ module.exports = (aden) => {
       });
     }
   });
-
-  return {
-    key: 'hbs',
-    version: '0.2.0',
-  };
 };

@@ -50,9 +50,4 @@ module.exports = (aden) => {
   };
 
   aden.registerFiles('jsxFiles', /\.jsx$/, { key: { build } });
-
-  return {
-    key: 'jsx',
-    version: '0.1.0',
-  };
 };
