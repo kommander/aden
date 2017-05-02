@@ -107,6 +107,21 @@ describe('MD Markdown Extension Dev', () => {
       });
   });
 
+  she('works for additionals without layout attitude active', (done) => {
+    aden({ dev: true, attitudes: ['!layout'] })
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/sub/additional.md')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toNotMatch(/id="wrapper"/ig);
+            an.shutdown(done);
+          });
+      });
+  });
+
   she('includes images in the build', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/md'))

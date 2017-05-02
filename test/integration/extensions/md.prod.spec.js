@@ -105,6 +105,37 @@ describe('MD Markdown Extension Prod', () => {
       .catch(done);
   });
 
+  she('works without layout attitude active', (done) => {
+    aden({ attitudes: ['!layout'] })
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
+      .then((an) => {
+        request(an.app)
+          .get('/wrap')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toNotMatch(/id="wrapper"/ig);
+            an.shutdown(done);
+          });
+      });
+  });
+
+  she('works for additionals without layout attitude active', (done) => {
+    aden({ attitudes: ['!layout'] })
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
+      .then((an) => {
+        request(an.app)
+          .get('/sub/additional.md')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toNotMatch(/id="wrapper"/ig);
+            an.shutdown(done);
+          });
+      });
+  });
   she('includes images in the build', (done) => {
     aden()
       .init(path.resolve(__dirname, '../../tmpdata/md'))
