@@ -1,12 +1,12 @@
-const aden = require('../../lib/aden');
+const aden = require('../../../lib/aden');
 const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('HTML', () => {
+describe('HTML Dev', () => {
   she('has a root route with index.html entry point', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/html'))
+      .init(path.resolve(__dirname, '../../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -19,7 +19,7 @@ describe('HTML', () => {
 
   she('delivers index.html at root path', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/html'))
+      .init(path.resolve(__dirname, '../../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
@@ -34,7 +34,7 @@ describe('HTML', () => {
 
   she('delivers index.html at sub path', (done) => {
     aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/html'))
+      .init(path.resolve(__dirname, '../../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)

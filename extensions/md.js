@@ -1,7 +1,5 @@
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
-const hogan = require('hogan.js');
 
 /**
  * md
@@ -9,7 +7,8 @@ const hogan = require('hogan.js');
 module.exports = (aden) => {
   // TODO: use short keys for ext config { md: { entry: 'index', markedOptions, ... }}
   aden.registerKey('md', {
-    type: 'config',
+    type: 'custom',
+    config: true,
     value: {
       entry: 'index',
       marked: {},
@@ -40,7 +39,9 @@ module.exports = (aden) => {
   aden.hook('setup:route', ({ page }) => {
     if (page.key.mdIndex.value) {
       if (aden.isPROD) {
-        const cachedWrapperTemplate = page.key.getLayout.value ? page.key.getLayout.value() : { render: ({ body }) => body };
+        const cachedWrapperTemplate = page.key.getLayout && page.key.getLayout.value
+          ? page.key.getLayout.value()
+          : { render: ({ body }) => body };
         const cached = fs.readFileSync(page.key.mdIndex.dist, 'utf8');
 
         Object.assign(page, {
@@ -59,7 +60,7 @@ module.exports = (aden) => {
         Object.assign(page, {
           get: (req, res, thepage, data) => {
             const liveContent = fs.readFileSync(page.key.mdIndex.dist, 'utf8');
-            const html = (page.key.getLayout.value
+            const html = (page.key.getLayout && page.key.getLayout.value
               ? page.key.getLayout.value()
               : { render: ({ body }) => body })
               .render({
@@ -83,7 +84,7 @@ module.exports = (aden) => {
 
           if (aden.isPROD) {
             const cached = fs.readFileSync(fileInfo.dist, 'utf8');
-            const cachedWrapperTemplate = page.key.getLayout.value
+            const cachedWrapperTemplate = page.key.getLayout && page.key.getLayout.value
               ? page.key.getLayout.value()
               : { render: ({ body }) => body };
 
@@ -98,7 +99,7 @@ module.exports = (aden) => {
           } else {
             controller = (req, res) => {
               const liveContent = fs.readFileSync(fileInfo.dist, 'utf8');
-              const html = (page.key.getLayout.value
+              const html = (page.key.getLayout && page.key.getLayout.value
                 ? page.key.getLayout.value()
                 : { render: ({ body }) => body })
                 .render({
@@ -116,6 +117,8 @@ module.exports = (aden) => {
   });
 
   aden.hook('post:apply', ({ webpackConfigs }) => {
+    webpackConfigs[0].resolve.extensions.push('.md', '.markdown');
+
     webpackConfigs[0].module.rules.push({
       test: /\.(md|markdown)$/,
       use: [
@@ -156,10 +159,4 @@ module.exports = (aden) => {
       });
     }
   });
-
-  return {
-    key: 'md',
-    version: '0.1.0',
-    uses: 'layout', // no hard dependencies
-  };
 };
