@@ -39,6 +39,8 @@ module.exports = (aden) => {
   });
 
   aden.hook('post:apply', ({ pages, webpackConfigs }) => {
+    webpackConfigs[0].resolve.extensions.push('.html');
+
     webpackConfigs[0].module.rules.push({
       test: /\.html$/,
       include: [

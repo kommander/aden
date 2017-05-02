@@ -23,6 +23,8 @@ module.exports = (aden) => {
   });
 
   aden.hook('post:apply', ({ pages, webpackConfigs, paths }) => {
+    webpackConfigs[0].resolve.extensions.push('.css', '.scss', '.sass');
+
     const extractCSSPlugin = new ExtractTextPlugin({
       filename: aden.isDEV ? '[name].css' : '[id]-[hash].css',
       allChunks: true,

@@ -11,6 +11,8 @@ module.exports = (aden) => {
   );
 
   aden.hook('post:apply', ({ pages, webpackConfigs }) => {
+    webpackConfigs[0].resolve.extensions.push('.js', '.jsx');
+
     // on-board babel by default
     webpackConfigs.forEach((config) => {
       config.module.rules.push({

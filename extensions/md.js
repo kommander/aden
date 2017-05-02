@@ -40,7 +40,9 @@ module.exports = (aden) => {
   aden.hook('setup:route', ({ page }) => {
     if (page.key.mdIndex.value) {
       if (aden.isPROD) {
-        const cachedWrapperTemplate = page.key.getLayout.value ? page.key.getLayout.value() : { render: ({ body }) => body };
+        const cachedWrapperTemplate = page.key.getLayout.value
+          ? page.key.getLayout.value()
+          : { render: ({ body }) => body };
         const cached = fs.readFileSync(page.key.mdIndex.dist, 'utf8');
 
         Object.assign(page, {
@@ -116,6 +118,8 @@ module.exports = (aden) => {
   });
 
   aden.hook('post:apply', ({ webpackConfigs }) => {
+    webpackConfigs[0].resolve.extensions.push('.md', '.markdown');
+
     webpackConfigs[0].module.rules.push({
       test: /\.(md|markdown)$/,
       use: [

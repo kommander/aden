@@ -103,6 +103,10 @@ module.exports = (aden) => {
     }
   });
 
+  aden.hook('post:apply', ({ webpackConfigs }) => {
+    webpackConfigs[0].resolve.extensions.push('.hbs', '.mustache', '.handlebars');
+  });
+
   aden.hook('apply', ({ page, webpackConfigs, webpackEntry }) => {
     if (page.key.hbsIndex.value) {
       // && page.bundleTemplate === true) {
