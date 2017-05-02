@@ -3,7 +3,8 @@ const path = require('path');
 
 module.exports = (aden) => {
   aden.registerKey('css', {
-    type: 'config',
+    type: 'custom',
+    config: true,
     value: {
       entry: 'index',
     },

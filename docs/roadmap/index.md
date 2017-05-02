@@ -1,8 +1,8 @@
 # Development Roadmap
 
 ## Version 0.2
-### Extensions
-- Activate/Deactivate extensions in config `{ extensions: ['!jsx', '!md', 'html']} > .server`
+### Attitudes (Extensions)
+- Activate/Deactivate attitudes in config `{ attitudes: ['!jsx', '!md', 'html']} > .server`
 - autoprefix by default for CSS Extension
 - jsx default language extras (es2016/17, polyfills)
 - Re-introduce `base.css|scss`
@@ -12,7 +12,6 @@
 
 ### config
 - Handle dotfiles as special case again (ignored by default)
-- Add `KEY_TYPE_CONFIG` behaviour to inherit a `.server` config key for extensions
 
 ## Version 0.3
 ### Extensions

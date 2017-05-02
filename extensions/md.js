@@ -7,7 +7,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = (aden) => {
   // TODO: use short keys for ext config { md: { entry: 'index', markedOptions, ... }}
   aden.registerKey('md', {
-    type: 'config',
+    type: 'custom',
+    config: true,
     value: {
       entry: 'index',
       marked: {},
