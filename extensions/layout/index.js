@@ -8,9 +8,10 @@ const hogan = require('hogan.js');
  */
 module.exports = (aden) => {
   aden.registerKey('layout', {
-    type: 'stringarray',
+    type: 'string',
+    config: true,
     inherit: true,
-    value: 'default',
+    value: null,
   });
 
   aden.registerKey('getLayout', {
