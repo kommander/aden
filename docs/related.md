@@ -10,3 +10,4 @@ Similar projects that try to solve similar issues:
 - https://github.com/NYTimes/kyt
 - https://github.com/zeit/next.js
 - https://github.com/gatsbyjs/gatsby (file tree based routes)
+- https://github.com/tapio/live-server (https://atom.io/packages/atom-live-server)
