@@ -14,7 +14,8 @@ describe('HTML Dev', () => {
           .expect(200, () => {
             an.shutdown(done);
           });
-      });
+      })
+      .catch(done);
   });
 
   she('delivers index.html at root path', (done) => {
@@ -29,7 +30,8 @@ describe('HTML Dev', () => {
             expect(res.text).toMatch(/^<!DOCTYPE html>/);
             an.shutdown(done);
           });
-      });
+      })
+      .catch(done);
   });
 
   she('delivers index.html at sub path', (done) => {
@@ -44,6 +46,7 @@ describe('HTML Dev', () => {
             expect(res.text).toMatch(/^<!DOCTYPE html>/);
             an.shutdown(done);
           });
-      });
+      })
+      .catch(done);
   });
 });

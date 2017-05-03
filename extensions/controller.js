@@ -21,6 +21,7 @@ module.exports = (aden) => {
 
   aden.hook('load', ({ page }) => {
     Object.assign(page, {
+      // TODO: Use page.controller('get', fn) -> warn when overwriting
       get: page.key.getPath.resolved
         ? aden.loadCustom(page.key.getPath, page)
         : page.get,
