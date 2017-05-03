@@ -10,7 +10,7 @@ to generate frontend asset builds and allow for a classic webserver behaviour
 You can still do everything you can do with an express app, like route globbing (_/*_), parameters (_/:id_) and middlewares. (Support for Koa is on the [Roadmap](http://aden.zwerk.io/roadmap)).
 
 
-The actual _/docs_ from this repository are running on a heroku _aden_ instance at [aden.zwerk.io](http://aden.zwerk.io).
+The _/docs_ from this repository are running on _aden_ on a heroku instance at [aden.zwerk.io](http://aden.zwerk.io).
 
 
 > _"It's a website. Can't we just put it on a webserver?"_  

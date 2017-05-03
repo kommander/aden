@@ -3,7 +3,7 @@
 #
 
 NODE_ENV ?= development
-TEST_FOLDERS=test/integration # test/unit
+TESTS=test/integration # test/unit
 MOCHA_OPTS=--check-leaks \
 	--recursive \
 	--full-trace \
@@ -62,7 +62,7 @@ build:
 
 test:
 	@echo 'Checking behaviour for version '$(VERSION)'.'
-	@./node_modules/.bin/mocha $(TEST_FOLDERS) $(MOCHA_OPTS) $(MOCHA) \
+	@./node_modules/.bin/mocha $(TESTS) $(MOCHA_OPTS) $(MOCHA) \
 		--reporter spec
 .PHONY: test
 
@@ -73,7 +73,7 @@ report: coverage
 coverage:
 	@echo 'Creating coverage report for version '$(VERSION)'.'
 	@node ./node_modules/istanbul/lib/cli.js cover \
-	./node_modules/.bin/_mocha -- $(TEST_FOLDERS) $(MOCHA_OPTS) $(MOCHA)
+	./node_modules/.bin/_mocha -- $(TESTS) $(MOCHA_OPTS) $(MOCHA)
 .PHONY: coverage
 
 mincov: coverage
@@ -81,7 +81,7 @@ mincov: coverage
 .PHONY: mincov
 
 coveralls:
-	@node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly $(TEST_FOLDERS) -- $(MOCHA_OPTS) $(MOCHA) -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+	@node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly $(TESTS) -- $(MOCHA_OPTS) $(MOCHA) -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 .PHONY: coveralls
 
 specs:
