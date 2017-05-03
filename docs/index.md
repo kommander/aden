@@ -10,6 +10,8 @@ install aden via
 
 `npm i aden -g`
 
+(or install it as a dependency in your project)
+
 #### Getting started
 
 make an example folder
@@ -28,7 +30,7 @@ Open your web browser at `localhost:5000` => Hello World!
 
 Aden just set up an express server and configured it to deliver the index.html file located in your root directory.
 
-now you can add `index.html` or `index.js` files to subdirectorys of your root folder, without worrying about setting up routes or delivering payload.
+Now you can add `index.html` or `index.js` files to subdirectories of your root folder, not worrying about setting up routes or delivering payload.
 
 _**Aden will do that for you.**_
 
@@ -44,9 +46,9 @@ echo "This is another route aden just created for me"
 
 #### What exactly did i just do?
 
-`$ aden` runs aden. without a specified path, she uses your working directory as root folder (should contain the .server file).
+Without a specified path, she uses your working directory as root folder (should contain the .server file).
 
-aden parses all sub-directories for _index_ files, adds them to the webpack entry point, and sets up routes corresponding to the filesystem.
+Aden parses all sub-directories for [_index_ files](entrypoints.md), adds them to the webpack entry point, and sets up routes corresponding to the filesystem.
 
 The `-d` flag puts aden in devmode. in devmode aden features hot module reload, watches your filesystem for changes and generates new routes as you change files and directories.
 
@@ -63,8 +65,7 @@ To set up a route for, say, a custom xhr api, just
 
 ```
 mkdir route
-touch .get.js
-echo controller > .get.js
+echo "module.exports = () => (req, res) => res.send('something');" > ./route/.get.js
 ```
 
 Aden set up a get route at root/route. check out this example:
