@@ -1,5 +1,5 @@
 module.exports = {
-  startup: () => {
-    return Promise.resolve().then(() => console.log('server startup'));
-  }
+  startup: (server) => {
+    server.registerKey('startupKey');
+  },
 };
