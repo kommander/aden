@@ -3,14 +3,14 @@ const path = require('path');
 
 module.exports = (aden) => {
   aden.registerKey('css', {
-    type: 'config',
+    type: 'custom',
+    config: true,
     value: {
       entry: 'index',
     },
     inherit: true,
   });
 
-  // TODO: Gather all css files in page path and add them to the bundle
   // TODO: Let an extension add to ignores (css -> css/style, js -> lib/components/...)
 
   aden.registerFile('cssFile', ({ page, fileInfo }) =>
@@ -24,6 +24,8 @@ module.exports = (aden) => {
   });
 
   aden.hook('post:apply', ({ pages, webpackConfigs, paths }) => {
+    webpackConfigs[0].resolve.extensions.push('.css', '.scss', '.sass');
+
     const extractCSSPlugin = new ExtractTextPlugin({
       filename: aden.isDEV ? '[name].css' : '[id]-[hash].css',
       allChunks: true,
@@ -98,9 +100,4 @@ module.exports = (aden) => {
       }
     );
   });
-
-  return {
-    key: 'css',
-    version: '0.2.1',
-  };
 };

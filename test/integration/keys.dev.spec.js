@@ -16,4 +16,7 @@ describe('page keys (registerKey)', () => {
       })
       .catch(done);
   });
+
+  she('complains about duplicated keys');
+  she('has default keys');
 });

@@ -11,10 +11,18 @@ module.exports = (aden) => {
   );
 
   aden.hook('post:apply', ({ pages, webpackConfigs }) => {
+    webpackConfigs[0].resolve.extensions.push('.js', '.jsx');
+
+    // on-board babel by default
     webpackConfigs.forEach((config) => {
       config.module.rules.push({
         test: /\.jsx?$/,
-        loader: require.resolve('babel-loader'),
+        use: {
+          loader: require.resolve('babel-loader'),
+          options: {
+            presets: [require.resolve('babel-preset-env'), require.resolve('babel-preset-es2015')],
+          },
+        },
         include: [
           pages[0].rootPath,
         ],
@@ -23,15 +31,9 @@ module.exports = (aden) => {
     });
   });
 
-  // TODO: on-board babel again by default
   aden.hook('apply', ({ page, webpackEntry }) => {
     if (page.key.jsFile.value) {
       webpackEntry.push(page.key.jsFile.resolved);
     }
   });
-
-  return {
-    key: 'js',
-    version: '0.2.0',
-  };
 };

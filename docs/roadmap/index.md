@@ -1,8 +1,8 @@
 # Development Roadmap
 
 ## Version 0.2
-### Extensions
-- Activate/Deactivate extensions in config `{ extensions: ['!jsx', '!md', 'html']} > .server`
+### Attitudes (Extensions)
+- use app level attitudes (override default attitudes with same name)
 - autoprefix by default for CSS Extension
 - jsx default language extras (es2016/17, polyfills)
 - Re-introduce `base.css|scss`
@@ -12,7 +12,6 @@
 
 ### config
 - Handle dotfiles as special case again (ignored by default)
-- Add `KEY_TYPE_CONFIG` behaviour to inherit a `.server` config key for extensions
 
 ## Version 0.3
 ### Extensions
@@ -20,7 +19,7 @@
 - Proxy Extension. To proxy a path containing a `.proxy` or `.proxy.js` file,
 with a function returning a target URL string or a plain string URL target.
 - React Extension (providing all the babel boilerplate and loaders)
-- Default Linting Extension
+- Default Linting (Linting as core feature, extendable via hooks to add plugins etc.)
 
 ### Server
 - Support for [Koa](http://koajs.com/)

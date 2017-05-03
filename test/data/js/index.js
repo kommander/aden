@@ -1,0 +1,2 @@
+const testFn = () => true;
+testFn();

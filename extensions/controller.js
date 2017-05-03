@@ -21,31 +21,19 @@ module.exports = (aden) => {
 
   aden.hook('load', ({ page }) => {
     Object.assign(page, {
+      // TODO: Use page.controller('get', fn) -> warn when overwriting
       get: page.key.getPath.resolved
-        ? aden.loadCustom(page.key.getPath.value && page.key.getPath.build
-          ? page.key.getPath.dist
-          : page.key.getPath.resolved, page)
+        ? aden.loadCustom(page.key.getPath, page)
         : page.get,
       post: page.key.postPath.resolved
-        ? aden.loadCustom(page.key.postPath.value && page.key.postPath.build
-          ? page.key.postPath.dist
-          : page.key.postPath.resolved, page)
+        ? aden.loadCustom(page.key.postPath)
         : page.post,
       put: page.key.putPath.resolved
-        ? aden.loadCustom(page.key.putPath.value && page.key.putPath.build
-          ? page.key.putPath.dist
-          : page.key.putPath.resolved, page)
+        ? aden.loadCustom(page.key.putPath)
         : page.put,
       delete: page.key.deletePath.resolved
-        ? aden.loadCustom(page.key.deletePath.value && page.key.deletePath.build
-          ? page.key.deletePath.dist
-          : page.key.deletePath.resolved, page)
+        ? aden.loadCustom(page.key.deletePath)
         : page.delete,
     });
   });
-
-  return {
-    key: 'controller',
-    version: '0.2.1',
-  };
 };
