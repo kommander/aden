@@ -122,6 +122,21 @@ describe('MD Markdown Attitude Dev', () => {
       });
   });
 
+  she('works with layout inactive for md (nolayout)', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/nolayout'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toNotMatch(/id="wrapper"/ig);
+            an.shutdown(done);
+          });
+      });
+  });
+
   she('includes images in the build', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/md'))
