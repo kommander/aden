@@ -3,7 +3,7 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('CSS Extension Prod', () => {
+describe('CSS Attitude Prod', () => {
   she('puts common requires/imports into common css');
 
   she('includes page css (hashed name)', (done) => {

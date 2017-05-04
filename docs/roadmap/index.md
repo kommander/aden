@@ -3,7 +3,7 @@
 ## Version 0.2
 ### Attitudes (Extensions)
 - use app level attitudes (override default attitudes with same name)
-- autoprefix by default for CSS Extension
+- autoprefix by default for CSS Attitude
 - jsx default language extras (es2016/17, polyfills)
 - Re-introduce `base.css|scss`
 
@@ -14,11 +14,11 @@
 - Handle dotfiles as special case again (ignored by default)
 
 ## Version 0.3
-### Extensions
+### Attitudes
 - Add default behaviour `{ default: {}, development: {}, test: {}, production: {} }`
-- Proxy Extension. To proxy a path containing a `.proxy` or `.proxy.js` file,
+- Proxy Attitude. To proxy a path containing a `.proxy` or `.proxy.js` file,
 with a function returning a target URL string or a plain string URL target.
-- React Extension (providing all the babel boilerplate and loaders)
+- React Attitude (providing all the babel boilerplate and loaders)
 - Default Linting (Linting as core feature, extendable via hooks to add plugins etc.)
 
 ### Server
@@ -37,4 +37,4 @@ with a function returning a target URL string or a plain string URL target.
 - [Code Splitting](https://github.com/webpack/docs/wiki/code-splitting)
 
 ## Version 0.4
-- Allow build to be published on github pages (http://import.jekyllrb.com/)
+- ?
