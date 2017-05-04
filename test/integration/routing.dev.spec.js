@@ -94,7 +94,23 @@ describe('Routing Dev', () => {
       .catch(done);
   });
 
+  she('allows params in page path /user/:id/edit', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/routes'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/user/_test_id_')
+          .end((err, res) => {
+            if (err) { done(err); return; }
+            expect(res.status).toBe(200);
+            expect(res.text).toMatch(/_test_id_/ig);
+            an.shutdown(done);
+          });
+      })
+      .catch(done);
+  });
+
   she('// Things Aden already does but are untested...');
-  she('allows params in page path /user/:id/edit');
   she('allows params in { route: \'/:id\'} > .server');
 });
