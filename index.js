@@ -12,21 +12,18 @@ const cluster = require('cluster');
  * Aden CLI
  */
 program
-  .usage('[rootpath][options]')
+  .usage('[options] <rootpath ...>')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-d, --dev', 'Run in development mode (live reload)')
-  .option('-n, --new [path]', 'Bootstrap a new page')
-  .option('--nd [path]', 'Bootstrap a new page and start the dev server')
   .option('-w, --workers [num]', 'Start with given [num] of workers, or all CPUs.')
   .option('-c, --clean', 'Remove all dist folders')
   .option('-f, --focus [path]', 'Choose one route to focus on. Mount only that.')
   .option('-p, --port [port]', 'Override the port to mount the server on')
   .option('--debug', 'Debug output')
+  .option('-n, --new [path]', 'Bootstrap a new page')
+  .option('--nd [path]', 'Bootstrap a new page and start the dev server')
   .option('-s, --silent', 'Do not output anything on purpose')
-  // TODO: .option('--dd', 'Dev and debug')
   .option('-v, --verbose', 'Output a lot')
-  // IDEA: .option('--export', 'Export the generated webpack config')
-  // IDEA: .option('--export-js', 'Export the generated webpack config as JSObject')
 
   // (?) Eject would create all the boilerplate again so you can "run your own app"
   // -> generates the webpack config once for the project
@@ -34,8 +31,15 @@ program
   // TODO: .option('--eject', 'Setup the project to run standalone webpack builds without aden')
 
   .option('--log-no-date', 'Omit date from log output')
-  .version(pckgJson.version)
-  .parse(process.argv);
+  .version(pckgJson.version);
+
+/* eslint-disable */
+program.on('--help', () => {
+  console.log('Issues and PRs welcome at https://github.com/kommander/aden');
+});
+/* eslint-enable */
+
+program.parse(process.argv);
 
 const logOptions = {
   silent: program.silent || false,
@@ -58,7 +62,6 @@ const config = {
   dev: program.dev || program.new || program.nd || false,
 };
 
-// What to do with multiple paths? Start one process per path.
 const rootPath = path.resolve('./', program.args[0] || '');
 
 log.debug('cli config ', {
