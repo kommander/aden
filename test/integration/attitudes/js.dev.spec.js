@@ -3,7 +3,7 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('JS Extension Dev', () => {
+describe('JS Attitude Dev', () => {
   she('includes page js', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/js'))

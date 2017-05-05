@@ -23,7 +23,7 @@ module.exports = (aden) => {
   aden.registerKey('selectedLayout', {
     type: 'rpath',
     inherit: true,
-    default: path.resolve(__dirname, 'empty.html'),
+    // default: path.resolve(__dirname, 'empty.html'),
     build: true,
   });
 
@@ -59,7 +59,7 @@ module.exports = (aden) => {
     },
   });
 
-  // Note the appropriate loaders have to be added by the extension using the layout.
+  // Note the appropriate loaders have to be added by the attitude using the layout.
   aden.hook('apply', ({ page, webpackConfigs }) => {
     if (page.key.selectedLayout.value) {
       const chunks = ['global', page.entryName];
