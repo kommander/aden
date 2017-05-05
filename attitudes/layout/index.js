@@ -23,7 +23,7 @@ module.exports = (aden) => {
   aden.registerKey('selectedLayout', {
     type: 'rpath',
     inherit: true,
-    default: path.resolve(__dirname, 'empty.html'),
+    // default: path.resolve(__dirname, 'empty.html'),
     build: true,
   });
 
