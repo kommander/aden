@@ -12,7 +12,7 @@ const cluster = require('cluster');
  * Aden CLI
  */
 program
-  .usage('[rootpath][options]')
+  .usage('[options] <rootpath ...>')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-d, --dev', 'Run in development mode (live reload)')
   .option('-w, --workers [num]', 'Start with given [num] of workers, or all CPUs.')
@@ -31,8 +31,15 @@ program
   // TODO: .option('--eject', 'Setup the project to run standalone webpack builds without aden')
 
   .option('--log-no-date', 'Omit date from log output')
-  .version(pckgJson.version)
-  .parse(process.argv);
+  .version(pckgJson.version);
+
+/* eslint-disable */
+program.on('--help', () => {
+  console.log('Issues and PRs welcome at https://github.com/kommander/aden');
+});
+/* eslint-enable */
+
+program.parse(process.argv);
 
 const logOptions = {
   silent: program.silent || false,
