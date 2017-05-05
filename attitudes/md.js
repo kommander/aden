@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
  * md
  */
 module.exports = (aden) => {
-  // TODO: use short keys for ext config { md: { entry: 'index', markedOptions, ... }}
   aden.registerKey('md', {
     type: 'object',
     config: true,
@@ -22,7 +21,6 @@ module.exports = (aden) => {
     build: true,
   });
 
-  // TODO: use page.getKey(name) and page.setKey(name, value)
   aden.registerFiles('mdFiles', /\.(md|markdown)$/, {
     fn: ({ page, fileInfo }) => {
       if (fileInfo.name === page.key.md.value.entry) {

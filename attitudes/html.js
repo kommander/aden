@@ -2,7 +2,6 @@ const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-// TODO: type 'config' for keys that can be derived from .server
 module.exports = (aden) => {
   aden.registerKey('html', {
     type: 'string',
@@ -10,7 +9,6 @@ module.exports = (aden) => {
     inherit: true,
   });
 
-  // TODO: use page.getKey(name) and page.setKey(name, value)
   aden.registerFile('htmlFile', ({ page, fileInfo }) =>
     fileInfo.file.match(/\.html$/) && fileInfo.name === page.key.html.value,
     { key: { build: true } }
@@ -23,7 +21,6 @@ module.exports = (aden) => {
       if (!aden.isDEV) {
         Object.assign(page, {
           get: (req, res) => {
-            // todo: make sure to send correct headers
             res.send(htmlContent);
           },
         });

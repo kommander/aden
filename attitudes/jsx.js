@@ -5,7 +5,6 @@ const babel = require('babel-core');
 // TODO: Currently broken... not sure how to integrate backend builds yet
 module.exports = (aden) => {
   const build = (page, key) => {
-    // TODO: fix .babelrc resolve (add fileHandler and gather .babelrcs)
     const babelrcPath = [
       path.resolve(page.rootPath, '.babelrc'),
       path.resolve(page.rootPath, '../.babelrc'),

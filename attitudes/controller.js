@@ -1,6 +1,5 @@
 module.exports = (aden) => {
-  // TODO: use page.getKey(name) and page.setKey(name, value)
-  // TODO: only execute plugin hooks if file was matched
+  // QUESTION: only execute plugin hooks if file was matched?
 
   aden.registerFile('getPath', /\.get\.jsx?$/, { key: {
     build: false,
