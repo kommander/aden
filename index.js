@@ -11,6 +11,9 @@ const cluster = require('cluster');
 /**
  * Aden CLI
  */
+
+const collectAttitudes = (val, memo) => memo.concat(val);
+
 program
   .usage('[options] <rootpath ...>')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
@@ -19,6 +22,7 @@ program
   .option('-c, --clean', 'Remove all dist folders')
   .option('-f, --focus [path]', 'Choose one route to focus on. Mount only that.')
   .option('-p, --port [port]', 'Override the port to mount the server on')
+  .option('-u, --use [attitude]', 'Specify an attitude to use (multi)', collectAttitudes, [])
   .option('--debug', 'Debug output')
   .option('-n, --new [path]', 'Bootstrap a new page')
   .option('--nd [path]', 'Bootstrap a new page and start the dev server')
@@ -60,6 +64,7 @@ const app = express();
 const config = {
   logger: logOptions,
   dev: program.dev || program.new || program.nd || false,
+  attitudes: program.use,
 };
 
 const rootPath = path.resolve('./', program.args[0] || '');
