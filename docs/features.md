@@ -27,7 +27,7 @@
 -  ✓ Provides classic express controllers (do everything you'd do in your express app)
 
 **Extend**
--  ✓ Comprehensive extension API
+-  ✓ Comprehensive extension API (via Attitudes)
 
 **no lock-in**
 -  ✓ Aden runs your application, though it can become independent at any time.

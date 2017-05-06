@@ -11,7 +11,7 @@ module.exports = (aden) => {
     inherit: true,
   });
 
-  // TODO: Let an extension add to ignores (css -> css/style, js -> lib/components/...)
+  // TODO: Let an attitude add to ignores (css -> css/style, js -> lib/components/...)
 
   aden.registerFile('cssFile', ({ page, fileInfo }) =>
     fileInfo.file.match(/\.(css|scss)$/) && fileInfo.name === page.key.css.value.entry

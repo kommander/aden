@@ -1,12 +1,15 @@
-Creating coverage report for version 0.2.0-alpha.8.
+Creating coverage report for version 0.2.0-alpha.9.
 
 
   Basics Dev
-    ✓ injects common.js into existing html (3316ms)
-    ✓ routes custom status pages (404) (3071ms)
-    ✓ routes custom status pages (error) (2729ms)
-    ✓ uses custom status pages (404) (2543ms)
-    ✓ uses custom status pages (error) (2764ms)
+    ✓ injects common.js into existing html (3815ms)
+    ✓ routes custom status pages (404) (3338ms)
+    ✓ routes custom status pages (error) (2696ms)
+    ✓ uses custom status pages (404) (2693ms)
+    ✓ uses custom status pages (error) (2840ms)
+    - // Things Aden already does but are untested...
+    - ignores dot files/folders for page parsing
+    - does not expose bare assets from page tree
 
   Basics Prod
     ✓ injects common.js into existing html
@@ -15,76 +18,123 @@ Creating coverage report for version 0.2.0-alpha.8.
     ✓ uses custom status pages (404)
     ✓ uses custom status pages (error)
 
+  CLI Dev
+    - // Things Aden already does but are untested...
+    - runs in production without a specific dev flag
+    - provides a dev flag to run the dev setup
+    - provides a build flag to output a production build
+    - provides a bootstrap method to setup a new project/page
+    - provides a flag to set the focus path
+    - provides a cleanup flag
+
+  Config
+    ✓ handles string config keys
+    ✓ handles custom config keys
+    ✓ does not include unregistered keys from config
+    ✓ resolves rpath config keys
+
   Core Dev
+    ✓ provides a startup callback
+    - // Things Aden already does but are untested...
     - calls a build hook for keys marked as build
     - resolves dist and distFileName for keys marked as build
     - resolves dist and distFileName for file array keys marked as build
-
-  CSS Extension Dev
-    - puts common requires/imports into common css
-    ✓ includes page css (3157ms)
-    ✓ includes page scss (3486ms)
-    ✓ takes care of images (2740ms)
-
-  CSS Extension Prod
-    - puts common requires/imports into common css
-    ✓ includes page css (hashed name)
-    ✓ includes page scss (hashed name)
-    ✓ takes care of images (2556ms)
+    - ignores dot files/folders for page parsing
+    - does not expose bare assets from page tree
 
   dev
     ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (6263ms)
-    ✓ recognises new files in sub folders and sets up the page (6550ms)
-    ✓ recognises changed watch keys (6867ms)
+    ✓ recognises new files and sets up the page (6541ms)
+    ✓ recognises new files in sub folders and sets up the page (6744ms)
+    ✓ recognises changed watch keys (5600ms)
 
-  Favicon
+  Controller Dev
+    ✓ uses .get.js as controller
+    ✓ uses .post.js as controller
+    ✓ uses .put.js as controller
+    ✓ uses .delete.js as controller
+
+  CSS Extension Dev
+    - puts common requires/imports into common css
+    ✓ includes page css (3388ms)
+    ✓ includes page scss (3286ms)
+    ✓ takes care of images (3139ms)
+
+  CSS Extension Prod
+    - puts common requires/imports into common css
+    ✓ includes page css (hashed name) (3223ms)
+    ✓ includes page scss (hashed name) (2576ms)
+    ✓ takes care of images (2535ms)
+
+  Favicon Dev
     ✓ delivers favicon from root
     ✓ does not deliver favicon if there is none
 
-  HBS
+  HBS Dev
     ✓ has a root route with index.hbs entry point
     ✓ delivers index.hbs at root path
     ✓ delivers index.hbs at sub path
 
-  HTML
+  HTML Dev
     ✓ has a root route with index.html entry point
     ✓ delivers index.html at root path
     ✓ delivers index.html at sub path
 
-  page keys (registerKey)
-    ✓ adds a named key to the page
+  JS Extension Dev
+    ✓ includes page js (2525ms)
+    - // Things Aden already does but are untested...
+    - puts common requires/imports into common js
 
   MD Markdown Extension Dev
-    ✓ has a root route with index.md entry point (2702ms)
-    ✓ delivers index.md at root path (2644ms)
-    ✓ delivers index.md at sub path (3069ms)
-    ✓ delivers additional md files at page path (2596ms)
-    ✓ delivers additional md files at page sub path (2561ms)
-    ✓ wraps md in given layout (layout.default.html|hbs|md) (2579ms)
-    ✓ includes images in the build (2591ms)
-    ✓ includes images required from sub path in the build (3007ms)
-    ✓ includes images from sub path in the build (2636ms)
+    ✓ has a root route with index.md entry point (2903ms)
+    ✓ delivers index.md at root path (2830ms)
+    ✓ delivers index.md at sub path (3340ms)
+    ✓ delivers additional md files at page path (2694ms)
+    ✓ delivers additional md files at page sub path (2809ms)
+    ✓ wraps md in given layout (layout.default.html|hbs|md) (2872ms)
+    ✓ works without layout attitude active
+    ✓ works for additionals without layout attitude active
+    ✓ includes images in the build (3147ms)
+    ✓ includes images required from sub path in the build (2799ms)
+    ✓ includes images from sub path in the build (2817ms)
 
   MD Markdown Extension Prod
-    ✓ has a root route with index.md entry point
-    ✓ delivers index.md at root path
-    ✓ delivers index.md at sub path (2505ms)
-    ✓ delivers additional md files at page path (2631ms)
+    ✓ has a root route with index.md entry point (2516ms)
+    ✓ delivers index.md at root path (2899ms)
+    ✓ delivers index.md at sub path
+    ✓ delivers additional md files at page path
     ✓ delivers additional md files at page sub path
-    ✓ wraps md in given layout (layout.default.html)
+    ✓ wraps md in given layout (layout.default.html) (2918ms)
+    ✓ works without layout attitude active
+    ✓ works for additionals without layout attitude active
     ✓ includes images in the build
     ✓ includes images required from sub path in the build
     ✓ includes images from sub path in the build
 
+  page keys (registerKey)
+    ✓ adds a named key to the page (2880ms)
+    - complains about duplicated keys
+    - has default keys
 
-  47 passing (2m)
-  5 pending
+  Routing Dev
+    ✓ creates default route without specific config (4779ms)
+    ✓ adds route from .server to page path route (4738ms)
+    ✓ adds route from .server to page path route (no slash) (5204ms)
+    ✓ does not route pages with { route: false; } > .server (4576ms)
+    ✓ matches greedy routes (5240ms)
+    ✓ puts greedy routes at the end of the router stack (4551ms)
+    ✓ allows params in page path /user/:id/edit (5219ms)
+    - // Things Aden already does but are untested...
+    - allows params in { route: '/:id'} > .server
+
+
+  68 passing (3m)
+  24 pending
 
 
 =============================== Coverage summary ===============================
-Statements   : 83.29% ( 1002/1203 )
-Branches     : 65.74% ( 307/467 )
-Functions    : 81.67% ( 49/60 )
-Lines        : 83.43% ( 987/1183 )
+Statements   : 85.5% ( 1050/1228 ), 15 ignored
+Branches     : 71.55% ( 347/485 ), 2 ignored
+Functions    : 90.16% ( 55/61 ), 5 ignored
+Lines        : 85.74% ( 1034/1206 )
 ================================================================================

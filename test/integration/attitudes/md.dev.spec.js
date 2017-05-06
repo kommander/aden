@@ -3,27 +3,24 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('MD Markdown Extension Prod', () => {
+describe('MD Markdown Attitude Dev', () => {
   she('has a root route with index.md entry point', (done) => {
-    aden()
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/md'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/')
           .expect(200, () => {
             an.shutdown(done);
           });
-      })
-      .catch(done);
+      });
   });
 
   she('delivers index.md at root path', (done) => {
-    aden()
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/md'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/')
@@ -32,15 +29,13 @@ describe('MD Markdown Extension Prod', () => {
             expect(res.text).toMatch(/Hello marked/ig);
             an.shutdown(done);
           });
-      })
-      .catch(done);
+      });
   });
 
   she('delivers index.md at sub path', (done) => {
-    aden()
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/md'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/sub')
@@ -49,15 +44,13 @@ describe('MD Markdown Extension Prod', () => {
             expect(res.text).toMatch(/Sub Page/ig);
             an.shutdown(done);
           });
-      })
-      .catch(done);
+      });
   });
 
   she('delivers additional md files at page path', (done) => {
-    aden()
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/md'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/another.md')
@@ -66,15 +59,13 @@ describe('MD Markdown Extension Prod', () => {
             expect(res.text).toMatch(/Just a file/ig);
             an.shutdown(done);
           });
-      })
-      .catch(done);
+      });
   });
 
   she('delivers additional md files at page sub path', (done) => {
-    aden()
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/md'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/sub/additional.md')
@@ -83,16 +74,13 @@ describe('MD Markdown Extension Prod', () => {
             expect(res.text).toMatch(/yet another page/ig);
             an.shutdown(done);
           });
-      })
-      .catch(done);
+      });
   });
 
-  // +ext: hbs|handlebars|mustache|md|markdown
-  she('wraps md in given layout (layout.default.html)', (done) => {
-    aden()
+  she('wraps md in given layout (layout.default.html|hbs|md)', (done) => {
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/md'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/wrap')
@@ -101,15 +89,13 @@ describe('MD Markdown Extension Prod', () => {
             expect(res.text).toMatch(/id="wrapper"/ig);
             an.shutdown(done);
           });
-      })
-      .catch(done);
+      });
   });
 
   she('works without layout attitude active', (done) => {
-    aden({ attitudes: ['!layout'] })
+    aden({ dev: true, attitudes: ['!layout'] })
       .init(path.resolve(__dirname, '../../tmpdata/md'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/wrap')
@@ -122,10 +108,9 @@ describe('MD Markdown Extension Prod', () => {
   });
 
   she('works for additionals without layout attitude active', (done) => {
-    aden({ attitudes: ['!layout'] })
+    aden({ dev: true, attitudes: ['!layout'] })
       .init(path.resolve(__dirname, '../../tmpdata/md'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/sub/additional.md')
@@ -136,63 +121,64 @@ describe('MD Markdown Extension Prod', () => {
           });
       });
   });
-  she('includes images in the build', (done) => {
-    aden()
-      .init(path.resolve(__dirname, '../../tmpdata/md'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+
+  she('works with layout inactive for md (nolayout)', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/nolayout'))
+      .then((an) => an.run('dev'))
       .then((an) => {
-        const fileName = an.webpackStats[0].assets
-          .filter((asset) => asset.name.match(/^images/))[0].name;
         request(an.app)
-          .get(`/${fileName}`)
+          .get('/')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toNotMatch(/id="wrapper"/ig);
+            an.shutdown(done);
+          });
+      });
+  });
+
+  she('includes images in the build', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/images/test.png')
           .end((err, res) => {
             if (err) done(err);
             expect(res.status).toMatch(200);
             an.shutdown(done);
           });
-      })
-      .catch(done);
+      });
   });
 
   she('includes images required from sub path in the build', (done) => {
-    aden()
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/md'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
-        // In production images use a hash only name,
-        // where images with same content become the same resource
-        const fileName = an.webpackStats[0].assets
-          .filter((asset) => asset.name.match(/^images/))[0].name;
         request(an.app)
-          .get(`/${fileName}`)
+          .get('/images/test2.png')
           .end((err, res) => {
             if (err) done(err);
             expect(res.status).toMatch(200);
             an.shutdown(done);
           });
-      })
-      .catch(done);
+      });
   });
 
   she('includes images from sub path in the build', (done) => {
-    aden()
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/md'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
-        // resolve sub-test.png
-        const fileName = an.webpackStats[0].assets
-          .filter((asset) => asset.name.match(/^images/))[1].name;
         request(an.app)
-          .get(`/${fileName}`)
+          .get('/images/sub-test.png')
           .end((err, res) => {
             if (err) done(err);
             expect(res.status).toMatch(200);
             an.shutdown(done);
           });
-      })
-      .catch(done);
+      });
   });
 });
