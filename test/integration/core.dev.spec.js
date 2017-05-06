@@ -25,6 +25,8 @@ describe('Core Dev', () => {
       .catch(done);
   });
 
+  she('calls startup hooks for subpages');
+
   she('// Things Aden already does but are untested...');
   she('calls a build hook for keys marked as build');
   she('resolves dist and distFileName for keys marked as build');
