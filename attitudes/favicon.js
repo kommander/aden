@@ -6,7 +6,7 @@ module.exports = (aden) => {
   aden.hook('setup', ({ app, pages }) => {
     if (pages[0].key.favicon.resolved) {
       const faviconRoute = `${pages[0].basePath}favicon.ico`;
-      const favicon = fs.readFileSync(pages[0].rootPage.key.favicon.resolved);
+      const favicon = fs.readFileSync(pages[0].key.favicon.resolved);
 
       app.use(faviconRoute, (req, res) => {
         res.setHeader('Content-Type', 'image/x-icon');
