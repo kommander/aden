@@ -14,6 +14,17 @@ describe('Core Dev', () => {
       .catch(done);
   });
 
+  she('exposes aden.server in startup callback', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/startup'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        expect(an.server).toBeAn('object');
+        an.shutdown(done);
+      })
+      .catch(done);
+  });
+
   she('// Things Aden already does but are untested...');
   she('calls a build hook for keys marked as build');
   she('resolves dist and distFileName for keys marked as build');
