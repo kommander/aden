@@ -25,13 +25,13 @@ module.exports = (aden) => {
         ? aden.loadCustom(page.key.getPath, page)
         : page.get,
       post: page.key.postPath.resolved
-        ? aden.loadCustom(page.key.postPath)
+        ? aden.loadCustom(page.key.postPath, page)
         : page.post,
       put: page.key.putPath.resolved
-        ? aden.loadCustom(page.key.putPath)
+        ? aden.loadCustom(page.key.putPath, page)
         : page.put,
       delete: page.key.deletePath.resolved
-        ? aden.loadCustom(page.key.deletePath)
+        ? aden.loadCustom(page.key.deletePath, page)
         : page.delete,
     });
   });
