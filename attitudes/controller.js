@@ -1,6 +1,11 @@
 module.exports = (aden) => {
   // QUESTION: only execute plugin hooks if file was matched?
 
+  // TODO: Cover other http methods:
+  // checkout, copy, delete, get, head, lock, merge, mkactivity, mkcol, move,
+  // m-search, notify, options, patch, post, purge, put, report, search,
+  // subscribe, trace, unlock, unsubscribe
+
   aden
     .registerFile('getPath', /\.get\.jsx?$/, { key: {
       build: false,
