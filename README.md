@@ -32,22 +32,23 @@ $ aden -h
 
 Usage: aden [rootpath][options]
 
-  Options:
+Options:
 
-    -h, --help           output usage information
-    -b, --build          Will only build out the app assets and exit (not start the server)
-    -d, --dev            Run in development mode (live reload)
-    -n, --new [path]     Bootstrap a new page
-    --nd [path]          Bootstrap a new page and start the dev server
-    -w, --workers [num]  Start with given [num] of workers, or all CPUs.
-    -c, --clean          Remove all dist folders
-    -f, --focus [path]   Choose one route to focus on. Mount only that.
-    -p, --port [port]    Override the port to mount the server on
-    --debug              Debug output
-    -s, --silent         Do not output anything on purpose
-    -v, --verbose        Output a lot
-    --logger-no-date     Omit date from log output
-    -V, --version        output the version number
+    -h, --help            output usage information
+    -b, --build           Will only build out the app assets and exit (not start the server)
+    -d, --dev             Run in development mode (live reload)
+    -w, --workers [num]   Start with given [num] of workers, or all CPUs.
+    -c, --clean           Remove all dist folders
+    -f, --focus [path]    Choose one route to focus on. Mount only that.
+    -p, --port [port]     Override the port to mount the server on
+    -u, --use [attitude]  Specify an attitude to use (multi)
+    --debug               Debug output
+    -n, --new [path]      Bootstrap a new page
+    --nd [path]           Bootstrap a new page and start the dev server
+    -s, --silent          Do not output anything on purpose
+    -v, --verbose         Output a lot
+    --log-no-date         Omit date from log output
+    -V, --version         output the version number
 ```
 Aden runs in _production_ by default, without any CLI options.
 
