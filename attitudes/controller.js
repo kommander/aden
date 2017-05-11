@@ -1,22 +1,27 @@
 module.exports = (aden) => {
   // QUESTION: only execute plugin hooks if file was matched?
 
-  aden.registerFile('getPath', /\.get\.jsx?$/, { key: {
-    build: false,
-    watch: true,
-  } });
-  aden.registerFile('postPath', /\.post\.jsx?$/, { key: {
-    build: false,
-    watch: true,
-  } });
-  aden.registerFile('putPath', /\.put\.jsx?$/, { key: {
-    build: false,
-    watch: true,
-  } });
-  aden.registerFile('deletePath', /\.delete\.jsx?$/, { key: {
-    build: false,
-    watch: true,
-  } });
+  aden
+    .registerFile('getPath', /\.get\.jsx?$/, { key: {
+      build: false,
+      watch: true,
+    } })
+    .registerFile('postPath', /\.post\.jsx?$/, { key: {
+      build: false,
+      watch: true,
+    } })
+    .registerFile('putPath', /\.put\.jsx?$/, { key: {
+      build: false,
+      watch: true,
+    } })
+    .registerFile('deletePath', /\.delete\.jsx?$/, { key: {
+      build: false,
+      watch: true,
+    } })
+    .registerFile('allPath', /\.all\.jsx?$/, { key: {
+      build: false,
+      watch: true,
+    } });
 
   aden.hook('load', ({ page }) => {
     Object.assign(page, {
@@ -33,6 +38,9 @@ module.exports = (aden) => {
       delete: page.key.deletePath.resolved
         ? aden.loadCustom(page.key.deletePath, page)
         : page.delete,
+      all: page.key.allPath.resolved
+        ? aden.loadCustom(page.key.allPath, page)
+        : page.all,
     });
   });
 };
