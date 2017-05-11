@@ -63,7 +63,7 @@ aden -d path/to/docs
 
 From the repo:
 ```
-node index -d path/to/docs
+node index -d docs
 ```
 
 ### Production
