@@ -12,3 +12,4 @@ dist
 dump*
 .imdone
 tmpdata
+npm-debug.log*

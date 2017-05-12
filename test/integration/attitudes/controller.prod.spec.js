@@ -3,11 +3,12 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('Controller Dev', () => {
+describe('Controller Prod', () => {
   she('uses .get.js as controller', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/controller'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/')
@@ -21,9 +22,10 @@ describe('Controller Dev', () => {
   });
 
   she('uses .post.js as controller', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/controller'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .post('/')
@@ -37,9 +39,10 @@ describe('Controller Dev', () => {
   });
 
   she('uses .put.js as controller', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/controller'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .put('/')
@@ -53,9 +56,10 @@ describe('Controller Dev', () => {
   });
 
   she('uses .delete.js as controller', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/controller'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .delete('/')
@@ -69,9 +73,10 @@ describe('Controller Dev', () => {
   });
 
   she('uses .all.js as controller', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/controller'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => new Promise((resolve, reject) => {
         request(an.app)
           .delete('/alltest')
