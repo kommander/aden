@@ -253,6 +253,7 @@ describe('Logger', () => {
     .then((an) => an.run('dev'))
     .then((an) => {
       expect(stream.write.callCount).toBeGreaterThan(1);
+      process.env.ADEN_FORCE_LOG = false;
       an.shutdown(done);
     })
     .catch(done);
