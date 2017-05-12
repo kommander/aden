@@ -192,4 +192,126 @@ describe('Logger', () => {
     })
     .catch(done);
   });
+
+  she('throws and error for a namespace without name', (done) => {
+    const stream = {
+      write: sinon.spy(),
+    };
+
+    aden({
+      dev: true,
+      logger: {
+        silent: false,
+        stdStream: stream,
+      },
+    })
+    .init(path.resolve(__dirname, '../tmpdata/basics'))
+    .then((an) => an.run('dev'))
+    .then((an) => {
+      expect(() => an.log.namespace(null)).toThrow();
+      an.shutdown(done);
+    })
+    .catch(done);
+  });
+
+  she('can create a new namespace from a log', (done) => {
+    const stream = {
+      write: sinon.spy(),
+    };
+
+    aden({
+      dev: true,
+      logger: {
+        silent: false,
+        stdStream: stream,
+      },
+    })
+    .init(path.resolve(__dirname, '../tmpdata/basics'))
+    .then((an) => an.run('dev'))
+    .then((an) => {
+      expect(() => an.log.namespace('test')).toBeTruthy();
+      an.shutdown(done);
+    })
+    .catch(done);
+  });
+
+  she('overrides the silent setting with env ADEN_FORCE_LOG=true', (done) => {
+    const stream = {
+      write: sinon.spy(),
+    };
+
+    process.env.ADEN_FORCE_LOG = true;
+
+    aden({
+      dev: true,
+      logger: {
+        silent: true,
+        stdStream: stream,
+      },
+    })
+    .init(path.resolve(__dirname, '../tmpdata/basics'))
+    .then((an) => an.run('dev'))
+    .then((an) => {
+      expect(stream.write.callCount).toBeGreaterThan(1);
+      an.shutdown(done);
+    })
+    .catch(done);
+  });
+
+  she('logs a date', (done) => {
+    const stream = {
+      write: sinon.spy(),
+    };
+
+    aden({
+      dev: true,
+      logger: {
+        silent: false,
+        stdStream: stream,
+      },
+    })
+    .init(path.resolve(__dirname, '../tmpdata/basics'))
+    .then((an) => an.run('dev'))
+    .then((an) => {
+      an.log.success('successtext');
+      expect(stream.write.callCount).toBeGreaterThan(1);
+      expect(
+        stream.write
+          .calledWithMatch(
+            /[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}\.[\d]{1,3}/
+          )
+      ).toBeTruthy();
+      an.shutdown(done);
+    })
+    .catch(done);
+  });
+
+  she('can omit the date', (done) => {
+    const stream = {
+      write: sinon.spy(),
+    };
+
+    aden({
+      dev: true,
+      logger: {
+        noDate: true,
+        silent: false,
+        stdStream: stream,
+      },
+    })
+    .init(path.resolve(__dirname, '../tmpdata/basics'))
+    .then((an) => an.run('dev'))
+    .then((an) => {
+      an.log.success('successtext');
+      expect(stream.write.callCount).toBeGreaterThan(1);
+      expect(
+        !stream.write
+          .calledWithMatch(
+            /[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}\.[\d]{1,3}/
+          )
+      ).toBeTruthy();
+      an.shutdown(done);
+    })
+    .catch(done);
+  });
 });
