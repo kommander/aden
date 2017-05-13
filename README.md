@@ -40,8 +40,6 @@ Options:
     -p, --port [port]     Override the port to mount the server on
     -u, --use [attitude]  Specify an attitude to use (multi)
     --debug               Debug output
-    -n, --new [path]      Bootstrap a new page
-    --nd [path]           Bootstrap a new page and start the dev server
     -s, --silent          Do not output anything on purpose
     -v, --verbose         Output a lot
     --log-no-date         Omit date from log output

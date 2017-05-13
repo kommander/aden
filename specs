@@ -1,70 +1,31 @@
 Creating coverage report for version 0.2.0-alpha.9.
 
 
-  Basics Dev
-    ✓ injects common.js into existing html (3815ms)
-    ✓ routes custom status pages (404) (3338ms)
-    ✓ routes custom status pages (error) (2696ms)
-    ✓ uses custom status pages (404) (2693ms)
-    ✓ uses custom status pages (error) (2840ms)
-    - // Things Aden already does but are untested...
-    - ignores dot files/folders for page parsing
-    - does not expose bare assets from page tree
-
-  Basics Prod
-    ✓ injects common.js into existing html
-    ✓ does not route custom status pages (404)
-    ✓ does not route custom status pages (error)
-    ✓ uses custom status pages (404)
-    ✓ uses custom status pages (error)
-
-  CLI Dev
-    - // Things Aden already does but are untested...
-    - runs in production without a specific dev flag
-    - provides a dev flag to run the dev setup
-    - provides a build flag to output a production build
-    - provides a bootstrap method to setup a new project/page
-    - provides a flag to set the focus path
-    - provides a cleanup flag
-
-  Config
-    ✓ handles string config keys
-    ✓ handles custom config keys
-    ✓ does not include unregistered keys from config
-    ✓ resolves rpath config keys
-
-  Core Dev
-    ✓ provides a startup callback
-    - // Things Aden already does but are untested...
-    - calls a build hook for keys marked as build
-    - resolves dist and distFileName for keys marked as build
-    - resolves dist and distFileName for file array keys marked as build
-    - ignores dot files/folders for page parsing
-    - does not expose bare assets from page tree
-
-  dev
-    ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (6541ms)
-    ✓ recognises new files in sub folders and sets up the page (6744ms)
-    ✓ recognises changed watch keys (5600ms)
-
   Controller Dev
     ✓ uses .get.js as controller
     ✓ uses .post.js as controller
     ✓ uses .put.js as controller
     ✓ uses .delete.js as controller
+    ✓ uses .all.js as controller
 
-  CSS Extension Dev
-    - puts common requires/imports into common css
-    ✓ includes page css (3388ms)
-    ✓ includes page scss (3286ms)
-    ✓ takes care of images (3139ms)
+  Controller Prod
+    ✓ uses .get.js as controller
+    ✓ uses .post.js as controller
+    ✓ uses .put.js as controller
+    ✓ uses .delete.js as controller
+    ✓ uses .all.js as controller
 
-  CSS Extension Prod
+  CSS Attitude Dev
     - puts common requires/imports into common css
-    ✓ includes page css (hashed name) (3223ms)
-    ✓ includes page scss (hashed name) (2576ms)
-    ✓ takes care of images (2535ms)
+    ✓ includes page css
+    ✓ includes page scss
+    ✓ takes care of images
+
+  CSS Attitude Prod
+    - puts common requires/imports into common css
+    ✓ includes page css (hashed name)
+    ✓ includes page scss (hashed name)
+    ✓ takes care of images
 
   Favicon Dev
     ✓ delivers favicon from root
@@ -79,62 +40,138 @@ Creating coverage report for version 0.2.0-alpha.9.
     ✓ has a root route with index.html entry point
     ✓ delivers index.html at root path
     ✓ delivers index.html at sub path
+    ✓ injects common.js into existing html
 
-  JS Extension Dev
-    ✓ includes page js (2525ms)
+  HTML Prod
+    ✓ has a root route with index.html entry point
+    ✓ delivers index.html at root path
+    ✓ delivers index.html at sub path
+    ✓ injects common.js into existing html
+
+  JS Attitude Dev
+    ✓ includes page js
     - // Things Aden already does but are untested...
     - puts common requires/imports into common js
 
-  MD Markdown Extension Dev
-    ✓ has a root route with index.md entry point (2903ms)
-    ✓ delivers index.md at root path (2830ms)
-    ✓ delivers index.md at sub path (3340ms)
-    ✓ delivers additional md files at page path (2694ms)
-    ✓ delivers additional md files at page sub path (2809ms)
-    ✓ wraps md in given layout (layout.default.html|hbs|md) (2872ms)
-    ✓ works without layout attitude active
-    ✓ works for additionals without layout attitude active
-    ✓ includes images in the build (3147ms)
-    ✓ includes images required from sub path in the build (2799ms)
-    ✓ includes images from sub path in the build (2817ms)
-
-  MD Markdown Extension Prod
-    ✓ has a root route with index.md entry point (2516ms)
-    ✓ delivers index.md at root path (2899ms)
+  MD Markdown Attitude Dev
+    ✓ has a root route with index.md entry point
+    ✓ delivers index.md at root path
     ✓ delivers index.md at sub path
     ✓ delivers additional md files at page path
     ✓ delivers additional md files at page sub path
-    ✓ wraps md in given layout (layout.default.html) (2918ms)
+    ✓ wraps md in given layout (layout.default.html|hbs|md)
+    ✓ works without layout attitude active
+    ✓ works for additionals without layout attitude active
+    ✓ works with layout inactive for md (nolayout)
+    ✓ includes images in the build
+    ✓ includes images required from sub path in the build
+    ✓ includes images from sub path in the build
+
+  MD Markdown Attitude Prod
+    ✓ has a root route with index.md entry point
+    ✓ delivers index.md at root path
+    ✓ delivers index.md at sub path
+    ✓ delivers additional md files at page path
+    ✓ delivers additional md files at page sub path
+    ✓ wraps md in given layout (layout.default.html)
     ✓ works without layout attitude active
     ✓ works for additionals without layout attitude active
     ✓ includes images in the build
     ✓ includes images required from sub path in the build
     ✓ includes images from sub path in the build
 
+  Attitudes API
+    ✓ allows to load app level attitudes
+
+  CLI Dev
+    - // Things Aden already does but are untested...
+    - runs in production without a specific dev flag
+    - provides a dev flag to run the dev setup
+    - provides a build flag to output a production build
+    - provides a flag to set the focus path
+    - provides a cleanup flag
+
+  Config
+    ✓ handles string config keys
+    ✓ handles custom config keys
+    ✓ does not include unregistered keys from config
+    ✓ resolves rpath config keys
+
+  Core Dev
+    ✓ provides a startup callback
+    ✓ exposes aden.server in startup callback
+    - calls startup hooks for subpages
+    - // Things Aden already does but are untested...
+    - takes ignores from .server, applied to subpath only
+    - calls a build hook for keys marked as build
+    - resolves dist and distFileName for keys marked as build
+    - resolves dist and distFileName for file array keys marked as build
+    - ignores dot files/folders for page parsing
+    - does not expose bare assets from page tree
+
+  dev
+    ✓ has no root route without an entry
+    ✓ recognises new files and sets up the page (4163ms)
+    ✓ recognises new files in sub folders and sets up the page (4126ms)
+    ✓ recognises changed watch keys (3859ms)
+
   page keys (registerKey)
-    ✓ adds a named key to the page (2880ms)
+    ✓ adds a named key to the page
     - complains about duplicated keys
     - has default keys
 
+  Logger
+    ✓ has a log
+    ✓ has a log with all methods needed
+    ✓ has a silent log by default
+    ✓ logs debug level messages
+    ✓ logs info level messages
+    ✓ logs warn level messages
+    ✓ logs error level messages
+    ✓ logs start level messages
+    ✓ logs success level messages
+    ✓ throws and error for a namespace without name
+    ✓ can create a new namespace from a log
+    ✓ overrides the silent setting with env ADEN_FORCE_LOG=true
+    ✓ logs a date
+    ✓ can omit the date
+
   Routing Dev
-    ✓ creates default route without specific config (4779ms)
-    ✓ adds route from .server to page path route (4738ms)
-    ✓ adds route from .server to page path route (no slash) (5204ms)
-    ✓ does not route pages with { route: false; } > .server (4576ms)
-    ✓ matches greedy routes (5240ms)
-    ✓ puts greedy routes at the end of the router stack (4551ms)
-    ✓ allows params in page path /user/:id/edit (5219ms)
+    ✓ creates default route without specific config
+    ✓ adds route from .server to page path route
+    ✓ adds route from .server to page path route (no slash)
+    ✓ does not route pages with { route: false; } > .server
+    ✓ matches greedy routes
+    ✓ puts greedy routes at the end of the router stack
+    ✓ allows params in page path /user/:id/edit
     - // Things Aden already does but are untested...
     - allows params in { route: '/:id'} > .server
 
+  Statuspages Dev
+    ✓ routes custom status pages (404)
+    ✓ routes custom status pages (error)
+    ✓ uses custom status pages (404)
+    ✓ uses custom status pages (error)
+    ✓ notices a missing 404 page
+    ✓ notices a missing 500 page
 
-  68 passing (3m)
-  24 pending
+  Statuspages Prod
+    ✓ does not route custom status pages (404)
+    ✓ does not route custom status pages (error)
+    ✓ uses custom status pages (404)
+    ✓ uses custom status pages (error)
+
+  Webpack Dev
+    ✓ merges a webpack config from a page .server config
+
+
+  97 passing (2m)
+  22 pending
 
 
 =============================== Coverage summary ===============================
-Statements   : 85.5% ( 1050/1228 ), 15 ignored
-Branches     : 71.55% ( 347/485 ), 2 ignored
-Functions    : 90.16% ( 55/61 ), 5 ignored
-Lines        : 85.74% ( 1034/1206 )
+Statements   : 90.17% ( 1128/1251 ), 15 ignored
+Branches     : 76.79% ( 387/504 ), 2 ignored
+Functions    : 95% ( 57/60 ), 5 ignored
+Lines        : 90.2% ( 1105/1225 )
 ================================================================================
