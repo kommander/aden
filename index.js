@@ -24,8 +24,6 @@ program
   .option('-p, --port [port]', 'Override the port to mount the server on')
   .option('-u, --use [attitude]', 'Specify an attitude to use (multi)', collectAttitudes, [])
   .option('--debug', 'Debug output')
-  .option('-n, --new [path]', 'Bootstrap a new page')
-  .option('--nd [path]', 'Bootstrap a new page and start the dev server')
   .option('-s, --silent', 'Do not output anything on purpose')
   .option('-v, --verbose', 'Output a lot')
 
@@ -109,15 +107,6 @@ if (program.build) {
       log.success('Build only done. Exiting.');
       process.exit(0);
     });
-}
-
-if (program.new || program.nd) {
-  const bootstrapPath = path.resolve(rootPath, program.new || program.nd);
-  run = createAden(app, config)
-    .bootstrap(bootstrapPath)
-    .then((aden) => aden.init(bootstrapPath, program.focus))
-    .then((aden) => aden.run('dev'))
-    .then((aden) => runServer(aden, true));
 }
 
 if (!run && program.clean) {
