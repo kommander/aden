@@ -54,7 +54,7 @@ const logOptions = {
 
 const log = logger(logOptions).namespace('aden cli'); // eslint-disable-line
 
-if (program.dev || program.new || program.nd) {
+if (program.dev) {
   log.warn('Ahoy! Running in dev env.');
 } else {
   log.info(`Running in ${process.env.NODE_ENV || 'production (by default)'} env.`);
@@ -63,7 +63,7 @@ if (program.dev || program.new || program.nd) {
 const app = express();
 const config = {
   logger: logOptions,
-  dev: program.dev || program.new || program.nd || false,
+  dev: program.dev || false,
   attitudes: program.use,
 };
 
