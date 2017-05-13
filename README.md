@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/kommander/aden.png)](https://travis-ci.org/kommander/aden) [![Coverage Status](https://coveralls.io/repos/github/kommander/aden/badge.svg?branch=master)](https://coveralls.io/github/kommander/aden?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/kommander/aden.svg)](https://greenkeeper.io/)
 
+Setting up Webpack again for each project, when the basics are always the same is a pain.
+
 Aden integrates [Webpack](https://github.com/webpack/webpack),
 [Babel](https://babeljs.io) and
 [Express](http://expressjs.com/) with an extensible [file](https://en.wikipedia.org/wiki/Computer_file) [tree](https://en.wikipedia.org/wiki/Tree_data_structure) [parser](https://en.wikipedia.org/wiki/Parsing),
@@ -12,11 +14,6 @@ You can still do everything you can do with an express app, like route globbing 
 
 The _/docs_ from this repository are running on _aden_ on a heroku instance at [aden.zwerk.io](http://aden.zwerk.io).
 
-
-> _"It's a website. Can't we just put it on a webserver?"_  
-> Anonymous
-
-Sure. Aden provides a _zero-config_ web application development and production setup.
 
 ## Prerequisites
 [Node 6+](https://nodejs.org/en/) and [NPM 3+](https://www.npmjs.com/).
@@ -80,6 +77,10 @@ To run an existing build:
 ```
 aden [path]
 ```
+
+# Resources
+Learn more about the technologies used:
+ - [Awesome Webpack](https://github.com/webpack-contrib/awesome-webpack)
 
 # About
 _Aden_ is an effort to allow convenient aggregation of data from services,
