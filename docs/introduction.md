@@ -48,10 +48,9 @@ First, we need a script that gives us a random quote. Create a new folder `mkdir
 Now add back _javascript_ with `touch quote.js`. Open your favorite editor and fill it with:
 
 ```
-// For the sake of simplicity of this introduction,
-// we will grab a quote from a predefined list.
 const quotes = [
   'awesome, meaningful or smart things someone said',
+  'more grateful things a vip said',
 ];
 
 module.exports = function getRandomQuote() {
@@ -86,7 +85,7 @@ quoteButton.addEventListener('click', () => (quoteElement.innerText = quote()));
 
 Clicking the newly added button on the page should result in the next random quote shown on the page.
 
-Looks a bit 90s though, lets add some styling. I heard _bootstrap_ gives you a good headstart and is widely used. To be able to add modules to our project we need to initialize npm with `npm init --yes`, then we can add bootstrap via `npm i bootstrap`. In our `index.css` we can now just do `@import "~bootstrap/dist/css/bootstrap.min.css"` at the very top.
+Looks a bit 90s though, lets add some styling. I heard _bootstrap_ gives you a good head-start and is widely used. To be able to add modules to our project we need to initialize npm with `npm init --yes`, then we can add bootstrap via `npm i bootstrap`. In our `index.css` we can now just do `@import "~bootstrap/dist/css/bootstrap.min.css"` at the very top.
 
 Add `class="well"` to our _quote div_ and `class="btn"` to our button element.
 
@@ -121,7 +120,11 @@ quoteButton.addEventListener('click', () =>
 );
 ```
 
-All quotes are now produced by our first API endpoint. In our `quotemachine/index.js` we use the _fetch_ API, which is not available in older browser versions. I can help you here as well. I have Babel on board and come with ES6 support out of the box. If you want to target a specific browser range, have a look at the _babel-preset-env_, which I have on-board by default. To learn more about babel and how to control it with a `.babelrc` file, have a look _here_.
+All quotes are now produced by our first API endpoint.
+
+You might have noticed, we are using ES6 syntax, like _arrow functions_.
+This works out of the box, as I have Babel with an `es2015` and `env` preset on-board.
+You can adjust Babel by creating a `.babelrc` file in your _root folder_.
 
 **TL;DR**
 ```
@@ -136,6 +139,8 @@ echo "<h1>Hello {{name}}</h1>" > index.html
 
 
 ---
+In our `quotemachine/index.js` we use the _fetch_ API, which is not available in older browser versions. I can help you here as well. I have Babel on board and come with ES6 support out of the box. If you want to target a specific browser range, have a look at the _babel-preset-env_, which I have on-board by default. To learn more about babel and how to control it with a `.babelrc` file, have a look _here_.
+
 Lets add a _Todo List_ for our new project. Create a new folder `mkdir todo`, navigate to it `cd todo` and let's setup a new _entry point_ by creating a file like `echo "# Todos" > index.md`.
 Navigate to `http://localhost:5000/todos`, you should see and _html formatted_ page.
 
