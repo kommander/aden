@@ -26,6 +26,7 @@ describe('Core Dev', () => {
   });
 
   she('calls startup hooks for subpages');
+  she('distincts between static and dynamic entry points (html || hbs)');
 
   she('// Things Aden already does but are untested...');
   she('takes ignores from .server, applied to subpath only');
