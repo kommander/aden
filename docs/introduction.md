@@ -6,11 +6,13 @@ npm i -g aden
 
 Hi, I am Aden, an Apache Web-Helicopter.
 I can automate a lot of things for you, but lets start at the beginning.
+
+I assume you know what HTML, CSS and Javascript is and that you have used it before.
+
 Remember, back in the 90s when my big brother was serving the web?
 Those were amazing times. Lets start with what he could do.
 
-Open a Terminal. Create a test folder like `mkdir woa`.
-Navigate to that folder like `cd woa`. There, `touch .server`.
+Open a Terminal. Create a test folder `mkdir woa` and navigate to it `cd woa`. There, `touch .server`.
 Now I can help you out developing with `aden -d`.
 
 As you might have noticed, I am now running on port `5000`,
@@ -20,7 +22,7 @@ You should get a `404` page, because there's nothing to show yet. Let's create o
 
 `echo "<h1>Hello {{name}}</h1>" > index.html`
 
-You Browser should greet you with `Hello {{name}}`. Now, that can be done with any static. Let's see if you like this:
+You Browser should greet you with `Hello {{name}}`. Now, that can be done with any static file server. Let's see if you like this:
 
 `echo "alert('woa')" > index.js`
 
@@ -136,12 +138,3 @@ aden -d
 # Open your browser at http://localhost:5000
 echo "<h1>Hello {{name}}</h1>" > index.html
 ```
-
-
----
-In our `quotemachine/index.js` we use the _fetch_ API, which is not available in older browser versions. I can help you here as well. I have Babel on board and come with ES6 support out of the box. If you want to target a specific browser range, have a look at the _babel-preset-env_, which I have on-board by default. To learn more about babel and how to control it with a `.babelrc` file, have a look _here_.
-
-Lets add a _Todo List_ for our new project. Create a new folder `mkdir todo`, navigate to it `cd todo` and let's setup a new _entry point_ by creating a file like `echo "# Todos" > index.md`.
-Navigate to `http://localhost:5000/todos`, you should see and _html formatted_ page.
-
-Yes, I am versatile. I can serve a whole lot for you, depending on my attitude, like _Markdown_ files, that are put through _marked_ and served like static files then.
