@@ -181,4 +181,34 @@ describe('MD Markdown Attitude Dev', () => {
           });
       });
   });
+
+  she('injects commons (layout inactive)', (done) => {
+    aden({ dev: true, attitudes: ['!layout'] })
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/wrap')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/commons.js/ig);
+            an.shutdown(done);
+          });
+      });
+  });
+
+  she('injects commons (nolayout)', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/nolayout')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/commons.js/ig);
+            an.shutdown(done);
+          });
+      });
+  });
 });
