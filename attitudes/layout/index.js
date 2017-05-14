@@ -1,10 +1,10 @@
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
 const hogan = require('hogan.js');
 
 /**
- * md
+ * layout
+ * TODO: Register hooks for layout compilation, to hook in with hbs/md to compile templates
  */
 module.exports = (aden) => {
   aden.registerKey('layout', {
