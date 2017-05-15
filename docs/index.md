@@ -115,7 +115,7 @@ quoteButton.addEventListener('click', () => (quoteElement.innerText = quote()));
 Clicking the newly added button on the page should result in the next random quote shown on the page.
 
 ## Modules
-Looks a bit 90s though, lets add some styling. I heard [bootstrap](http://getbootstrap.com/) gives you a good head-start and is widely used. To be able to add modules to our project we need to initialize npm with `npm init --yes`, then we can add bootstrap via `npm i bootstrap`. In our `index.css` we can now just do `@import "~bootstrap/dist/css/bootstrap.min.css";` at the very top.
+Looks a bit 90s though, lets add some styling. I heard [bootstrap](http://getbootstrap.com/) gives you a good head-start and is widely used. To be able to add modules to our project we need to initialize npm with `npm init --yes`, then we can add bootstrap via `npm i bootstrap`. Create an _entry style_ `touch index.css` and just put `@import "~bootstrap/dist/css/bootstrap.min.css";` at the very top.
 
 Add `class="btn btn-primary"` to our button element.
 
@@ -158,7 +158,7 @@ This works out of the box, as I have Babel with an `es2015` and `env` preset on-
 You can adjust Babel by creating a `.babelrc` file in your _root folder_.
 
 ## Build
-If you want to take our application to production, we need a production build. I can do that for you, after you stop the development server, with `aden -b`. The resulting development build can be moved to a production environment. You can start the production build with `aden`.
+If you want to take our application to production, we need a production build. I can do that for you, after you stop the development server, with `aden -b`. The resulting development build can be moved to a production environment. You can start the production build executing `aden`.
 
 ## Deploy
 I can run as a standalone server and serve your app when asked to, as you have seen with a global install `npm i -g aden`. I can also serve as a package dependency in your project, from where you can leverage my full CLI via _npm scripts_. Or use me as a library to extend an existing express application. So I am able to comply with common Node.js hosting services, like [Heroku](https://heroku.com). Check out [my repository](https://github.com/kommander/aden), where this documentation is ran from.
