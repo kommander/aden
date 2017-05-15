@@ -195,4 +195,20 @@ describe('MD Markdown Attitude Prod', () => {
       })
       .catch(done);
   });
+
+  she('injects commons (nolayout)', (done) => {
+    aden({ attitudes: ['!layout'] })
+      .init(path.resolve(__dirname, '../../tmpdata/md'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
+      .then((an) => {
+        request(an.app)
+          .get('/wrap')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/commons.js/ig);
+            an.shutdown(done);
+          });
+      });
+  });
 });
