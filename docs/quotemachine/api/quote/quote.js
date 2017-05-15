@@ -2,6 +2,7 @@ const quotes = [
   'Simplicity is prerequisite for reliability.',
   'There are more useful systems developed in languages deemed awful \
     than in languages praised for being beautiful--many more',
+  'internet explorer does not spark joy. maybe we should stop using it.',
 ];
 
 module.exports = function getRandomQuote() {
