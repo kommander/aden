@@ -27,6 +27,13 @@ describe('Core Dev', () => {
 
   she('calls startup hooks for subpages');
 
+  // (static entry point templates got into public build)
+  she('distincts between static and dynamic entry points');
+
+  // docs/quotemachine/api/quote/quote.js
+  she('clears the cache for changed modules used by controllers');
+
+
   she('// Things Aden already does but are untested...');
   she('takes ignores from .server, applied to subpath only');
   she('calls a build hook for keys marked as build');

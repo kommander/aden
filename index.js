@@ -130,8 +130,15 @@ if (!run && program.dev) {
 if (!run) {
   // Default clustering for production
   if (program.workers && cluster.isMaster) {
+    const numCpus = require('os').cpus().length;
     run = Promise.resolve().then(() => {
-      const max = parseInt(program.workers, 10) || require('os').cpus().length;
+      let max = parseInt(program.workers, 10) || numCpus;
+
+      if (max > numCpus) {
+        log.warn(`Starting more workers than CPUs available (${max}/${numCpus})`);
+        max = numCpus;
+      }
+
       const workersById = {};
       let numWorkersListening = 0;
       let exitStatus = 0;

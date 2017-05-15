@@ -1,7 +1,9 @@
-require('highlightjs/styles/monokai-sublime.css');
-const button = document.querySelector('#xhr-button');
-button.onclick = () => {
-  fetch('/api')
-    .then((response) => response.json())
-    .then((body) => { button.innerText = body.message; });
-};
+const quoteElement = document.querySelector('#quote');
+const quoteButton = document.querySelector('#quoteButton');
+const updateQuote = () => fetch('/quotemachine/api/quote')
+  .then((res) => res.text())
+  .then((text) => (
+    quoteElement.innerText = text
+  ));
+quoteButton.addEventListener('click', () => updateQuote());
+updateQuote();
