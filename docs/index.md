@@ -24,16 +24,16 @@ Those were amazing times. Lets start with what he could do. But dynamic by natur
 Open a Terminal. Create a test folder `mkdir woa` and navigate to it `cd woa`. There, `touch .server`.
 Now I can help you out developing with `aden -d`.
 
-As you might have noticed, I am now running on port `5000`,
+As you might have noticed, I am now running on port `5000`, with `./woa` as your _root folder.
 so just open your browser and navigate to `http://localhost:5000`.
 
 You should get a `404` page, because there's nothing to show yet. Let's create our first content and see what happens.
 
 ```bash
-echo "<h1>Hello {{name}}</h1>" > index.html
+echo "<h1>Hello Web</h1>" > index.html
 ```
 
-Your Browser should greet you with `Hello {{name}}`.
+Your Browser should greet you with `Hello Web`.
 
 ## Scripting
 Now, that can be done with any static file server. Let's see if you like this:
@@ -54,10 +54,10 @@ echo "h1 { color: #15425F; }" > index.css
 Your browser should have updated to our stylesheet by now.
 But we are still getting that _alert_, so lets remove that again `rm index.js`.
 
-Better. We just created a page, that could be deployed as is. I will take care of optimizing your _bundles_ and _entry points_ for fast delivery, leveraging the hottest web technologies available, like [Webpack](https://github.com/webpack/webpack) and Babel.
+Better. We just created a page, that could be deployed as is. I will take care of optimizing your _bundles_ and _entry points_ for fast delivery.
 
 ## Application
-That one page would be pretty alone though. Lets get started with our first app.
+That one page would be pretty lonely though. Lets get started with our first app.
 
 <div id="quotemachine">
   <blockquote>
@@ -88,7 +88,7 @@ module.exports = function getRandomQuote() {
 };
 ```
 
-Nothing happens yet. To add this module to our application, we need to require it from our _entry point_. `touch index.js`, open it in your editor and type:
+I just setup the `/quotemachine` route for you. Navigate your browser to `http://localhost:5000/quotemachine`. Nothing happens yet. To add this module to our application, we need to require it from our _entry point_. `touch index.js`, open it in your editor and type:
 
 ```js
 const quote = require('./quote');
@@ -115,7 +115,7 @@ quoteButton.addEventListener('click', () => (quoteElement.innerText = quote()));
 Clicking the newly added button on the page should result in the next random quote shown on the page.
 
 ## Modules
-Looks a bit 90s though, lets add some styling. I heard _bootstrap_ gives you a good head-start and is widely used. To be able to add modules to our project we need to initialize npm with `npm init --yes`, then we can add bootstrap via `npm i bootstrap`. In our `index.css` we can now just do `@import "~bootstrap/dist/css/bootstrap.min.css";` at the very top.
+Looks a bit 90s though, lets add some styling. I heard [bootstrap](http://getbootstrap.com/) gives you a good head-start and is widely used. To be able to add modules to our project we need to initialize npm with `npm init --yes`, then we can add bootstrap via `npm i bootstrap`. In our `index.css` we can now just do `@import "~bootstrap/dist/css/bootstrap.min.css";` at the very top.
 
 Add `class="btn btn-primary"` to our button element.
 
@@ -189,8 +189,8 @@ I will add the correct _include paths_ to your loader. I suggest you rather give
 
 > I am not a hammer, I am a Nailgun. I shoot whatever I am loaded with. Be careful, my attitudes might hit your foot.
 
+## TL;DR
+`npm i aden -g` => `touch .server` => `aden -d` => use filesystem like a webserver of the days of olde (with all modern web-dev goodies).
+
 ## Listing
 You can find the example _QuoteMachine_ code in my repo, where these docs are located. My maintainers are also working on [a more detailed documentation](/detail.md) (work in progress).
-
-#### TL;DR
-`npm i aden -g` => `touch .server` => `aden -d` => use filesystem like a webserver of the days of olde (with all modern web-dev goodies).

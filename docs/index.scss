@@ -23,6 +23,7 @@ $color-secondary-2-4: #AF71E1;
 #content {
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 60px;
   max-width: 768px;
   background-color: $color-background;
   color: $color-primary-4;
@@ -58,6 +59,8 @@ p {
   code {
     display: inline;
     padding: 3px;
+    background-color: $color-primary-1;
+    color: $color-background;
   }
 }
 
