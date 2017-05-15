@@ -1,7 +1,7 @@
 # Aden
 
 ## Introduction
-Hi, I am Aden, an Apache Web-Helicopter.
+Hi, I am Aden, an Apache Web-Helicopter, based on [Node.js](http://nodejs.org)
 
 ```
 npm i -g aden
