@@ -47,11 +47,6 @@ h3, h4, h5, h6 {
   font-size: 18px;
 }
 
-btn-primary {
-  background-color: $color-secondary-2-0;
-  color: $color-background;
-}
-
 pre {
   background-color: $color-primary-1 !important;
   font-style: 'Roboto Mono';
@@ -68,4 +63,8 @@ p {
 
 em {
   font-weight: bold;
+}
+
+.hljs-comment {
+  color: $color-secondary-2-0;
 }

@@ -66,6 +66,8 @@ Creating coverage report for version 0.2.0-alpha.9.
     ✓ includes images in the build
     ✓ includes images required from sub path in the build
     ✓ includes images from sub path in the build
+    ✓ injects commons (layout inactive)
+    ✓ injects commons (nolayout)
 
   MD Markdown Attitude Prod
     ✓ has a root route with index.md entry point
@@ -79,6 +81,7 @@ Creating coverage report for version 0.2.0-alpha.9.
     ✓ includes images in the build
     ✓ includes images required from sub path in the build
     ✓ includes images from sub path in the build
+    ✓ injects commons (nolayout)
 
   Attitudes API
     ✓ allows to load app level attitudes
@@ -101,6 +104,8 @@ Creating coverage report for version 0.2.0-alpha.9.
     ✓ provides a startup callback
     ✓ exposes aden.server in startup callback
     - calls startup hooks for subpages
+    - distincts between static and dynamic entry points
+    - clears the cache for changed modules used by controllers
     - // Things Aden already does but are untested...
     - takes ignores from .server, applied to subpath only
     - calls a build hook for keys marked as build
@@ -111,9 +116,9 @@ Creating coverage report for version 0.2.0-alpha.9.
 
   dev
     ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (4163ms)
-    ✓ recognises new files in sub folders and sets up the page (4126ms)
-    ✓ recognises changed watch keys (3859ms)
+    ✓ recognises new files and sets up the page (4199ms)
+    ✓ recognises new files in sub folders and sets up the page (3995ms)
+    ✓ recognises changed watch keys (3789ms)
 
   page keys (registerKey)
     ✓ adds a named key to the page
@@ -165,13 +170,13 @@ Creating coverage report for version 0.2.0-alpha.9.
     ✓ merges a webpack config from a page .server config
 
 
-  97 passing (2m)
-  22 pending
+  100 passing (2m)
+  24 pending
 
 
 =============================== Coverage summary ===============================
-Statements   : 90.17% ( 1128/1251 ), 15 ignored
-Branches     : 76.79% ( 387/504 ), 2 ignored
+Statements   : 90.14% ( 1134/1258 ), 15 ignored
+Branches     : 76.92% ( 400/520 ), 2 ignored
 Functions    : 95% ( 57/60 ), 5 ignored
-Lines        : 90.2% ( 1105/1225 )
+Lines        : 90.18% ( 1111/1232 )
 ================================================================================

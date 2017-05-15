@@ -13,9 +13,6 @@ echo "module.exports = () => (req, res) => res.send('something');" > ./route/.ge
 ```
 
 Aden set up a get route at root/route. check out this example:
-<div id="content-wrapper">
-  <button id="xhr-button">XHR Example</button>
-</div>
 
 #### Features
 
@@ -45,18 +42,3 @@ echo error file not found > index.html
 ```
 
 aden will assume /404, /403 or /500 routes to contain status pages and render the contents on the corresponding status.
-
-
-###### Configuration
- aden comes with preconfigurated webpack. However, the `.server` file can export a webpack configuration file to override them.
-
-```js
-module.exports = {
-  port: 3000,
-  route: '*',
-  rules: [
-    { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
-  ],
-  name: 'yourprojectname',
-}; > .server
-```

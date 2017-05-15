@@ -1,6 +1,7 @@
 const quotes = [
-  'awesome, meaningful or smart things someone said',
-  'more grateful things a vip said',
+  'Simplicity is prerequisite for reliability.',
+  'There are more useful systems developed in languages deemed awful \
+    than in languages praised for being beautiful--many more',
 ];
 
 module.exports = function getRandomQuote() {
