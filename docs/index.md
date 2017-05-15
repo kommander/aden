@@ -153,6 +153,9 @@ quoteButton.addEventListener('click', () =>
 
 All quotes are now produced by our first API endpoint.
 
+We can now link our _QuoteMachine_ as a project from our _root_,
+just add `<a href="/quotemachine">QuoteMachine</a>` to our _root index.html_.
+
 By the way, you might have noticed, we are using ES6 syntax, like _arrow functions_.
 This works out of the box, as I have Babel with an `es2015` and `env` preset on-board.
 You can adjust Babel by creating a `.babelrc` file in your _root folder_.
