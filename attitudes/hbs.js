@@ -2,7 +2,7 @@ const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const hogan = require('hogan.js');
-const cannot = require('cannot');
+const cannot = require('brokens');
 
 /**
  * hbs

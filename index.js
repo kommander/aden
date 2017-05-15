@@ -24,10 +24,10 @@ program
   .option('-p, --port [port]', 'Override the port to mount the server on')
   .option('-u, --use [attitude]', 'Specify an attitude to use (multi)', collectAttitudes, [])
   .option('--debug', 'Debug output')
-  .option('-n, --new [path]', 'Bootstrap a new page')
-  .option('--nd [path]', 'Bootstrap a new page and start the dev server')
   .option('-s, --silent', 'Do not output anything on purpose')
   .option('-v, --verbose', 'Output a lot')
+
+  // TODO: Provide an install switch -i --install with a task that attitudes can hook into
 
   // (?) Eject would create all the boilerplate again so you can "run your own app"
   // -> generates the webpack config once for the project
@@ -54,7 +54,7 @@ const logOptions = {
 
 const log = logger(logOptions).namespace('aden cli'); // eslint-disable-line
 
-if (program.dev || program.new || program.nd) {
+if (program.dev) {
   log.warn('Ahoy! Running in dev env.');
 } else {
   log.info(`Running in ${process.env.NODE_ENV || 'production (by default)'} env.`);
@@ -63,7 +63,7 @@ if (program.dev || program.new || program.nd) {
 const app = express();
 const config = {
   logger: logOptions,
-  dev: program.dev || program.new || program.nd || false,
+  dev: program.dev || false,
   attitudes: program.use,
 };
 
@@ -107,15 +107,6 @@ if (program.build) {
       log.success('Build only done. Exiting.');
       process.exit(0);
     });
-}
-
-if (program.new || program.nd) {
-  const bootstrapPath = path.resolve(rootPath, program.new || program.nd);
-  run = createAden(app, config)
-    .bootstrap(bootstrapPath)
-    .then((aden) => aden.init(bootstrapPath, program.focus))
-    .then((aden) => aden.run('dev'))
-    .then((aden) => runServer(aden, true));
 }
 
 if (!run && program.clean) {

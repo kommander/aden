@@ -148,12 +148,19 @@ module.exports = (aden) => {
 
   aden.hook('apply', ({ page, webpackConfigs }) => {
     if (page.key.mdIndex.value || page.key.mdFiles.value.length > 0) {
+      const chunks = ['global', page.entryName];
+
+      if (page.commons) {
+        chunks.unshift('commons');
+      }
+
       if (page.key.mdIndex.value) {
         const mdIndexPlugin = new HtmlWebpackPlugin({
           template: page.key.mdIndex.resolved,
           filename: page.key.mdIndex.dist,
-          inject: false,
+          inject: !page.key.selectedLayout || !page.key.selectedLayout.value,
           cache: false,
+          chunks,
         });
         webpackConfigs[0].plugins.push(mdIndexPlugin);
       }
@@ -162,8 +169,9 @@ module.exports = (aden) => {
         const mdPlugin = new HtmlWebpackPlugin({
           template: mdFile.resolved,
           filename: mdFile.dist,
-          inject: false,
+          inject: !page.key.getLayout || !page.key.selectedLayout.value,
           cache: false,
+          chunks,
         });
 
         webpackConfigs[0].plugins.push(mdPlugin);
