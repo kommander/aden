@@ -62,6 +62,8 @@ That one page would be pretty lonely though. Lets get started with our first app
 <div id="quotemachine">
   <blockquote>
     <p id="quote"></p>
+    <p id="author"></p>
+    <a id="origin" href="#"></a>
   </blockquote>
   <button id="quoteButton" class="btn btn-primary">Get another quote</button>
 </div>
