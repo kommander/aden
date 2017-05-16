@@ -75,8 +75,12 @@ log.debug('cli config ', {
 });
 
 const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((resolve, reject) => {
-  const port = parseInt(program.port, 10) || process.env.PORT || aden.rootConfig.port || 5000;
-  aden.app.listen(port, (err) => {
+  const splitPort = program.port.split(':')
+  const port = splitPort[splitPort.length > 1 ? 1 : 0] || process.env.PORT || aden.rootConfig.port || 5000;
+  const hostName = splitPort.length > 1
+    ? splitPort[0]
+    : (process.env.HOSTNAME || aden.rootConfig.hostname || null);
+  aden.app.listen(port, hostName, (err) => {
     if (err) {
       reject(err);
       return;
@@ -84,10 +88,10 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
 
     const type = cluster.isMaster ? 'server' : 'worker';
 
-    aden.log.success(`Started ${type} at port ${port}`);
+    aden.log.success(`Started ${type} at ${hostName || 'localhost'}:${port}`);
 
     if (doOpen) {
-      open(`http://localhost:${port}`);
+      open(`http://${hostname || 'localhost'}:${port}`);
     }
 
     resolve(aden);
