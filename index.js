@@ -93,7 +93,7 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
     aden.log.success(`Started ${type} at ${hostName || 'localhost'}:${port}`);
 
     if (doOpen) {
-      open(`http://${hostname || 'localhost'}:${port}`);
+      open(`http://${hostName || 'localhost'}:${port}`);
     }
 
     resolve(aden);
