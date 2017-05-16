@@ -1,7 +1,22 @@
 # Aden
 
-## Introduction
-Hi, I am Aden, an Apache Web-Helicopter, based on [Node.js](http://nodejs.org)
+- [Introduction](#introduction)
+- [Getting Started](#gettingstarted)
+- [Scripting](#scripting)
+- [Styling](#styling)
+- [Application](#application)
+- [Modules](#modules)
+- [API](#api)
+- [Build](#build)
+- [Deploy](#deploy)
+- [Scale](#scale)
+- [Attitudes](#attitudes)
+- [TL;DR](#tldr)
+- [Listing](#listing)
+
+
+## <a name="introduction"></a> Introduction
+Hi, I am Aden, an Apache Web-Helicopter, based on [Node.js](http://nodejs.org). I give you a CLI to handle a web application.
 
 ```
 npm i -g aden
@@ -17,7 +32,7 @@ Although you do not need to know about any of these in detail to get started, I 
 If I bug you with an error at any point, or you have an idea how I may help you better,
 feel free to [open an issue](https://github.com/kommander/aden/issues/new).
 
-## Getting Started
+## <a name="gettingstarted"></a> Getting Started
 Remember, back in the 90s when my [big brother](http://httpd.apache.org/docs/2.4/) was serving the web?
 Those were amazing times. Lets start with what he could do. But dynamic by nature.
 
@@ -35,7 +50,7 @@ echo "<h1>Hello Web</h1>" > index.html
 
 Your Browser should greet you with `Hello Web`.
 
-## Scripting
+## <a name="scripting"></a> Scripting
 Now, that can be done with any static file server. Let's see if you like this:
 
 ```bash
@@ -44,7 +59,7 @@ echo "alert('woa')" > index.js
 
 Check your browser. I just _injected the script_ into your html. You can wrap your html in a layout by using a template engine like [handlebars](/attitudes/hbs.md).
 
-## Styling
+## <a name="styling"></a> Styling
 As you might have guessed by now, I can also _inject stylesheets_ for you. Try it like this.
 
 ```bash
@@ -56,7 +71,7 @@ But we are still getting that _alert_, so lets remove that again `rm index.js`.
 
 Better. We just created a page, that could be deployed as is. I will take care of optimizing your _bundles_ and _entry points_ for fast delivery.
 
-## Application
+## <a name="application"></a> Application
 That one page would be pretty lonely though. Lets get started with our first app.
 
 <div id="quotemachine">
@@ -116,14 +131,14 @@ quoteButton.addEventListener('click', () => (quoteElement.innerText = quote()));
 
 Clicking the newly added button on the page should result in the next random quote shown on the page.
 
-## Modules
+## <a name="modules"></a> Modules
 Looks a bit 90s though, lets add some styling. I heard [bootstrap](http://getbootstrap.com/) gives you a good head-start and is widely used. To be able to add modules to our project we need to initialize npm with `npm init --yes`, then we can add bootstrap via `npm i bootstrap`. Create an _entry style_ `touch index.css` and just put `@import "~bootstrap/dist/css/bootstrap.min.css";` at the very top.
 
 Add `class="btn btn-primary"` to our button element.
 
 Check our app. Looks better. Should do for now.
 
-## API
+## <a name="api"></a> API
 If you want to get your quotes from an API, rather than delivering thousands of them with every request, I can help you out as well.
 
 Lets move our `getRandomQuote` method to the server, by creating a _route_ for our API with `mkdir -p api/quote`. Move our `quote.js` there `mv quote.js api/quote/quote.js`.
@@ -162,13 +177,13 @@ By the way, you might have noticed, we are using ES6 syntax, like _arrow functio
 This works out of the box, as I have Babel with an `es2015` and `env` preset on-board.
 You can adjust Babel by creating a `.babelrc` file in your _root folder_.
 
-## Build
-If you want to take our application to production, we need a production build. I can do that for you, after you stop the development server, with `aden -b`. The resulting development build can be moved to a production environment. You can start the production build executing `aden`.
+## <a name="build"></a> Build
+If you want to take our application to production, we need a production build. I can do that for you, after you stop the development server, with `aden -b`. The resulting development build can be moved to a production environment. You can start the production build by executing `aden`.
 
-## Deploy
+## <a name="deploy"></a> Deploy
 I can run as a standalone server and serve your app when asked to, as you have seen with a global install `npm i -g aden`. I can also serve as a package dependency in your project, from where you can leverage my full CLI via _npm scripts_. Or use me as a library to extend an existing express application. So I am able to comply with common Node.js hosting services, like [Heroku](https://heroku.com). Check out [my repository](https://github.com/kommander/aden), where this documentation is ran from.
 
-## Scale
+## <a name="scale"></a> Scale
 Lets scale our _QuoteMachine_ to two four workers with 'aden -w 4'. I should be running with four worker processes now.
 
 I can become overloaded with pages and endpoints, that might need additional server resources. If you want to have another instance with four workers, focusing on the API endpoint, I can do that for you with `aden -w 4 --focus quotemachine/api/quote -p 5001`. I now serve the `quote` endpoint only, at port 5001.
@@ -176,7 +191,7 @@ I can become overloaded with pages and endpoints, that might need additional ser
 
 I hope this helps your operations. That's all for now. If you want to know more, check out [my source](https://github.com/kommander/aden), I'll be glad to follow up on your [issues](https://github.com/kommander/aden/issues/new) and feel free to [create a PR](https://github.com/kommander/aden/pulls).
 
-## Attitudes
+## <a name="attitudes"></a> Attitudes
 I come with attitudes to build and serve your application, based on some default [Webpack plugins and loaders](https://github.com/webpack-contrib/awesome-webpack). You can adjust and/or extend the generated Webpack configuration at any time, via the `.server` file. Whenever you need an additional loader, you can add it like:
 
 ```js
@@ -194,8 +209,8 @@ I will add the correct _include paths_ to your loader. I suggest you rather give
 
 > I am not a hammer, I am a Nailgun. I shoot whatever I am loaded with. Be careful, my attitudes might hit your foot.
 
-## TL;DR
+## <a name="tldr"></a> TL;DR
 `npm i aden -g` => `touch .server` => `aden -d` => use filesystem like a webserver of the days of olde (with all modern web-dev goodies).
 
-## Listing
+## <a name="listing"></a> Listing
 You can find the example _QuoteMachine_ code in my repo, where these docs are located. My maintainers are also working on [a more detailed documentation](/detail.md) (work in progress).
