@@ -23,6 +23,8 @@ npm i -g aden
 ```
 (or install me as a dependency in your project)
 
+_Note_: I am still under active development in an alpha stage, if you want to get the newest development version, clone my repository and do `npm i -g` from there.
+
 I can automate a lot of things for you. It's great to be able to _do all the things_ and you can still make me do whatever you need. I come with a distinct subset of behaviours though, my attitude.
 
 I assume you know what HTML, CSS, Javascript, a Terminal and NPM are and that you have used them before.
