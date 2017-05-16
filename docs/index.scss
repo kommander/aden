@@ -24,6 +24,19 @@ $color-secondary-2-0: #B997D5;
   margin: 20px 0px;
 }
 
+#quotemachine blockquote {
+  min-height: 140px;
+}
+
+#author {
+  color: $color-primary-1;
+  font-size: 14px;
+}
+
+#origin {
+  font-size: 11px;
+}
+
 h1 {
   font-size: 28px;
   color: $color-primary-0;

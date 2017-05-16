@@ -24,7 +24,7 @@ Those were amazing times. Lets start with what he could do. But dynamic by natur
 Open a Terminal. Create a test folder `mkdir woa` and navigate to it `cd woa`. There, `touch .server`.
 Now I can help you out developing with `aden -d`.
 
-As you might have noticed, I am now running on port `5000`, with `./woa` as your _root folder.
+As you might have noticed, I am now running on port `5000`, with `./woa` as your _root folder_.
 so just open your browser and navigate to `http://localhost:5000`.
 
 You should get a `404` page, because there's nothing to show yet. Let's create our first content and see what happens.
@@ -62,6 +62,8 @@ That one page would be pretty lonely though. Lets get started with our first app
 <div id="quotemachine">
   <blockquote>
     <p id="quote"></p>
+    <p id="author"></p>
+    <a id="origin" href="#"></a>
   </blockquote>
   <button id="quoteButton" class="btn btn-primary">Get another quote</button>
 </div>
