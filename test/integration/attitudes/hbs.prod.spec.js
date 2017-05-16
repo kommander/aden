@@ -3,11 +3,12 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('HBS Dev', () => {
+describe('HBS Prod', () => {
   she('has a root route with index.hbs entry point', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/hbs'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/')
@@ -19,9 +20,10 @@ describe('HBS Dev', () => {
   });
 
   she('delivers index.hbs at root path', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/hbs'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/')
@@ -35,9 +37,10 @@ describe('HBS Dev', () => {
   });
 
   she('delivers index.hbs at sub path', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/hbs'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/sub')
@@ -51,9 +54,10 @@ describe('HBS Dev', () => {
   });
 
   she('wraps hbs in given layout (layout.default.html|hbs|md)', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/hbs'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/wrap')
@@ -66,9 +70,10 @@ describe('HBS Dev', () => {
   });
 
   she('works without layout attitude active (hbs)', (done) => {
-    aden({ dev: true, attitudes: ['!layout'] })
+    aden({ attitudes: ['!layout'] })
       .init(path.resolve(__dirname, '../../tmpdata/hbs'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/wrap')
@@ -81,9 +86,10 @@ describe('HBS Dev', () => {
   });
 
   she('works with layout inactive for hbs (nolayout)', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/hbs/nolayout'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/')
@@ -96,12 +102,17 @@ describe('HBS Dev', () => {
   });
 
   she('includes images in the build (hbs)', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/hbs'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
+        // In production images use a hash only name,
+        // where images with same content become the same resource
+        const fileName = an.webpackStats[0].assets
+          .filter((asset) => asset.name.match(/^images/))[0].name;
         request(an.app)
-          .get('/images/test.png')
+          .get(`/${fileName}`)
           .end((err, res) => {
             if (err) done(err);
             expect(res.status).toMatch(200);
@@ -111,12 +122,17 @@ describe('HBS Dev', () => {
   });
 
   she('includes images required from sub path in the build (hbs)', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/hbs'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
+        // In production images use a hash only name,
+        // where images with same content become the same resource
+        const fileName = an.webpackStats[0].assets
+          .filter((asset) => asset.name.match(/^images/))[0].name;
         request(an.app)
-          .get('/images/sub-test.png')
+          .get(`/${fileName}`)
           .end((err, res) => {
             if (err) done(err);
             expect(res.status).toMatch(200);
@@ -126,9 +142,10 @@ describe('HBS Dev', () => {
   });
 
   she('injects commons in hbs (layout inactive)', (done) => {
-    aden({ dev: true, attitudes: ['!layout'] })
+    aden({ attitudes: ['!layout'] })
       .init(path.resolve(__dirname, '../../tmpdata/hbs'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/wrap')
@@ -141,9 +158,10 @@ describe('HBS Dev', () => {
   });
 
   she('injects commons in hbs (nolayout)', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../../tmpdata/hbs'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/nolayout')

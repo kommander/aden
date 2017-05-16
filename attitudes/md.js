@@ -10,7 +10,7 @@ module.exports = (aden) => {
     config: true,
     value: {
       entry: 'index',
-      marked: {},
+      marked: null,
       layout: true,
     },
     inherit: true,
@@ -139,7 +139,9 @@ module.exports = (aden) => {
       use: [
         {
           loader: require.resolve('html-loader'),
-          // options: {},
+          // options: {
+          //   minimize: aden.isPROD,
+          // },
         },
         markdownLoader,
       ],
@@ -161,6 +163,7 @@ module.exports = (aden) => {
           inject: !page.key.selectedLayout || !page.key.selectedLayout.value,
           cache: false,
           chunks,
+          showErrors: aden.isDEV,
         });
         webpackConfigs[0].plugins.push(mdIndexPlugin);
       }
@@ -172,6 +175,7 @@ module.exports = (aden) => {
           inject: !page.key.getLayout || !page.key.selectedLayout.value,
           cache: false,
           chunks,
+          showErrors: aden.isDEV,
         });
 
         webpackConfigs[0].plugins.push(mdPlugin);

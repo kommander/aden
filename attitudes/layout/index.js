@@ -41,7 +41,7 @@ module.exports = (aden) => {
 
   // TODO: make extensions setable via page.key and let other extensions add to them
   //       when they add a loader and layout is available.
-  aden.registerFiles('layoutFiles', /^layout\..*?\.(html|hbs|handlebars|mustache|md|markdown)$/, {
+  aden.registerFiles('layoutFiles', /^layout\..*?\.(html|hbs|md)$/, {
     fn: ({ page, fileInfo }) => {
       Object.assign(page.key.layouts, {
         value: page.key.layouts.value.concat([{ fileInfo }]),
