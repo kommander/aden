@@ -1,4 +1,4 @@
-Creating coverage report for version 0.2.0-alpha.9.
+Creating coverage report for version 0.2.0-alpha.10.
 
 
   Controller Dev
@@ -116,9 +116,9 @@ Creating coverage report for version 0.2.0-alpha.9.
 
   dev
     ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (4199ms)
-    ✓ recognises new files in sub folders and sets up the page (3995ms)
-    ✓ recognises changed watch keys (3789ms)
+    ✓ recognises new files and sets up the page (4141ms)
+    ✓ recognises new files in sub folders and sets up the page (3958ms)
+    ✓ recognises changed watch keys (3897ms)
 
   page keys (registerKey)
     ✓ adds a named key to the page
