@@ -41,11 +41,15 @@ module.exports = (aden) => {
     webpackConfigs[0].module.rules.push({
       test: /\.html$/,
       include: [
-        pages[0].rootPath,
         path.resolve(pages[0].rootPath, '../node_modules'),
         path.resolve(pages[0].rootPath, '../../node_modules'),
       ].concat(aden.flattenPages(pages).map((page) => page.key.path.resolved)),
-      loader: require.resolve('html-loader'),
+      use: {
+        loader: require.resolve('html-loader'),
+        // options: {
+        //   minimize: aden.isPROD,
+        // },
+      },
     });
   });
 
