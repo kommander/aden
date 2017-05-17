@@ -1,11 +1,12 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~highlightjs/styles/github.css";
+@import "~font-awesome/css/font-awesome.min.css";
 
 $color-background: #FFFFFF;
 $color-primary-0: #15425F;
 $color-primary-1: #556671;
 $color-primary-2: #32546A;
-$color-primary-3: #043454;
+$color-primary-3: #ebf5fc;
 $color-primary-4: #012A44;
 
 $color-secondary-2-0: #B997D5;
@@ -26,6 +27,14 @@ $color-secondary-2-0: #B997D5;
 
 #quotemachine blockquote {
   min-height: 140px;
+  position: relative;
+  padding-left: 30px;
+
+  i {
+    position: absolute;
+    left: 7px;
+    top: 7px;
+  }
 }
 
 #author {
@@ -37,14 +46,26 @@ $color-secondary-2-0: #B997D5;
   font-size: 11px;
 }
 
+.section-menu {
+  margin-top: 20px;
+  text-align: right;
+  padding-top: 5px;
+  border-top: 1px $color-primary-3 solid;
+}
+
 h1 {
   font-size: 28px;
   color: $color-primary-0;
 }
 
 h2 {
+  margin-top: 60px;
   font-size: 22px;
   color: $color-primary-2;
+
+  a:hover, a:active, a:visited {
+    text-decoration: none !important;
+  }
 }
 
 h3, h4, h5, h6 {

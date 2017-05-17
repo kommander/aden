@@ -1,5 +1,6 @@
 ## Related Projects
 Similar projects that try to solve similar issues:
+- https://github.com/jaredpalmer/razzle
 - https://github.com/seek-oss/sku
 - https://github.com/geowarin/tarec
 - https://github.com/stoikerty/dev-toolkit

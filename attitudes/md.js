@@ -10,7 +10,7 @@ module.exports = (aden) => {
     config: true,
     value: {
       entry: 'index',
-      marked: null,
+      marked: null, // TODO: merge with `md` key options to save one level of config depth
       layout: true,
     },
     inherit: true,

@@ -1,6 +1,8 @@
 # Aden
 
-[![Build Status](https://travis-ci.org/kommander/aden.png)](https://travis-ci.org/kommander/aden) [![Coverage Status](https://coveralls.io/repos/github/kommander/aden/badge.svg?branch=master)](https://coveralls.io/github/kommander/aden?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/kommander/aden.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/kommander/aden.png)](https://travis-ci.org/kommander/aden)
+[![Build status](https://ci.appveyor.com/api/projects/status/chkkhb0sgcpmgfyl?svg=true)](https://ci.appveyor.com/project/kommander/aden)
+[![Coverage Status](https://coveralls.io/repos/github/kommander/aden/badge.svg?branch=master)](https://coveralls.io/github/kommander/aden?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/kommander/aden.svg)](https://greenkeeper.io/)
 
 Setting up Webpack again for each project, when the basics are always the same is a pain.
 

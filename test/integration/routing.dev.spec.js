@@ -94,7 +94,7 @@ describe('Routing Dev', () => {
       .catch(done);
   });
 
-  she('allows params in page path /user/:id/edit', (done) => {
+  she('allows params in page path /user/+id/edit', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/routes'))
       .then((an) => an.run('dev'))
