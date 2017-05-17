@@ -7,6 +7,7 @@ const path = require('path');
 const pckgJson = require('./package.json');
 const open = require('open');
 const cluster = require('cluster');
+const chalk = require('chalk');
 
 /**
  * Aden CLI
@@ -55,6 +56,11 @@ const logOptions = {
 const log = logger(logOptions).namespace('aden cli'); // eslint-disable-line
 
 if (program.dev) {
+  log.info(chalk.cyan('          | |            '));
+  log.info(chalk.cyan(' _____  __| |_____ ____  '));
+  log.info(chalk.cyan('(____ |/ _  | ___ |  _ \\ '));
+  log.info(chalk.cyan('/ ___ ( (_| | ____| | | |'));
+  log.info(chalk.cyan('\\_____|\\____|_____)_| |_|.zwerk.io'));
   log.warn('Ahoy! Running in dev env.');
 } else {
   log.info(`Running in ${process.env.NODE_ENV || 'production (by default)'} env.`);
