@@ -18,14 +18,14 @@ program
   .usage('[options] <rootpath ...>')
   .option('-b, --build', 'Will only build out the app assets and exit (not start the server)')
   .option('-d, --dev', 'Run in development mode (live reload)')
-  .option('-w, --workers [num]', 'Start with given [num] of workers, or all CPUs.')
   .option('-c, --clean', 'Remove all dist folders')
   .option('-f, --focus [path]', 'Choose one route to focus on. Mount only that.')
+  .option('-w, --workers [num]', 'Start with given [num] of workers, or all CPUs.')
   .option('-p, --port [port]', 'Override the port to mount the server on')
   .option('-u, --use [attitude]', 'Specify an attitude to use (multi)', collectAttitudes, [])
-  .option('--debug', 'Debug output')
   .option('-s, --silent', 'Do not output anything on purpose')
   .option('-v, --verbose', 'Output a lot')
+  .option('--debug', 'Debug output')
 
   // TODO: Provide an install switch -i --install with a task that attitudes can hook into
 
