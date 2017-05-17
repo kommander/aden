@@ -5,6 +5,7 @@ environment:
 install:
   # Get the latest stable version of Node.js or io.js
   - set PATH=C:\Program Files\Git\mingw64\bin;%PATH%
+  - copy C:\Program Files\Git\mingw64\bin\mingw32-make.exe C:\Program Files\Git\mingw64\bin\make.exe
   - ps: Install-Product node $env:nodejs_version
   # install modules
   - npm install
