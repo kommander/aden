@@ -1,3 +1,10 @@
+const Speech = require('./lib/speech');
+setTimeout(() =>
+  (new Speech({ hi: 'Ahoy! My name is Aden.' }))
+    .init().then((aden) => aden.say('hi'))
+  , 2000
+);
+
 const quoteElement = document.querySelector('#quote');
 const authorElement = document.querySelector('#author');
 const originElement = document.querySelector('#origin');
