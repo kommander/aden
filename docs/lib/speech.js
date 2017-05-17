@@ -40,7 +40,7 @@ class Speech {
     const voice = voices
       .filter((v) => v.voiceURI.match(/Google/ig))
       .filter((v) => v.lang.match(this.lang))
-      .sort((v) => v.voiceURI.match(/female/i) ? -1 : 1);
+      .sort((v) => (v.voiceURI.match(/female/i) ? -1 : 1));
     if (voice[0]) {
       this.setupSentences(voice[0]);
     }
