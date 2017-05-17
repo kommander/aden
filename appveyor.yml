@@ -4,8 +4,7 @@ environment:
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node.js or io.js
-  - set PATH=C:\Program Files\Git\mingw64\bin;%PATH%
-  - copy C:\Program Files\Git\mingw64\bin\mingw32-make.exe C:\Program Files\Git\mingw64\bin\make.exe
+  - set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1;%PATH%
   - ps: Install-Product node $env:nodejs_version
   # install modules
   - npm install
