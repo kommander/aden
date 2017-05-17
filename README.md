@@ -50,7 +50,7 @@ Aden runs in _production_ by default, without any CLI options.
 ## Run
 ### Development
 To confirm aden is installed correctly, try running the docs from the repository,
-or check out the getting started guide at [aden.zwerk.io](http:\\aden.zwerk.io)
+or check out the getting started guide at [aden.zwerk.io](http://aden.zwerk.io)
 ```
 aden -d path/to/docs
 ```
