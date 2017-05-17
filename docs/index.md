@@ -242,7 +242,7 @@ So I am able to comply with a variety of Node.js hosting services, like [Heroku]
 ## <a name="scale"></a> Scale
 I can become overloaded with _dynamic entry and API endpoints_, that might need additional server resources.
 
-Lets scale our _QuoteMachine_ to four workers with 'aden -w 4'. I should be running with four worker processes now.
+Lets scale our _QuoteMachine_ to four workers with `aden -w 4`. I should be running with four worker processes now.
 
 If you want to have another instance with four workers, focusing on the API endpoint, I can do that for you with
 
@@ -297,3 +297,18 @@ You can find the example _QuoteMachine_ code in my repo, where these docs are lo
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
 </div>
+
+---
+&copy; 2017 zwerk.io
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
