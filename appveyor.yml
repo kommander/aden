@@ -16,7 +16,7 @@ test_script:
   - node --version
   - npm --version
   # run tests
-  - make test
+  - mingw32-make test
 
 skip_commits:
   files:
