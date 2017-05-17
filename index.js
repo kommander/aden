@@ -56,6 +56,7 @@ const logOptions = {
 const log = logger(logOptions).namespace('aden cli'); // eslint-disable-line
 
 if (program.dev) {
+  log.info(chalk.cyan('           _             '));
   log.info(chalk.cyan('          | |            '));
   log.info(chalk.cyan(' _____  __| |_____ ____  '));
   log.info(chalk.cyan('(____ |/ _  | ___ |  _ \\ '));
