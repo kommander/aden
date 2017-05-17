@@ -4,9 +4,13 @@ environment:
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node.js or io.js
+  - set PATH=C:\Program Files\Git\mingw64\bin;%PATH%
   - ps: Install-Product node $env:nodejs_version
   # install modules
   - npm install
+
+platform:
+  - x64
 
 # Post-install test scripts.
 test_script:
@@ -15,6 +19,10 @@ test_script:
   - npm --version
   # run tests
   - make test
+
+skip_commits:
+  files:
+    - '**/*.md'
 
 # Don't actually build.
 build: off
