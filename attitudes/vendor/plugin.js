@@ -35,8 +35,12 @@ VendorPlugin.prototype.apply = function apply(compiler) {
 
   compiler.plugin('additional-pass', (done) => {
     if (!this.built && secondPass) {
+      // TODO: switch to make vendor includes explicit
+      //       -> still parse and filter, show suggestions for vendor in development
       const uniqueRequests = _.uniq(userRequests)
+        // TODO: Make includes setable
         .filter((req) => req.match(/node_modules/))
+        // TODO: make excludes setable
         .filter((req) => !req.match(/node_modules\/(webpack|querystring|ansi-html|html-entities|css-loader|ieee754|isarray|base64|ansi-regex|buffer|strip-ansi)/));
 
       if (uniqueRequests.length === 0) {
@@ -52,6 +56,8 @@ VendorPlugin.prototype.apply = function apply(compiler) {
         path: manifestPath,
       });
 
+      // TODO: use callback to do actual vendor compilation outside
+      //       -> but add dll reference plugin within here again
       const vendorConfig = {
         target: 'web',
         resolve: {
