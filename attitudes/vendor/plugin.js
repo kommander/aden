@@ -29,7 +29,7 @@ VendorPlugin.prototype.apply = function apply(compiler) {
         secondPass = true;
         return true;
       }
-      return;
+      return undefined;
     });
   });
 
@@ -38,7 +38,13 @@ VendorPlugin.prototype.apply = function apply(compiler) {
       const uniqueRequests = _.uniq(userRequests)
         .filter((req) => req.match(/node_modules/))
         .filter((req) => !req.match(/node_modules\/(webpack|querystring|ansi-html|html-entities|css-loader|ieee754|isarray|base64|ansi-regex|buffer|strip-ansi)/));
-      console.log(require('util').inspect(uniqueRequests));
+
+      if (uniqueRequests.length === 0) {
+        this.built = true;
+        done(null);
+        return;
+      }
+
       const manifestPath = path.join(this.dist, 'vendor-manifest.json');
       const dllPlugin = new webpack.DllPlugin({
         context: this.context,
