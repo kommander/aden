@@ -9,9 +9,7 @@ Setting up Webpack again for each project, when the basics are always the same i
 Aden integrates [Webpack](https://github.com/webpack/webpack),
 [Babel](https://babeljs.io) and
 [Express](http://expressjs.com/) with an extensible [file](https://en.wikipedia.org/wiki/Computer_file) [tree](https://en.wikipedia.org/wiki/Tree_data_structure) [parser](https://en.wikipedia.org/wiki/Parsing),
-to generate frontend asset builds and allow for a classic webserver behaviour
-(during development), while setting up a non-mutable express app for production.
-You can still do everything you can do with an express app, like route globbing (_/*_), parameters (_/:id_) and middlewares. (Support for Koa is on the [Roadmap](http://aden.zwerk.io/roadmap)).
+to generate universal frontend asset builds and allow for a classic webserver behaviour, mapping paths to routes, while setting up a non-mutable express app for production.
 
 
 The _/docs_ from this repository are running on _aden_ on a heroku instance at [aden.zwerk.io](http://aden.zwerk.io).
@@ -19,6 +17,7 @@ The _/docs_ from this repository are running on _aden_ on a heroku instance at [
 
 ## Prerequisites
 [Node 6+](https://nodejs.org/en/) and [NPM 3+](https://www.npmjs.com/).
+Currently supporting OSX and Linux.
 
 ## Install
 ```

@@ -31,7 +31,7 @@ I assume you know what HTML, CSS, Javascript, a Terminal and NPM are and that yo
 I leverage a set of modern open source technologies like [Webpack](https://github.com/webpack/webpack), [Babel](https://babeljs.io/) and [Express](http://expressjs.com/) to deliver on my promises.
 Although you do not need to know about any of these in detail to get started, I strongly encourage you to read up on the technologies involved.
 
-You can check what my CLI can do for you at time with `aden -h`.
+You can check what my CLI can do for you at any time with `aden -h`.
 
 If I bug you with an error at any point, or you have an idea how I may help you better,
 feel free to [open an issue](https://github.com/kommander/aden/issues/new).
@@ -48,7 +48,7 @@ Open a Terminal. Create a test folder `mkdir woa` and navigate to it `cd woa`. T
 Now I can help you out developing with `aden -d`.
 
 As you might have noticed, I am now running on port `5000`, with `./woa` as your _root folder_.
-so just open your browser and navigate to `http://localhost:5000`.
+Just open your browser and navigate to `http://localhost:5000`.
 
 You should get a `404` page, because there's nothing to show yet. Let's create our first content and see what happens.
 
