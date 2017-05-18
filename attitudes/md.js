@@ -150,7 +150,7 @@ module.exports = (aden) => {
 
   aden.hook('apply', ({ page, webpackConfigs }) => {
     if (page.key.mdIndex.value || page.key.mdFiles.value.length > 0) {
-      const chunks = ['global', page.entryName];
+      const chunks = ['vendor', 'global', page.entryName];
 
       if (page.commons) {
         chunks.unshift('commons');
