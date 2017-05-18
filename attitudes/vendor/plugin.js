@@ -31,11 +31,13 @@ VendorPlugin.prototype.apply = function apply(compiler) {
 
   compiler.plugin('additional-pass', (done) => {
     if (secondPass) {
-      const uniqueRequests = _.uniq(userRequests).filter((req) => req.match(/node_modules/));
+      const uniqueRequests = _.uniq(userRequests)
+        .filter((req) => req.match(/node_modules/))
+        .filter((req) => !req.match(/node_modules\/(webpack|querystring|ansi-html|html-entities|css-loader|ieee754|isarray|base64|ansi-regex|buffer|strip-ansi)/));
+      console.log(uniqueRequests);
       const manifestPath = path.join(this.dist, 'vendor-manifest.json');
       const dllPlugin = new webpack.DllPlugin({
         path: manifestPath,
-        name: '[name]',
       });
 
       const vendorConfig = {
@@ -49,6 +51,7 @@ VendorPlugin.prototype.apply = function apply(compiler) {
           path: path.join(this.dist, 'public'),
           filename: '[name].js',
           library: '[name]',
+          // libraryTarget: 'commonjs2',
         },
         plugins: [
           dllPlugin,
@@ -63,8 +66,12 @@ VendorPlugin.prototype.apply = function apply(compiler) {
         const dllReferencePlugin = new webpack.DllReferencePlugin({
           context: '.',
           manifest: require(manifestPath),
+          // sourceType: 'commonjs2',
+          // scope: 'vendor',
         });
         compiler.apply(dllReferencePlugin);
+        // const namedModulesPlugin = new webpack.NamedModulesPlugin();
+        // compiler.apply(namedModulesPlugin);
         return done(null);
       });
     }
