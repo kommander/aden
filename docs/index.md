@@ -70,7 +70,7 @@ Now, that can be done with any static file server. Let's see if you like this:
 echo "alert('woa')" > index.js
 ```
 
-Check your browser. I just _injected the script_ into your html. You can wrap your html in a layout by using a template engine like [handlebars](/attitudes/hbs.md).
+Check your browser. I just _injected the script_ into your html. You can wrap your html in a layout by using a template engine like [handlebars](/attitudes/hbs.md) or the [default layout attitude](/attitudes/layout.md).
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
@@ -261,7 +261,7 @@ I hope this helps your operations. That's all for now. If you want to know more,
 
 
 ## <a name="attitudes"></a> Attitudes
-I come with attitudes to build and serve your application, based on some default [Webpack plugins and loaders](https://github.com/webpack-contrib/awesome-webpack). You can adjust and/or extend the generated Webpack configuration at any time, via the `.server` file. Whenever you need an additional loader, you can add it like:
+I come with [attitudes](/attitudes) to build and serve your application, based on some default [Webpack plugins and loaders](https://github.com/webpack-contrib/awesome-webpack). You can adjust and/or extend the generated Webpack configuration at any time, via the `.server` file. Whenever you need an additional loader, you can add it like:
 
 ```js
 // .server.js
