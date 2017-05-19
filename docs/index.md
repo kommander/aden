@@ -218,7 +218,7 @@ You can adjust Babel by creating a `.babelrc` file in your _root folder_.
 ## <a name="build"></a> Build
 If you want to take our application to production, we need a production build. I can do that for you, after you stop the development server, with `aden -b`. The resulting development build in `.dist` can be moved to a production environment. It contains all _dynamic templates_. _Static output_ can be found in `.dist/public`.
 
-Additionally to the dynamic templates and static content, I also generate a `pages.json` where all the routing and configuration information is stored, so I can run the application without having to parse the file tree again.
+Additionally to the dynamic templates and static content, I also generate a `pages.json` where all the routing and configuration information (Page Graph) is stored, so I can run the application without having to parse the file tree again, for super fast startup in production.
 
 You can start the production build by executing `aden` in the _root_ of your application or by pointing aden to it from anywhere with `aden /path/to/myapp`.
 
@@ -290,9 +290,8 @@ I will add the correct _include paths_ to your loader. I suggest you rather give
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
 </div>
 
-
 ## <a name="listing"></a> Listing
-You can find the example _QuoteMachine_ code in my repo, where these docs are located. My maintainers are also working on [a more detailed documentation](/detail.md) (work in progress).
+You can find the example _QuoteMachine_ code in my repo, where these docs are located. My maintainers are also working on [a more advanced documentation](/advanced.md) (work in progress).
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
