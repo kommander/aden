@@ -4,6 +4,8 @@ const hogan = require('hogan.js');
 
 /**
  * layout
+ * TODO: Expose render hooks to influence the response of other attitudes,
+ *       so they don't have to be aware of the layout attitude.
  * TODO: Register hooks for layout compilation, to hook in with hbs/md to compile templates
  */
 module.exports = (aden) => {
@@ -49,20 +51,19 @@ module.exports = (aden) => {
     },
   });
 
-  aden.hook('pre:load', ({ pages }) => {
-    aden.walkPages(pages, null, (page) => {
-      const selectedLayout = page.key.layouts.value.find((layout) =>
-        layout.fileInfo.name.match(page.key.layout.value)
+  aden.hook('pre:load', ({ page }) => {
+    const layout = page.keys.find((key) => (key.name === 'layout')).value;
+    const selectedLayout = (page.keys
+      .find((key) => (key.name === 'layouts'))
+      .value || [])
+      .find((availableLayout) =>
+        availableLayout.fileInfo.name.match(layout)
       );
-
-      if (selectedLayout) {
-        Object.assign(page.key.selectedLayout, {
-          value: selectedLayout.fileInfo.rpath,
-        });
-      }
-
-      return page;
-    });
+    if (selectedLayout) {
+      Object.assign(page.keys.find((key) => (key.name === 'selectedLayout')), {
+        value: selectedLayout.fileInfo.rpath,
+      });
+    }
   });
 
   // Note the appropriate loaders have to be added by the attitude using the layout.
