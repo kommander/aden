@@ -43,17 +43,27 @@ module.exports = (aden) => {
       Object.assign(page.key.layouts, {
         value: page.key.layouts.value.concat([{ fileInfo }]),
       });
-
-      if (fileInfo.name.match(page.key.layout.value)) {
-        Object.assign(page.key.selectedLayout, {
-          value: fileInfo.rpath,
-        });
-        return;
-      }
     },
     key: {
       build: true,
     },
+  });
+
+  aden.hook('pre:load', ({ pages }) => {
+    console.log(Object.keys(aden));
+    aden.walkPages(pages, null, (page) => {
+      const selectedLayout = page.key.layouts.value.find((layout) =>
+        layout.fileInfo.name.match(page.key.layout.value)
+      );
+
+      if (selectedLayout) {
+        Object.assign(page.key.selectedLayout, {
+          value: selectedLayout.fileInfo.rpath,
+        });
+      }
+
+      return page;
+    });
   });
 
   // Note the appropriate loaders have to be added by the attitude using the layout.
@@ -64,7 +74,7 @@ module.exports = (aden) => {
       if (page.commons) {
         chunks.unshift('commons');
       }
-
+      console.log('html plugin', page.key.selectedLayout);
       const layoutPlugin = new HtmlWebpackPlugin({
         template: page.key.selectedLayout.resolved,
         filename: page.key.selectedLayout.dist,
