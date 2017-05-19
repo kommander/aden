@@ -10,19 +10,16 @@ module.exports = (aden) => {
   aden.registerKey('layout', {
     type: 'string',
     config: true,
-    inherit: true,
     value: null,
   });
 
   aden.registerKey('getLayout', {
     type: 'function',
-    inherit: true,
     value: null,
   });
 
   aden.registerKey('selectedLayout', {
     type: 'rpath',
-    inherit: true,
     // default: path.resolve(__dirname, 'empty.html'),
     build: true,
   });
