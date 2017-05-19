@@ -4,7 +4,7 @@
 - [Environment](#env)
 - [Routing](#routing)
 - [Status Pages](#statuspages)
-- [Configuration](#config)
+- [The `.server` File](#config)
 
 
 > Aden conveniently wraps the wall of configuration for webpack and the ever repeating route/controller setup for express, removing a lot of cognitive overhead. _You can still do all the things though_.
@@ -84,7 +84,7 @@ echo error file not found > index.html
 </div>
 
 
-## <a name="config"></a> Configuration
+## <a name="config"></a> The `.server` File
 All application specific settings should be _environment variables_, which always overrides the corresponding setting from the `.server` config. Values from the `.server` config can therefor be used to bootstrap a development environment, but will not be used in production mode.
 
 <div class="section-menu">
