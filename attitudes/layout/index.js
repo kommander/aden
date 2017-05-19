@@ -50,7 +50,6 @@ module.exports = (aden) => {
   });
 
   aden.hook('pre:load', ({ pages }) => {
-    console.log(Object.keys(aden));
     aden.walkPages(pages, null, (page) => {
       const selectedLayout = page.key.layouts.value.find((layout) =>
         layout.fileInfo.name.match(page.key.layout.value)
@@ -74,7 +73,7 @@ module.exports = (aden) => {
       if (page.commons) {
         chunks.unshift('commons');
       }
-      console.log('html plugin', page.key.selectedLayout);
+
       const layoutPlugin = new HtmlWebpackPlugin({
         template: page.key.selectedLayout.resolved,
         filename: page.key.selectedLayout.dist,
