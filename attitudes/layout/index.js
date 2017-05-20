@@ -4,25 +4,24 @@ const hogan = require('hogan.js');
 
 /**
  * layout
+ * TODO: Expose render hooks to influence the response of other attitudes,
+ *       so they don't have to be aware of the layout attitude.
  * TODO: Register hooks for layout compilation, to hook in with hbs/md to compile templates
  */
 module.exports = (aden) => {
   aden.registerKey('layout', {
     type: 'string',
     config: true,
-    inherit: true,
     value: null,
   });
 
   aden.registerKey('getLayout', {
     type: 'function',
-    inherit: true,
     value: null,
   });
 
   aden.registerKey('selectedLayout', {
     type: 'rpath',
-    inherit: true,
     // default: path.resolve(__dirname, 'empty.html'),
     build: true,
   });
@@ -46,17 +45,25 @@ module.exports = (aden) => {
       Object.assign(page.key.layouts, {
         value: page.key.layouts.value.concat([{ fileInfo }]),
       });
-
-      if (fileInfo.name.match(page.key.layout.value)) {
-        Object.assign(page.key.selectedLayout, {
-          value: fileInfo.rpath,
-        });
-        return;
-      }
     },
     key: {
       build: true,
     },
+  });
+
+  aden.hook('pre:load', ({ page }) => {
+    const layout = page.keys.find((key) => (key.name === 'layout')).value;
+    const selectedLayout = (page.keys
+      .find((key) => (key.name === 'layouts'))
+      .value || [])
+      .find((availableLayout) =>
+        availableLayout.fileInfo.name.match(layout)
+      );
+    if (selectedLayout) {
+      Object.assign(page.keys.find((key) => (key.name === 'selectedLayout')), {
+        value: selectedLayout.fileInfo.rpath,
+      });
+    }
   });
 
   // Note the appropriate loaders have to be added by the attitude using the layout.

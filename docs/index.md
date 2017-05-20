@@ -31,7 +31,7 @@ I assume you know what HTML, CSS, Javascript, a Terminal and NPM are and that yo
 I leverage a set of modern open source technologies like [Webpack](https://github.com/webpack/webpack), [Babel](https://babeljs.io/) and [Express](http://expressjs.com/) to deliver on my promises.
 Although you do not need to know about any of these in detail to get started, I strongly encourage you to read up on the technologies involved.
 
-You can check what my CLI can do for you at time with `aden -h`.
+You can check what my CLI can do for you at any time with `aden -h`.
 
 If I bug you with an error at any point, or you have an idea how I may help you better,
 feel free to [open an issue](https://github.com/kommander/aden/issues/new).
@@ -48,7 +48,7 @@ Open a Terminal. Create a test folder `mkdir woa` and navigate to it `cd woa`. T
 Now I can help you out developing with `aden -d`.
 
 As you might have noticed, I am now running on port `5000`, with `./woa` as your _root folder_.
-so just open your browser and navigate to `http://localhost:5000`.
+Just open your browser and navigate to `http://localhost:5000`.
 
 You should get a `404` page, because there's nothing to show yet. Let's create our first content and see what happens.
 
@@ -70,7 +70,7 @@ Now, that can be done with any static file server. Let's see if you like this:
 echo "alert('woa')" > index.js
 ```
 
-Check your browser. I just _injected the script_ into your html. You can wrap your html in a layout by using a template engine like [handlebars](/attitudes/hbs.md).
+Check your browser. I just _injected the script_ into your html. You can wrap your html in a layout by using a template engine like [handlebars](/attitudes/hbs.md) or the [default layout attitude](/attitudes/layout.md).
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
@@ -218,7 +218,7 @@ You can adjust Babel by creating a `.babelrc` file in your _root folder_.
 ## <a name="build"></a> Build
 If you want to take our application to production, we need a production build. I can do that for you, after you stop the development server, with `aden -b`. The resulting development build in `.dist` can be moved to a production environment. It contains all _dynamic templates_. _Static output_ can be found in `.dist/public`.
 
-Additionally to the dynamic templates and static content, I also generate a `pages.json` where all the routing and configuration information is stored, so I can run the application without having to parse the file tree again.
+Additionally to the dynamic templates and static content, I also generate a `pages.json` where all the routing and configuration information (Page Graph) is stored, so I can run the application without having to parse the file tree again, for super fast startup in production.
 
 You can start the production build by executing `aden` in the _root_ of your application or by pointing aden to it from anywhere with `aden /path/to/myapp`.
 
@@ -261,7 +261,7 @@ I hope this helps your operations. That's all for now. If you want to know more,
 
 
 ## <a name="attitudes"></a> Attitudes
-I come with attitudes to build and serve your application, based on some default [Webpack plugins and loaders](https://github.com/webpack-contrib/awesome-webpack). You can adjust and/or extend the generated Webpack configuration at any time, via the `.server` file. Whenever you need an additional loader, you can add it like:
+I come with [attitudes](/attitudes) to build and serve your application, based on some default [Webpack plugins and loaders](https://github.com/webpack-contrib/awesome-webpack). You can adjust and/or extend the generated Webpack configuration at any time, via the `.server` file. Whenever you need an additional loader, you can add it like:
 
 ```js
 // .server.js
@@ -290,9 +290,8 @@ I will add the correct _include paths_ to your loader. I suggest you rather give
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
 </div>
 
-
 ## <a name="listing"></a> Listing
-You can find the example _QuoteMachine_ code in my repo, where these docs are located. My maintainers are also working on [a more detailed documentation](/detail.md) (work in progress).
+You can find the example _QuoteMachine_ code in my repo, where these docs are located. My maintainers are also working on [a more advanced documentation](/advanced.md) (work in progress).
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
