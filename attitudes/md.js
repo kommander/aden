@@ -156,6 +156,10 @@ module.exports = (aden) => {
         chunks.unshift('commons');
       }
 
+      // TODO: use an html plugin wrapper like page.addHTML(key);
+      //       -> page.getHTML(key)
+      //       -> plug into html generation with layout attitude
+
       if (page.key.mdIndex.value) {
         const mdIndexPlugin = new HtmlWebpackPlugin({
           template: page.key.mdIndex.resolved,
