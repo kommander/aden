@@ -18,10 +18,7 @@
 ## <a name="introduction"></a> Introduction
 Hi, I am Aden, an Apache Web-Helicopter, based on [Node.js](http://nodejs.org). I give you a CLI to handle a web application.
 
-```
-npm i -g aden
-```
-(or install me as a dependency in your project)
+[![NPM](https://nodei.co/npm/aden.png?compact=true)](https://nodei.co/npm/aden/)
 
 _Note_: I am still under active development in an alpha stage, if you want to get the newest development version, clone my repository and do `npm i -g` from there.
 
@@ -44,7 +41,7 @@ Remember, back in the 90s when my [big brother](http://httpd.apache.org/docs/2.4
 Those were amazing times. Lets start with what he could do. But dynamic by nature.
 
 Open a Terminal. Create a test folder `mkdir woa` and navigate to it `cd woa`. There, `touch .server`.
-Now I can help you out developing with `aden -d`.
+Now I can help you out developing with `aden dev`.
 
 As you might have noticed, I am now running on port `5000`, with `./woa` as your _root folder_.
 Just open your browser and navigate to `http://localhost:5000`.
@@ -215,11 +212,11 @@ You can adjust Babel by creating a `.babelrc` file in your _root folder_.
 
 
 ## <a name="build"></a> Build
-If you want to take our application to production, we need a production build. I can do that for you, after you stop the development server, with `aden -b`. The resulting development build in `.dist` can be moved to a production environment. It contains all _dynamic templates_. _Static output_ can be found in `.dist/public`.
+If you want to take our application to production, we need a production build. I can do that for you, after you stop the development server, with `aden build`. The resulting development build in `.dist` can be moved to a production environment. It contains all _dynamic templates_. _Static output_ can be found in `.dist/public`.
 
 Additionally to the dynamic templates and static content, I also generate a `pages.json` where all the routing and configuration information (Page Graph) is stored, so I can run the application without having to parse the file tree again, for super fast startup in production.
 
-You can start the production build by executing `aden` in the _root_ of your application or by pointing aden to it from anywhere with `aden /path/to/myapp`.
+You can start the production build by executing `aden` in the _root_ of your application or by pointing aden to it from anywhere with `aden start /path/to/myapp`.
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
@@ -241,12 +238,12 @@ So I am able to comply with a variety of Node.js hosting services, like [Heroku]
 ## <a name="scale"></a> Scale
 I can become overloaded with _dynamic entry and API endpoints_, that might need additional server resources.
 
-Lets scale our _QuoteMachine_ to four workers with `aden -w 4`. I should be running with four worker processes now.
+Lets scale our _QuoteMachine_ to four workers with `aden start -w 4`. I should be running with four worker processes now.
 
 If you want to have another instance with four workers, focusing on the API endpoint, I can do that for you with
 
 ```bash
-aden -w 4 --focus quotemachine/api/quote -p 5001
+aden start -w 4 --focus quotemachine/api/quote -p 5001
 ```
 
 I now serve the `quote` endpoint only, at `http://localhost:5001/quotemachine/api/quote`. Other entry points like `http://localhost:5001/` will not be mounted on this instance.
@@ -283,7 +280,7 @@ I will add the correct _include paths_ to your loader. I suggest you rather give
 
 
 ## <a name="tldr"></a> TL;DR
-`npm i aden -g` => `touch .server` => `aden -d` => use filesystem like a webserver of the days of olde (with all modern web-dev goodies).
+`npm i aden -g` => `touch .server` => `aden dev` => use filesystem like a webserver of the days of olde (with all modern web-dev goodies).
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)

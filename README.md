@@ -29,23 +29,28 @@ npm install -g aden
 ```
 $ aden -h
 
-Usage: aden [rootpath][options]
+Usage: aden <command> [rootPath] [options]
+
+Commands:
+
+  start|s [rootPath]          Run in production mode
+  dev|d [rootPath]            Run in development mode (live reload)
+  build|b [rootPath]          Will create a production build and exit
+  clean|c [rootPath]          Remove all dist folders
+  deploy [rootPath] [target]  Run deploy task with default or given target(s)
 
 Options:
 
-    -h, --help            output usage information
-    -b, --build           Will only build out the app assets and exit (not start the server)
-    -d, --dev             Run in development mode (live reload)
-    -w, --workers [num]   Start with given [num] of workers, or all CPUs.
-    -c, --clean           Remove all dist folders
-    -f, --focus [path]    Choose one route to focus on. Mount only that.
-    -p, --port [port]     Override the port to mount the server on
-    -u, --use [attitude]  Specify an attitude to use (multi)
-    --debug               Debug output
-    -s, --silent          Do not output anything on purpose
-    -v, --verbose         Output a lot
-    --log-no-date         Omit date from log output
-    -V, --version         output the version number
+  -h, --help            output usage information
+  -f, --focus <path>    Choose one route to focus on. Mount only that.
+  -w, --workers [num]   Start with given [num] of workers, or all CPUs.
+  -p, --port <port>     Override the port to mount the server on
+  -u, --use <attitude>  Specify attitude(s) to use
+  -s, --silent          Do not output anything on purpose
+  -v, --verbose         Output a lot
+  --debug               Debug output
+  --log-no-date         Omit date from log output
+  -V, --version         output the version number
 ```
 Aden runs in _production_ by default, without any CLI options.
 
@@ -54,13 +59,13 @@ Aden runs in _production_ by default, without any CLI options.
 To confirm aden is installed correctly, try running the docs from the repository,
 or check out the getting started guide at [aden.zwerk.io](http://aden.zwerk.io)
 ```
-aden -d path/to/docs
+aden dev path/to/docs
 ```
 (Point to any directory containing a `.server` file)
 
 From the repo:
 ```
-node index -d docs
+node index dev docs
 ```
 
 ### Production
@@ -69,7 +74,7 @@ by default in a _.dist_ folder in the root folder of the app.
 
 To create a build:
 ```
-aden [path] -b
+aden build [path]
 ```
 
 Aden assumes a production environment if none is explicitly specified.
@@ -81,6 +86,7 @@ aden [path]
 # Resources
 Learn more about the technologies used:
  - [Awesome Webpack](https://github.com/webpack-contrib/awesome-webpack)
+ - [12 Factor Application](https://12factor.net/)
 
 # About
 _Aden_ is an effort to allow convenient aggregation of data from services,
