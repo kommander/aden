@@ -27,7 +27,6 @@ _Note_: I am still under active development in an alpha stage, if you want to ge
 
 I can automate a lot of things for you. It's great to be able to _do all the things_ and you can still make me do whatever you need. I come with a _distinct subset of behaviours_ though, my _attitude_.
 
-I assume you know what a Terminal is and that you have used one before.
 I leverage a set of modern open source technologies like [Webpack](https://github.com/webpack/webpack), [Babel](https://babeljs.io/) and [Express](http://expressjs.com/) to deliver on my promises.
 Although you do not need to know about any of these in detail to get started, I strongly encourage you to read up on the technologies involved.
 
