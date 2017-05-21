@@ -25,7 +25,7 @@ npm i -g aden
 
 _Note_: I am still under active development in an alpha stage, if you want to get the newest development version, clone my repository and do `npm i -g` from there.
 
-I can automate a lot of things for you. It's great to be able to _do all the things_ and you can still make me do whatever you need. I come with a _distinct subset of behaviours_ though, my _attitude_.
+I can automate a lot of things for you. I come with a _distinct subset of behaviours_, my _attitude_.
 
 I leverage a set of modern open source technologies like [Webpack](https://github.com/webpack/webpack), [Babel](https://babeljs.io/) and [Express](http://expressjs.com/) to deliver on my promises.
 Although you do not need to know about any of these in detail to get started, I strongly encourage you to read up on the technologies involved.
