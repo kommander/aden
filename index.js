@@ -276,3 +276,7 @@ process.on('unhandledRejection', (reason) => {
 });
 
 program.parse(process.argv);
+
+if (program.args.length < 2) {
+  program.help();
+}

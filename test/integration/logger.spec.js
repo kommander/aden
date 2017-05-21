@@ -1,5 +1,4 @@
 const aden = require('../../lib/aden');
-const logger = require('../../lib/aden.logger');
 const path = require('path');
 const expect = require('expect');
 const sinon = require('sinon');
