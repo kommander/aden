@@ -5,9 +5,9 @@ before((done) => {
 });
 
 process.on('uncaughtException', (ex) => {
-  console.error('FATAL: Uncaught Exception', ex); // eslint-disable-line
+  console.error('TEST FATAL: Uncaught Exception', ex); // eslint-disable-line
 });
 
 process.on('unhandledRejection', (reason) => {
-  console.error('FATAL: Unhandled Promise Rejection', reason); // eslint-disable-line
+  console.error('TEST FATAL: Unhandled Promise Rejection', reason); // eslint-disable-line
 });

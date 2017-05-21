@@ -241,8 +241,16 @@ program
 program
   .command('deploy [rootPath] [target]')
   .description('Run deploy task with default or given target(s)')
-  .action((rootPath, target, cmd) => {
-    log.info('deploy', rootPath, target, cmd);
+  .action((...rest) => {
+    initLogAndConfig({ dev: false });
+    createAden(config)
+      .init(resolveRootPath(rest[1] ? rest[1] : rest[0]), program.focus)
+      .then((aden) => aden.run('deploy', { target: rest[1] || null }))
+      .then(() => {
+        log.success('Deploy done. Exiting.');
+        process.exit(0);
+      })
+      .catch(fatalErrorHandler);
   });
 
 /* eslint-disable */
