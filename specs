@@ -1,4 +1,4 @@
-Creating coverage report for version 0.2.0-alpha.10.
+Creating coverage report for version 0.2.0-alpha.11.
 
 
   Controller Dev
@@ -35,6 +35,25 @@ Creating coverage report for version 0.2.0-alpha.10.
     ✓ has a root route with index.hbs entry point
     ✓ delivers index.hbs at root path
     ✓ delivers index.hbs at sub path
+    ✓ wraps hbs in given layout (layout.default.html|hbs|md)
+    ✓ works without layout attitude active (hbs)
+    ✓ works with layout inactive for hbs (nolayout)
+    ✓ includes images in the build (hbs)
+    ✓ includes images required from sub path in the build (hbs)
+    ✓ injects commons in hbs (layout inactive)
+    ✓ injects commons in hbs (nolayout)
+
+  HBS Prod
+    ✓ has a root route with index.hbs entry point
+    ✓ delivers index.hbs at root path
+    ✓ delivers index.hbs at sub path
+    ✓ wraps hbs in given layout (layout.default.html|hbs|md)
+    ✓ works without layout attitude active (hbs)
+    ✓ works with layout inactive for hbs (nolayout)
+    ✓ includes images in the build (hbs)
+    ✓ includes images required from sub path in the build (hbs)
+    ✓ injects commons in hbs (layout inactive)
+    ✓ injects commons in hbs (nolayout)
 
   HTML Dev
     ✓ has a root route with index.html entry point
@@ -60,6 +79,7 @@ Creating coverage report for version 0.2.0-alpha.10.
     ✓ delivers additional md files at page path
     ✓ delivers additional md files at page sub path
     ✓ wraps md in given layout (layout.default.html|hbs|md)
+    ✓ does not wrap subpage md in given layout (layout.default.html|hbs|md)
     ✓ works without layout attitude active
     ✓ works for additionals without layout attitude active
     ✓ works with layout inactive for md (nolayout)
@@ -86,10 +106,11 @@ Creating coverage report for version 0.2.0-alpha.10.
   Attitudes API
     ✓ allows to load app level attitudes
 
-  CLI Dev
+  CLI
+    ✓ has a dev mode cli command (3610ms)
+    ✓ has a start (production mode) cli command
+    ✓ has a build cli command
     - // Things Aden already does but are untested...
-    - runs in production without a specific dev flag
-    - provides a dev flag to run the dev setup
     - provides a build flag to output a production build
     - provides a flag to set the focus path
     - provides a cleanup flag
@@ -114,11 +135,19 @@ Creating coverage report for version 0.2.0-alpha.10.
     - ignores dot files/folders for page parsing
     - does not expose bare assets from page tree
 
+  Deploy
+    ✓ logs a warning for non existent deploy target
+    ✓ runs no deploy if non-existing target was specified (default)
+    ✓ runs default deploy if target was matched
+    ✓ runs deploy if target was matched
+    ✓ does not execute deploy hooks if no target was matched
+    ✓ executes deploy hooks if target was matched
+
   dev
     ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (4141ms)
-    ✓ recognises new files in sub folders and sets up the page (3958ms)
-    ✓ recognises changed watch keys (3897ms)
+    ✓ recognises new files and sets up the page (4195ms)
+    ✓ recognises new files in sub folders and sets up the page (4441ms)
+    ✓ recognises changed watch keys (3614ms)
 
   page keys (registerKey)
     ✓ adds a named key to the page
@@ -148,7 +177,7 @@ Creating coverage report for version 0.2.0-alpha.10.
     ✓ does not route pages with { route: false; } > .server
     ✓ matches greedy routes
     ✓ puts greedy routes at the end of the router stack
-    ✓ allows params in page path /user/:id/edit
+    ✓ allows params in page path /user/+id/edit
     - // Things Aden already does but are untested...
     - allows params in { route: '/:id'} > .server
 
@@ -170,13 +199,13 @@ Creating coverage report for version 0.2.0-alpha.10.
     ✓ merges a webpack config from a page .server config
 
 
-  100 passing (2m)
-  24 pending
+  127 passing (2m)
+  22 pending
 
 
 =============================== Coverage summary ===============================
-Statements   : 90.14% ( 1134/1258 ), 15 ignored
-Branches     : 76.92% ( 400/520 ), 2 ignored
-Functions    : 95% ( 57/60 ), 5 ignored
-Lines        : 90.18% ( 1111/1232 )
+Statements   : 90.61% ( 1197/1321 ), 15 ignored
+Branches     : 77.13% ( 425/551 ), 2 ignored
+Functions    : 95.38% ( 62/65 ), 5 ignored
+Lines        : 90.63% ( 1170/1291 )
 ================================================================================
