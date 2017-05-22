@@ -9,6 +9,10 @@ const cannot = require('brokens');
  * Gathers
  */
 module.exports = (aden) => {
+  const {
+    ENTRY_TYPE_DYNAMIC,
+  } = aden.constants;
+
   aden.registerKey('hbs', {
     type: 'object',
     config: true,
@@ -30,7 +34,7 @@ module.exports = (aden) => {
   });
 
   aden.registerFiles('hbsFiles', /\.(hbs|hdbs)$/, {
-    fn: ({ page, fileInfo }) => {
+    handler: ({ page, fileInfo }) => {
       if (fileInfo.name === page.key.hbs.value.entry) {
         Object.assign(page.key.hbsIndex, {
           value: fileInfo.rpath,
@@ -38,6 +42,9 @@ module.exports = (aden) => {
         return;
       }
     },
+  }, {
+    entry: ENTRY_TYPE_DYNAMIC,
+    distExt: '.hbs',
   });
 
   aden.hook('load', ({ page }) =>
@@ -132,31 +139,5 @@ module.exports = (aden) => {
         },
       ],
     });
-  });
-
-  aden.hook('apply', ({ page, webpackConfigs, webpackEntry }) => {
-    if (page.key.hbsIndex.value) {
-      if (aden.isDEV) {
-        webpackEntry.push(page.key.hbsIndex.resolved);
-      }
-
-      const chunks = ['global', page.entryName];
-
-      if (page.commons) {
-        chunks.unshift('commons');
-      }
-
-      const hbsPlugin = new HtmlWebpackPlugin({
-        template: page.key.hbsIndex.resolved,
-        filename: page.key.hbsIndex.dist,
-        inject: !page.key.hbs.value.layout
-          || !page.key.selectedLayout || !page.key.selectedLayout.value,
-        cache: false,
-        chunks,
-        showErrors: aden.isDEV,
-      });
-
-      webpackConfigs[0].plugins.push(hbsPlugin);
-    }
   });
 };
