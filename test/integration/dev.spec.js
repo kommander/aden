@@ -62,7 +62,7 @@ describe('dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/sub')
+          .get('/sub/')
           .end((err, res) => {
             if (err) {
               done(err);
@@ -73,7 +73,7 @@ describe('dev', () => {
             // Mhhh... need to know when a build has finished
             an.on('dev:reload:done', () => {
               request(an.app)
-                .get('/sub')
+                .get('/sub/')
                 // fckn hell. todo: use promisified supertest
                 .end((err2, res2) => {
                   if (err2) {

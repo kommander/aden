@@ -13,7 +13,8 @@ describe('CSS Attitude Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => {
         // The hashed version of the filename for production
-        const fileName = an.webpackStats[0].assetsByChunkName['cssbase.sub'][1];
+        const stats = an.webpackStats[0].children.find((child) => (child.name === 'frontend'));
+        const fileName = stats.assetsByChunkName['cssbase.sub'][1];
         request(an.app)
           .get(`/${fileName}`)
           .end((err, res) => {
@@ -32,7 +33,8 @@ describe('CSS Attitude Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => {
         // The hashed version of the filename for production
-        const fileName = an.webpackStats[0].assetsByChunkName['cssbase.sub2'][1];
+        const stats = an.webpackStats[0].children.find((child) => (child.name === 'frontend'));
+        const fileName = stats.assetsByChunkName['cssbase.sub2'][1];
         request(an.app)
           .get(`/${fileName}`)
           .end((err, res) => {
@@ -50,7 +52,8 @@ describe('CSS Attitude Prod', () => {
       .then((an) => an.run('build'))
       .then((an) => an.run('production'))
       .then((an) => {
-        const fileName = an.webpackStats[0].assets
+        const stats = an.webpackStats[0].children.find((child) => (child.name === 'frontend'));
+        const fileName = stats.assets
           .filter((asset) => asset.name.match(/^images/))[0].name;
         request(an.app)
           .get(`/${fileName}`)

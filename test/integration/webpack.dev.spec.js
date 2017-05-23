@@ -8,8 +8,11 @@ describe('Webpack Dev', () => {
       .init(path.resolve(__dirname, '../tmpdata/merge'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        expect(an.webpackConfigs[0].resolve).toIncludeKey('alias');
-        expect(an.webpackConfigs[0].resolve.alias).toIncludeKey('$');
+        const frontendConfig = an.webpackConfigs
+          .find((conf) => (conf.name === 'frontend'));
+
+        expect(frontendConfig.resolve).toIncludeKey('alias');
+        expect(frontendConfig.resolve.alias).toIncludeKey('$');
         an.shutdown(done);
       })
       .catch(done);

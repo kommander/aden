@@ -83,7 +83,7 @@ describe('Routing Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/greedy/overrides')
+          .get('/greedy/overrides/')
           .end((err, res) => {
             if (err) { done(err); return; }
             expect(res.status).toBe(200);

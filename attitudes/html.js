@@ -1,5 +1,3 @@
-const fs = require('fs');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = (aden) => {
@@ -13,6 +11,8 @@ module.exports = (aden) => {
     inherit: true,
   });
 
+  // TODO: Warn for overlapping static dist files like: [index.md, index.hbs] -> index.html
+
   aden.registerFile(
     'htmlFile',
     ({ page, fileInfo }) =>
@@ -24,9 +24,12 @@ module.exports = (aden) => {
   );
 
   aden.hook('post:apply', ({ pages, webpackConfigs }) => {
-    webpackConfigs[0].resolve.extensions.push('.html');
+    const frontendConfig = webpackConfigs
+      .find((conf) => (conf.name === 'frontend'));
 
-    webpackConfigs[0].module.rules.push({
+    frontendConfig.resolve.extensions.push('.html');
+
+    frontendConfig.module.rules.push({
       test: /\.html$/,
       include: [
         path.resolve(pages[0].rootPath, '../node_modules'),

@@ -23,7 +23,10 @@ module.exports = (aden) => {
   });
 
   aden.hook('post:apply', ({ webpackConfigs, pages }) => {
-    webpackConfigs[0].resolve.extensions.push('.md', '.markdown');
+    const frontendConfig = webpackConfigs
+      .find((conf) => (conf.name === 'frontend'));
+
+    frontendConfig.resolve.extensions.push('.md', '.markdown');
     const markdownLoader = {
       loader: require.resolve('markdown-loader'),
     };
@@ -35,7 +38,7 @@ module.exports = (aden) => {
       });
     }
 
-    webpackConfigs[0].module.rules.push({
+    frontendConfig.module.rules.push({
       test: /\.(md|markdown)$/,
       use: [
         {
