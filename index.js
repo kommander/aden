@@ -61,6 +61,14 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
   const hostName = splitPort.length > 1
     ? splitPort[0]
     : (process.env.HOSTNAME || aden.rootConfig.hostname || null);
+
+  const gracefulShutdown = () => {
+    aden.shutdown(() => process.exit(0));
+  };
+
+  process.on('SIGTERM', gracefulShutdown);
+  process.on('SIGINT', gracefulShutdown);
+
   aden.app.listen(port, hostName, (err) => {
     if (err) {
       reject(err);
@@ -71,12 +79,14 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
 
     log.success(`Started ${type} at ${hostName || 'localhost'}:${port}`);
 
+    /* istanbul ignore next */
     if (doOpen) {
       open(`http://${hostName || 'localhost'}:${port}`);
     }
 
     resolve(aden);
   });
+
 }));
 
 const deriveConfig = (prog, logOptions, dev) => ({
@@ -139,6 +149,14 @@ program
         const workersById = {};
         let numWorkersListening = 0;
         let exitStatus = 0;
+        const gracefulShutdown = () => {
+          Object.keys(workersById).forEach((key) => {
+            workersById[key].kill('SIGTERM');
+          });
+        };
+
+        process.on('SIGTERM', gracefulShutdown);
+        process.on('SIGINT', gracefulShutdown);
 
         cluster.on('fork', (worker) => {
           log.info(`Forked worker ${worker.id}`);
