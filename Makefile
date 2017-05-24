@@ -82,7 +82,8 @@ mincov: coverage
 .PHONY: mincov
 
 coveralls:
-	@node ./node_modules/.bin/nyc ./node_modules/mocha/bin/mocha --report lcovonly $(TESTS) $(MOCHA_OPTS) $(MOCHA) -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+	@node ./node_modules/.bin/nyc report --reporter=lcov
+	@cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 .PHONY: coveralls
 
 specs:
