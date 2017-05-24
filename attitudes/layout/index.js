@@ -60,6 +60,8 @@ module.exports = (aden) => {
       .filter((page) => (page.key.selectedLayout.value))
       .map((page) => page.key.selectedLayout.resolved);
 
+    // TODO: Let aden apply paths and context
+    // Use something like aden.registerWebpack('layout', { config }, { before: 'frontend'})
     if (entry.length > 0) {
       const config = {
         entry: _.uniq(entry),

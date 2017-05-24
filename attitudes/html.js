@@ -38,7 +38,7 @@ module.exports = (aden) => {
       use: {
         loader: require.resolve('html-loader'),
         // options: {
-        //   minimize: aden.isPROD,
+        //   minimize: !aden.isDEV,
         // },
       },
     });
