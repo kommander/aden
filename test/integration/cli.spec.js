@@ -12,7 +12,7 @@ describe('CLI', () => {
     });
     const logParser = logger.getLogParser();
     logParser.attach(child.stdout);
-    logParser.on('listening', () => child.kill());
+    logParser.on('listening', () => child.kill('SIGINT'));
     child.on('error', done);
     child.on('exit', () => {
       logParser.destroy();
@@ -29,14 +29,11 @@ describe('CLI', () => {
           cwd: path.resolve(__dirname, '../../'),
           stdio: ['ignore', 'pipe', 'pipe'],
         });
-        const logParser = logger.getLogParser();    
+        const logParser = logger.getLogParser();
         logParser.attach(child.stdout);
-        logParser.on('listening', () => child.kill());
-        child.on('error', () => {
-          logParser.destroy();
-          done();
-        });
+        logParser.on('listening', () => child.kill('SIGINT'));
         child.on('exit', () => {
+          logParser.destroy();
           an.shutdown(done);
         });
       });
@@ -49,11 +46,8 @@ describe('CLI', () => {
     });
     const logParser = logger.getLogParser();
     logParser.attach(child.stdout);
-    child.on('error', () => {
-      logParser.destroy();
-      done();
-    });
     child.on('exit', () => {
+      child.kill('SIGINT');
       logParser.destroy();
       done();
     });
@@ -67,6 +61,7 @@ describe('CLI', () => {
     const logParser = logger.getLogParser();
     logParser.attach(child.stderr);
     logParser.once('error', (err) => {
+      child.kill('SIGINT');
       expect(err.message).toMatch('I could not start up, because no .server file');
       logParser.destroy();
       done();
@@ -81,6 +76,7 @@ describe('CLI', () => {
     const logParser = logger.getLogParser();
     logParser.attach(child.stderr);
     logParser.once('error', (err) => {
+      child.kill('SIGINT');
       expect(err.message).toMatch('listen EACCES');
       logParser.destroy();
       done();
@@ -88,29 +84,22 @@ describe('CLI', () => {
   });
 
   she('starts a cluster with -w option', (done) => {
-    const child = spawn('node', ['index.js', 'build', 'test/tmpdata/empty'], {
+    const child = spawn('node', ['index.js', 'build', 'test/tmpdata/basics'], {
       cwd: path.resolve(__dirname, '../../'),
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     child.on('exit', () => {
-      const child = spawn('node', ['index.js', 'start', 'test/tmpdata/empty', '-w', '2', '-p', '12100'], {
+      const subchild = spawn('node', ['index.js', 'start', 'test/tmpdata/basics', '-w', '2', '-p', '12100'], {
         cwd: path.resolve(__dirname, '../../'),
         stdio: ['ignore', 'pipe', 'pipe'],
       });
 
-      child.stdout.pipe(process.stdout);
       const logParser = logger.getLogParser();
-      logParser.attach(child.stdout);
-      logParser.attach(child.stderr);
+      logParser.attach(subchild.stdout);
       logParser.once('ready', () => {
-        child.kill('SIGINT');
+        subchild.kill('SIGINT');
         logParser.destroy();
         done();
-      });
-      logParser.once('error', (err) => {
-        child.kill('SIGINT');
-        logParser.destroy();
-        done(err);
       });
     });
   });
@@ -121,54 +110,22 @@ describe('CLI', () => {
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     child.on('exit', () => {
-      const child = spawn('node', ['index.js', 'start', 'test/tmpdata/empty', '-w', '2', '-p', '12100'], {
+      const subchild = spawn('node', ['index.js', 'start', 'test/tmpdata/empty', '-w', '2', '-p', '12100'], {
         cwd: path.resolve(__dirname, '../../'),
         stdio: ['ignore', 'pipe', 'pipe'],
       });
 
-      child.stdout.pipe(process.stdout);
       const logParser = logger.getLogParser();
-      logParser.attach(child.stdout);
-      logParser.attach(child.stderr);
+      logParser.attach(subchild.stdout);
       logParser.on('ready', () => {
-        child.kill('SIGINT');
+        subchild.kill('SIGINT');
       });
       logParser.once('shutdown:complete', () => {
         logParser.destroy();
         done();
       });
-      logParser.once('error', (err) => {
-        child.kill('SIGINT');
-        logParser.destroy();
-        done(err);
-      });
     });
   });
-
-  she('logs worker errors', (done) => {
-    const child = spawn('node', ['index.js', 'build', 'test/tmpdata/startuperror'], {
-      cwd: path.resolve(__dirname, '../../'),
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
-    child.on('exit', () => {
-      const child = spawn('node', ['index.js', 'start', 'test/tmpdata/startuperror', '-w', '2'], {
-        cwd: path.resolve(__dirname, '../../'),
-        stdio: ['ignore', 'pipe', 'pipe'],
-      });
-      const logParser = logger.getLogParser();
-      logParser.attach(child.stdout);
-      logParser.attach(child.stderr);      
-      logParser.once('error', (err) => {
-        expect(err.message).toMatch('BLEEEARGH!');
-        child.kill('SIGINT');
-      });
-      logParser.on('worker:error', () => {
-        logParser.destroy();
-        done();
-      });
-    });
-  });
-
 
   she('// Things Aden already does but are untested...');
   she('provides a build flag to output a production build');
