@@ -75,7 +75,7 @@ coverage:
 
 check-coverage:
 	@node ./node_modules/.bin/nyc check-coverage --statements 80 --functions 80 --lines 80 --branches 70
-.PHONY: mincov
+.PHONY: check-coverage
 
 mincov: coverage
 	@node ./node_modules/.bin/nyc check-coverage --statements 80 --functions 80 --lines 80 --branches 70

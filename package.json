@@ -5,7 +5,7 @@
   "main": "lib/aden.js",
   "preferGlobal": "false",
   "scripts": {
-    "test": "make test",
+    "test": "make coverage",
     "heroku-postbuild": "node index build docs --debug",
     "coveralls": "make coveralls"
   },
