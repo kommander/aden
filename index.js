@@ -7,6 +7,8 @@ const pckgJson = require('./package.json');
 const open = require('open');
 const cluster = require('cluster');
 const chalk = require('chalk');
+const os = require('os');
+
 
 /**
  * Aden CLI
@@ -86,7 +88,6 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
 
     resolve(aden);
   });
-
 }));
 
 const deriveConfig = (prog, logOptions, dev) => ({
@@ -137,13 +138,13 @@ program
 
     // Default clustering for production
     if (program.workers && cluster.isMaster) {
-      const numCpus = require('os').cpus().length;
+      const numCpus = os.cpus().length;
       Promise.resolve().then(() => {
         let max = parseInt(program.workers, 10) || numCpus;
 
+        /* istanbul ignore next */
         if (max > numCpus) {
           log.warn(`Starting more workers than CPUs available (${max}/${numCpus})`);
-          max = numCpus;
         }
 
         const workersById = {};
@@ -171,7 +172,7 @@ program
             numWorkersListening--;
 
             if (code > 0) {
-              log.error('Worker Exit with Error', { code, signal });
+              log.error('Worker Exit with Error', new Error(`Worker error code: ${code}`));
               exitStatus = 1;
               // TODO: Determine if viable for restart
             } else {

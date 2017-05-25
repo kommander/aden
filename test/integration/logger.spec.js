@@ -70,7 +70,7 @@ describe('Logger', () => {
     .then((an) => {
       an.log.info('text');
       expect(stream.write.callCount).toBeGreaterThan(1);
-      expect(stream.write.calledWithMatch(/text\n/)).toBeTruthy();
+      expect(stream.write.calledWithMatch(/\{"msg":"text"\}/)).toBeTruthy();
       an.shutdown(done);
     })
     .catch(done);
@@ -93,7 +93,7 @@ describe('Logger', () => {
     .then((an) => {
       an.log.info('infotext');
       expect(stream.write.callCount).toBeGreaterThan(1);
-      expect(stream.write.calledWithMatch(/infotext\n/)).toBeTruthy();
+      expect(stream.write.calledWithMatch(/\{"msg":"infotext"\}/)).toBeTruthy();
       an.shutdown(done);
     })
     .catch(done);
@@ -116,7 +116,7 @@ describe('Logger', () => {
     .then((an) => {
       an.log.warn('warntext');
       expect(stream.write.callCount).toBeGreaterThan(1);
-      expect(stream.write.calledWithMatch(/warntext/)).toBeTruthy();
+      expect(stream.write.calledWithMatch(/\{"msg":"warntext"\}/)).toBeTruthy();
       an.shutdown(done);
     })
     .catch(done);
@@ -140,7 +140,7 @@ describe('Logger', () => {
     .then((an) => {
       an.log.error('errortext');
       expect(stream.write.callCount).toBeGreaterThan(1);
-      expect(stream.write.calledWithMatch(/errortext/)).toBeTruthy();
+      expect(stream.write.calledWithMatch(/\{"msg":"errortext"\}/)).toBeTruthy();
       an.shutdown(done);
     })
     .catch(done);
@@ -163,7 +163,7 @@ describe('Logger', () => {
     .then((an) => {
       an.log.start('starttext');
       expect(stream.write.callCount).toBeGreaterThan(1);
-      expect(stream.write.calledWithMatch(/starttext\n/)).toBeTruthy();
+      expect(stream.write.calledWithMatch(/\{"msg":"starttext"\}/)).toBeTruthy();
       an.shutdown(done);
     })
     .catch(done);
@@ -186,7 +186,7 @@ describe('Logger', () => {
     .then((an) => {
       an.log.success('successtext');
       expect(stream.write.callCount).toBeGreaterThan(1);
-      expect(stream.write.calledWithMatch(/successtext\n/)).toBeTruthy();
+      expect(stream.write.calledWithMatch(/\{"msg":"successtext"\}/)).toBeTruthy();
       an.shutdown(done);
     })
     .catch(done);

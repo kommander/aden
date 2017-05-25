@@ -1,8 +1,30 @@
 const aden = require('../../lib/aden');
 const logger = require('../../lib/aden.logger');
-const spawn = require('child_process').spawn;
+const nativeSpawn = require('child_process').spawn;
 const path = require('path');
 const expect = require('expect');
+const http = require('http');
+
+const children = [];
+const spawn = (...rest) => {
+  const child = nativeSpawn(...rest);
+  children.push(child);
+  return child;
+};
+
+const anakin = () => {
+  children.forEach((child) => {
+    child.kill('SIGINT');
+  });
+};
+
+process.on('exit', () => {
+  anakin();
+});
+
+after(() => {
+  anakin();
+});
 
 describe('CLI', () => {
   she('has a dev mode cli command', (done) => {
@@ -127,8 +149,34 @@ describe('CLI', () => {
     });
   });
 
+  she('logs worker errors', (done) => {
+    const child = spawn('node', ['index.js', 'build', 'test/tmpdata/geterror'], {
+      cwd: path.resolve(__dirname, '../../'),
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+
+    child.on('exit', () => {
+      const subchild = spawn('node', ['index.js', 'start', 'test/tmpdata/geterror', '-w', '2', '-p', '12100'], {
+        cwd: path.resolve(__dirname, '../../'),
+        stdio: ['ignore', 'pipe', 'pipe'],
+        env: { DEBUG: 'true' },
+      });
+
+      const logParser = logger.getLogParser();
+      logParser.attach(subchild.stderr);
+      logParser.attach(subchild.stdout);
+      logParser.on('ready', () => {
+        http.get('http://localhost:12100/').on('error', () => null);
+      });
+      logParser.once('worker:error', (err) => {
+        expect(err.message).toMatch('Worker error code: 1');
+        logParser.destroy();
+        done();
+      });
+    });
+  });
+
   she('// Things Aden already does but are untested...');
-  she('provides a build flag to output a production build');
   she('provides a flag to set the focus path');
   she('provides a cleanup flag');
 });
