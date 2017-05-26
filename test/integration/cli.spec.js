@@ -1,29 +1,12 @@
 const aden = require('../../lib/aden');
-const logger = require('../../lib/aden.logger');
-const nativeSpawn = require('child_process').spawn;
+const Logger = require('../../lib/aden.logger');
 const path = require('path');
 const expect = require('expect');
 const http = require('http');
-
-const children = [];
-const spawn = (...rest) => {
-  const child = nativeSpawn(...rest);
-  children.push(child);
-  return child;
-};
-
-const anakin = () => {
-  children.forEach((child) => {
-    child.kill('SIGINT');
-  });
-};
-
-process.on('exit', () => {
-  anakin();
-});
+const spawn = require('../lib/spawn');
 
 after(() => {
-  anakin();
+  spawn.anakin();
 });
 
 describe('CLI', () => {
@@ -32,7 +15,7 @@ describe('CLI', () => {
       cwd: path.resolve(__dirname, '../../'),
       stdio: ['ignore', 'pipe', 'pipe'],
     });
-    const logParser = logger.getLogParser();
+    const logParser = Logger.getLogParser();
     logParser.attach(child.stdout);
     logParser.on('listening', () => child.kill('SIGINT'));
     child.on('error', done);
@@ -51,7 +34,7 @@ describe('CLI', () => {
           cwd: path.resolve(__dirname, '../../'),
           stdio: ['ignore', 'pipe', 'pipe'],
         });
-        const logParser = logger.getLogParser();
+        const logParser = Logger.getLogParser();
         logParser.attach(child.stdout);
         logParser.on('listening', () => child.kill('SIGINT'));
         child.on('exit', () => {
@@ -66,7 +49,7 @@ describe('CLI', () => {
       cwd: path.resolve(__dirname, '../../'),
       stdio: ['ignore', 'pipe', 'pipe'],
     });
-    const logParser = logger.getLogParser();
+    const logParser = Logger.getLogParser();
     logParser.attach(child.stdout);
     child.on('exit', () => {
       child.kill('SIGINT');
@@ -80,7 +63,7 @@ describe('CLI', () => {
       cwd: path.resolve(__dirname, '../../'),
       stdio: ['ignore', 'pipe', 'pipe'],
     });
-    const logParser = logger.getLogParser();
+    const logParser = Logger.getLogParser();
     logParser.attach(child.stderr);
     logParser.once('error', (err) => {
       child.kill('SIGINT');
@@ -95,7 +78,7 @@ describe('CLI', () => {
       cwd: path.resolve(__dirname, '../../'),
       stdio: ['ignore', 'pipe', 'pipe'],
     });
-    const logParser = logger.getLogParser();
+    const logParser = Logger.getLogParser();
     logParser.attach(child.stderr);
     logParser.once('error', (err) => {
       child.kill('SIGINT');
@@ -118,7 +101,7 @@ describe('CLI', () => {
         stdio: ['ignore', 'pipe', 'pipe'],
       });
 
-      const logParser = logger.getLogParser();
+      const logParser = Logger.getLogParser();
       logParser.attach(subchild.stdout);
       logParser.once('ready', () => {
         subchild.kill('SIGINT');
@@ -141,7 +124,7 @@ describe('CLI', () => {
         stdio: ['ignore', 'pipe', 'pipe'],
       });
 
-      const logParser = logger.getLogParser();
+      const logParser = Logger.getLogParser();
       logParser.attach(subchild.stdout);
       logParser.on('ready', () => {
         subchild.kill('SIGINT');
@@ -167,11 +150,15 @@ describe('CLI', () => {
         stdio: ['ignore', 'pipe', 'pipe'],
       });
 
-      const logParser = logger.getLogParser();
+      const logParser = Logger.getLogParser();
       logParser.attach(subchild.stderr);
       logParser.attach(subchild.stdout);
+      logParser.on('error', done);
       logParser.on('ready', () => {
-        http.get('http://localhost:12100/').on('error', () => null);
+        setTimeout(() =>
+          http.get('http://localhost:12100/').on('error', () => null),
+          1000
+        );
       });
       logParser.once('worker:error', (err) => {
         expect(err.message).toMatch('Worker error code: 1');

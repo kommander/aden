@@ -4,6 +4,11 @@ const path = require('path');
 const expect = require('expect');
 const sinon = require('sinon');
 const Duplex = require('stream').Duplex;
+const spawn = require('../lib/spawn');
+
+after(() => {
+  spawn.anakin();
+});
 
 class TestDuplex extends Duplex {
   _write(data, enc, next) {
@@ -430,6 +435,19 @@ describe('Logger', () => {
       an.shutdown(done);
     })
     .catch(done);
+  });
+
+  she('has a ready event in log', (done) => {
+    const child = spawn('node', ['index.js', 'dev', 'test/tmpdata/basics'], {
+      cwd: path.resolve(__dirname, '../../'),
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    const logParser = Logger.getLogParser();
+    logParser.attach(child.stdout);
+    logParser.on('ready', () => {
+      logParser.destroy();
+      done();
+    });
   });
 
   she('overrides the silent setting with env ADEN_FORCE_LOG=true', (done) => {
