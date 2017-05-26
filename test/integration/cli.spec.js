@@ -17,7 +17,7 @@ describe('CLI', () => {
     });
     const logParser = Logger.getLogParser();
     logParser.attach(child.stdout);
-    logParser.on('listening', () => child.kill('SIGINT'));
+    logParser.on('ready', () => child.kill('SIGINT'));
     child.on('error', done);
     child.on('exit', () => {
       logParser.destroy();
@@ -36,7 +36,7 @@ describe('CLI', () => {
         });
         const logParser = Logger.getLogParser();
         logParser.attach(child.stdout);
-        logParser.on('listening', () => child.kill('SIGINT'));
+        logParser.on('ready', () => child.kill('SIGINT'));
         child.on('exit', () => {
           logParser.destroy();
           an.shutdown(done);

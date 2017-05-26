@@ -82,13 +82,13 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
     let data;
     if (type === 'server') {
       data = {
-        event: 'ready',
         address: mountAddress,
         port,
       };
+      log.event('ready', data);
     }
 
-    log.success(`Started ${type} at ${hostName || 'localhost'}:${port}`, data);
+    log.success(`Started ${type} at ${hostName || 'localhost'}:${port}`);
 
     /* istanbul ignore next */
     if (doOpen) {
@@ -113,14 +113,14 @@ const getLogOptions = (prog) => ({
 });
 
 const initLogger = (dev, logOptions) => {
-  const log = logger(logOptions).namespace('aden cli'); // eslint-disable-line
+  const log = logger(logOptions).namespace('aden-cli'); // eslint-disable-line
 
   if (cluster.isMaster) {
     if (dev) {
-      log.raw(chalk.cyan('           _             '));
-      log.raw(chalk.cyan('          | |            '));
-      log.raw(chalk.cyan(' _____  __| |_____ ____  '));
-      log.raw(chalk.cyan('(____ |/ _  | ___ |  _ \\ '));
+      log.raw(chalk.cyan('           _'));
+      log.raw(chalk.cyan('          | |'));
+      log.raw(chalk.cyan(' _____  __| |_____ ____'));
+      log.raw(chalk.cyan('(____ |/ _  | ___ |  _ \\'));
       log.raw(chalk.cyan('/ ___ ( (_| | ____| | | |'));
       log.raw(chalk.cyan('\\_____|\\____|_____)_| |_|.zwerk.io'));
       log.warn('Ahoy! Running in dev env.');
@@ -185,12 +185,15 @@ program
               exitStatus = 1;
               // TODO: Determine if viable for restart
             } else {
-              log.info('Worker Exit Normal', { code, signal });
+              log.info('Worker Exit Normal');
             }
+
+            log.event('worker:shutdown', { code, signal, id: worker.id });
 
             const numWorkers = numberOfWorkers(workersById);
             if (numWorkers === 0) {
               log.info('No workers left, exiting');
+              log.event('shutdown:complete');
               process.exit(exitStatus);
             }
           });
@@ -204,11 +207,11 @@ program
           numWorkersListening++;
           if (numWorkersListening === max) {
             log.success(
-              `${numWorkersListening} workers listening at ${mountAddress}:${address.port}`, {
-                event: 'ready',
-                address: mountAddress,
-                port: address.port,
-              });
+              `${numWorkersListening} workers listening at ${mountAddress}:${address.port}`);
+            log.event('ready', {
+              address: mountAddress,
+              port: address.port,
+            });
           }
         });
 
@@ -258,7 +261,7 @@ program
 program
   .command('clean [rootPath]')
   .alias('c')
-  .description('Remove all dist folders')
+  .description('Remove all .dist folders')
   .action((rootPath) => {
     initLogAndConfig({ dev: false });
     createAden(config)

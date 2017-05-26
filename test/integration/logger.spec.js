@@ -93,7 +93,7 @@ describe('Logger', () => {
     .catch(done);
   });
 
-  she('logs debug level messages (with optional Object)', (done) => {
+  she('logs debug level messages (with debug Object)', (done) => {
     const stream = new TestDuplex();
     const logParser = Logger.getLogParser();
     logParser.attach(stream);
@@ -144,7 +144,7 @@ describe('Logger', () => {
     .catch(done);
   });
 
-  she('logs info level messages (with optional Object)', (done) => {
+  she('logs info level messages (without debug object)', (done) => {
     const stream = new TestDuplex();
     const logParser = Logger.getLogParser();
     logParser.attach(stream);
@@ -153,6 +153,33 @@ describe('Logger', () => {
       dev: true,
       logger: {
         silent: false,
+        stdStream: stream,
+        errStream: stream,
+      },
+    })
+    .init(path.resolve(__dirname, '../tmpdata/basics'))
+    .then((an) => an.run('dev'))
+    .then((an) => {
+      logParser.once('info', (obj) => {
+        expect(obj.data).toBe(undefined);
+        logParser.detach(stream);
+        an.shutdown(done);
+      });
+      an.log.info('infotext', { add: 'info' });
+    })
+    .catch(done);
+  });
+
+  she('logs info level messages (with debug Object)', (done) => {
+    const stream = new TestDuplex();
+    const logParser = Logger.getLogParser();
+    logParser.attach(stream);
+
+    aden({
+      dev: true,
+      logger: {
+        silent: false,
+        debug: true,
         stdStream: stream,
         errStream: stream,
       },
@@ -218,7 +245,7 @@ describe('Logger', () => {
     .catch(done);
   });
 
-  she('logs warn level messages (with optional Object)', (done) => {
+  she('logs warn level messages (with debug Object)', (done) => {
     const stream = new TestDuplex();
     const logParser = Logger.getLogParser();
     logParser.attach(stream);
@@ -227,6 +254,7 @@ describe('Logger', () => {
       dev: true,
       logger: {
         silent: false,
+        debug: true,
         stdStream: stream,
         errStream: stream,
       },
@@ -270,6 +298,33 @@ describe('Logger', () => {
     .catch(done);
   });
 
+  she('logs error level messages (with debug Object)', (done) => {
+    const stream = new TestDuplex();
+    const logParser = Logger.getLogParser();
+    logParser.attach(stream);
+
+    aden({
+      dev: true,
+      logger: {
+        silent: false,
+        debug: true,
+        stdStream: stream,
+        errStream: stream,
+      },
+    })
+    .init(path.resolve(__dirname, '../tmpdata/basics'))
+    .then((an) => an.run('dev'))
+    .then((an) => {
+      logParser.once('error', (err, obj) => {
+        expect(obj.data.stuff).toMatch('data');
+        logParser.detach(stream);
+        an.shutdown(done);
+      });
+      an.log.error('errortext', new Error('failed'), { stuff: 'data' });
+    })
+    .catch(done);
+  });
+
   she('logs start level messages', (done) => {
     const stream = {
       write: sinon.spy(),
@@ -293,7 +348,7 @@ describe('Logger', () => {
     .catch(done);
   });
 
-  she('logs start level messages (with optional Object)', (done) => {
+  she('logs start level messages (with debug Object)', (done) => {
     const stream = new TestDuplex();
     const logParser = Logger.getLogParser();
     logParser.attach(stream);
@@ -301,6 +356,7 @@ describe('Logger', () => {
     aden({
       dev: true,
       logger: {
+        debug: true,
         silent: false,
         stdStream: stream,
         errStream: stream,
@@ -342,7 +398,7 @@ describe('Logger', () => {
     .catch(done);
   });
 
-  she('logs success level messages (with optional Object)', (done) => {
+  she('logs success level messages (with debug Object)', (done) => {
     const stream = new TestDuplex();
     const logParser = Logger.getLogParser();
     logParser.attach(stream);
@@ -350,6 +406,7 @@ describe('Logger', () => {
     aden({
       dev: true,
       logger: {
+        debug: true,
         silent: false,
         stdStream: stream,
         errStream: stream,
@@ -411,6 +468,27 @@ describe('Logger', () => {
     .then((an) => an.run('dev'))
     .then((an) => {
       expect(() => an.log.namespace(null)).toThrow();
+      an.shutdown(done);
+    })
+    .catch(done);
+  });
+
+  she('throws and error for a namespace with space in name', (done) => {
+    const stream = {
+      write: sinon.spy(),
+    };
+
+    aden({
+      dev: true,
+      logger: {
+        silent: false,
+        stdStream: stream,
+      },
+    })
+    .init(path.resolve(__dirname, '../tmpdata/basics'))
+    .then((an) => an.run('dev'))
+    .then((an) => {
+      expect(() => an.log.namespace('not a namespace')).toThrow();
       an.shutdown(done);
     })
     .catch(done);
