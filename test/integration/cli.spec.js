@@ -153,10 +153,9 @@ describe('CLI', () => {
       const logParser = Logger.getLogParser();
       logParser.attach(subchild.stderr);
       logParser.attach(subchild.stdout);
-      logParser.on('error', done);
-      logParser.on('ready', () => {
+      logParser.on('ready', (info) => {
         setTimeout(() =>
-          http.get('http://localhost:12100/').on('error', () => null),
+          http.get(`http://${info.address}:${info.port}/`).on('error', () => null),
           1000
         );
       });

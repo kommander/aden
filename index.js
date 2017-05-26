@@ -75,9 +75,19 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
       return;
     }
 
+    const mountAddress = hostName || 'localhost';
     const type = cluster.isMaster ? 'server' : 'worker';
 
-    log.success(`Started ${type} at ${hostName || 'localhost'}:${port}`);
+    let data;
+    if (type === 'server') {
+      data = {
+        event: 'ready',
+        address: mountAddress,
+        port,
+      };
+    }
+
+    log.success(`Started ${type} at ${hostName || 'localhost'}:${port}`, data);
 
     /* istanbul ignore next */
     if (doOpen) {
@@ -185,13 +195,18 @@ program
         });
 
         cluster.on('listening', (worker, address) => {
-          log.success(`Worker ${worker.id} listening at ${address.address
-            || '127.0.0.1'}:${address.port}`);
+          const mountAddress = address.address || 'localhost';
+
+          log.success(`Worker ${worker.id} listening at ${mountAddress}:${address.port}`);
 
           numWorkersListening++;
           if (numWorkersListening === max) {
-            log.success(`${numWorkersListening} workers listening at ${address.address
-              || '127.0.0.1'}:${address.port}`);
+            log.success(
+              `${numWorkersListening} workers listening at ${mountAddress}:${address.port}`, {
+                event: 'ready',
+                address: mountAddress,
+                port: address.port,
+              });
           }
         });
 

@@ -450,6 +450,21 @@ describe('Logger', () => {
     });
   });
 
+  she('provides address/port to ready', (done) => {
+    const child = spawn('node', ['index.js', 'dev', 'test/tmpdata/basics'], {
+      cwd: path.resolve(__dirname, '../../'),
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    const logParser = Logger.getLogParser();
+    logParser.attach(child.stdout);
+    logParser.on('ready', (info) => {
+      expect(info.port).toBe(5000);
+      expect(info).toIncludeKey('address');
+      logParser.destroy();
+      done();
+    });
+  });
+
   she('overrides the silent setting with env ADEN_FORCE_LOG=true', (done) => {
     const stream = {
       write: sinon.spy(),
