@@ -9,7 +9,6 @@ const cluster = require('cluster');
 const chalk = require('chalk');
 const os = require('os');
 
-
 /**
  * Aden CLI
  */
@@ -25,7 +24,6 @@ program
   .option('-p, --port <port>', 'Override the port to mount the server on')
   .option('-u, --use <attitude>', 'Specify attitude(s) to use', collectAttitudes, [])
   .option('-s, --silent', 'Do not output anything on purpose')
-  .option('-v, --verbose', 'Output a lot')
   .option('--debug', 'Debug output')
 
   // TODO: --docs to run docs from package and open browser (different default port)
@@ -98,7 +96,6 @@ const deriveConfig = (prog, logOptions, dev) => ({
 
 const getLogOptions = (prog) => ({
   silent: prog.silent || false,
-  verbose: prog.verbose || process.env.NODE_VERBOSE || false,
   debug: prog.debug || false,
   noDate: !prog.logDate || false,
 });
@@ -108,12 +105,12 @@ const initLogger = (dev, logOptions) => {
 
   if (cluster.isMaster) {
     if (dev) {
-      log.info(chalk.cyan('           _             '));
-      log.info(chalk.cyan('          | |            '));
-      log.info(chalk.cyan(' _____  __| |_____ ____  '));
-      log.info(chalk.cyan('(____ |/ _  | ___ |  _ \\ '));
-      log.info(chalk.cyan('/ ___ ( (_| | ____| | | |'));
-      log.info(chalk.cyan('\\_____|\\____|_____)_| |_|.zwerk.io'));
+      log.raw(chalk.cyan('           _             '));
+      log.raw(chalk.cyan('          | |            '));
+      log.raw(chalk.cyan(' _____  __| |_____ ____  '));
+      log.raw(chalk.cyan('(____ |/ _  | ___ |  _ \\ '));
+      log.raw(chalk.cyan('/ ___ ( (_| | ____| | | |'));
+      log.raw(chalk.cyan('\\_____|\\____|_____)_| |_|.zwerk.io'));
       log.warn('Ahoy! Running in dev env.');
     } else {
       log.info(`Running in ${process.env.NODE_ENV || 'production (by default)'} env.`);
@@ -140,7 +137,7 @@ program
     if (program.workers && cluster.isMaster) {
       const numCpus = os.cpus().length;
       Promise.resolve().then(() => {
-        let max = parseInt(program.workers, 10) || numCpus;
+        const max = parseInt(program.workers, 10) || numCpus;
 
         /* istanbul ignore next */
         if (max > numCpus) {

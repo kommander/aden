@@ -111,7 +111,9 @@ describe('CLI', () => {
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     child.on('exit', () => {
-      const subchild = spawn('node', ['index.js', 'start', 'test/tmpdata/basics', '-w', '2', '-p', '12100'], {
+      const subchild = spawn('node', [
+        'index.js', 'start', 'test/tmpdata/basics', '-w', '2', '-p', '12100',
+      ], {
         cwd: path.resolve(__dirname, '../../'),
         stdio: ['ignore', 'pipe', 'pipe'],
       });
@@ -132,7 +134,9 @@ describe('CLI', () => {
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     child.on('exit', () => {
-      const subchild = spawn('node', ['index.js', 'start', 'test/tmpdata/empty', '-w', '2', '-p', '12100'], {
+      const subchild = spawn('node', [
+        'index.js', 'start', 'test/tmpdata/empty', '-w', '2', '-p', '12100',
+      ], {
         cwd: path.resolve(__dirname, '../../'),
         stdio: ['ignore', 'pipe', 'pipe'],
       });
@@ -156,10 +160,11 @@ describe('CLI', () => {
     });
 
     child.on('exit', () => {
-      const subchild = spawn('node', ['index.js', 'start', 'test/tmpdata/geterror', '-w', '2', '-p', '12100'], {
+      const subchild = spawn('node', [
+        'index.js', 'start', 'test/tmpdata/geterror', '-w', '2', '-p', '12100',
+      ], {
         cwd: path.resolve(__dirname, '../../'),
         stdio: ['ignore', 'pipe', 'pipe'],
-        env: { DEBUG: 'true' },
       });
 
       const logParser = logger.getLogParser();
