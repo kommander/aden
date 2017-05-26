@@ -6,10 +6,6 @@ const sinon = require('sinon');
 const Duplex = require('stream').Duplex;
 const spawn = require('../lib/spawn');
 
-after(() => {
-  spawn.anakin();
-});
-
 class TestDuplex extends Duplex {
   _write(data, enc, next) {
     this.emit('data', data);
@@ -19,6 +15,10 @@ class TestDuplex extends Duplex {
 }
 
 describe('Logger', () => {
+  afterEach(() => {
+    spawn.anakin();
+  });
+
   she('has a log', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/basics'))
@@ -444,6 +444,8 @@ describe('Logger', () => {
     });
     const logParser = Logger.getLogParser();
     logParser.attach(child.stdout);
+    logParser.attach(child.stderr);
+    logParser.on('error', done);
     logParser.on('ready', () => {
       logParser.destroy();
       done();
@@ -457,6 +459,8 @@ describe('Logger', () => {
     });
     const logParser = Logger.getLogParser();
     logParser.attach(child.stdout);
+    logParser.attach(child.stderr);
+    logParser.on('error', done);
     logParser.on('ready', (info) => {
       expect(info.port).toBe(5000);
       expect(info).toIncludeKey('address');

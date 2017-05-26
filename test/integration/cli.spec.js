@@ -5,11 +5,11 @@ const expect = require('expect');
 const http = require('http');
 const spawn = require('../lib/spawn');
 
-after(() => {
-  spawn.anakin();
-});
-
 describe('CLI', () => {
+  afterEach(() => {
+    spawn.anakin();
+  });
+
   she('has a dev mode cli command', (done) => {
     const child = spawn('node', ['index.js', 'dev', 'test/tmpdata/basics'], {
       cwd: path.resolve(__dirname, '../../'),
@@ -52,7 +52,6 @@ describe('CLI', () => {
     const logParser = Logger.getLogParser();
     logParser.attach(child.stdout);
     child.on('exit', () => {
-      child.kill('SIGINT');
       logParser.destroy();
       done();
     });
@@ -66,7 +65,6 @@ describe('CLI', () => {
     const logParser = Logger.getLogParser();
     logParser.attach(child.stderr);
     logParser.once('error', (err) => {
-      child.kill('SIGINT');
       expect(err.message).toMatch('I could not start up, because no .server file');
       logParser.destroy();
       done();
@@ -81,7 +79,6 @@ describe('CLI', () => {
     const logParser = Logger.getLogParser();
     logParser.attach(child.stderr);
     logParser.once('error', (err) => {
-      child.kill('SIGINT');
       expect(err.message).toMatch('listen EACCES');
       logParser.destroy();
       done();
@@ -104,7 +101,6 @@ describe('CLI', () => {
       const logParser = Logger.getLogParser();
       logParser.attach(subchild.stdout);
       logParser.once('ready', () => {
-        subchild.kill('SIGINT');
         logParser.destroy();
         done();
       });
@@ -127,6 +123,7 @@ describe('CLI', () => {
       const logParser = Logger.getLogParser();
       logParser.attach(subchild.stdout);
       logParser.on('ready', () => {
+        // Simulate shutdown
         subchild.kill('SIGINT');
       });
       logParser.once('shutdown:complete', () => {
