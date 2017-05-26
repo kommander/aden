@@ -24,6 +24,7 @@ program
   .option('-p, --port <port>', 'Override the port to mount the server on')
   .option('-u, --use <attitude>', 'Specify attitude(s) to use', collectAttitudes, [])
   .option('-s, --silent', 'Do not output anything on purpose')
+  .option('--pretty', 'Use prettyjson to format log output')
   .option('--debug', 'Debug output')
 
   // TODO: --docs to run docs from package and open browser (different default port)
@@ -108,6 +109,7 @@ const getLogOptions = (prog) => ({
   silent: prog.silent || false,
   debug: prog.debug || false,
   noDate: !prog.logDate || false,
+  pretty: prog.pretty || false,
 });
 
 const initLogger = (dev, logOptions) => {
