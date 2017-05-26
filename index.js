@@ -252,7 +252,7 @@ program
       .init(resolveRootPath(rootPath), program.focus)
       .then((aden) => aden.run('build'))
       .then(() => {
-        log.success('Build only done. Exiting.');
+        log.event('build:done');
         process.exit(0);
       })
       .catch(fatalErrorHandler);
@@ -268,7 +268,7 @@ program
       .init(resolveRootPath(rootPath), program.focus)
       .then((aden) => aden.run('clean'))
       .then(() => {
-        log.success('Clean up done. Exiting.');
+        log.event('clean:done');
         process.exit(0);
       })
       .catch(fatalErrorHandler);
@@ -283,7 +283,7 @@ program
       .init(resolveRootPath(rest[1] ? rest[1] : rest[0]), program.focus)
       .then((aden) => aden.run('deploy', { target: rest[1] || null }))
       .then(() => {
-        log.success('Deploy done. Exiting.');
+        log.event('deploy:done');
         process.exit(0);
       })
       .catch(fatalErrorHandler);

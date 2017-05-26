@@ -51,9 +51,41 @@ describe('CLI', () => {
     });
     const logParser = Logger.getLogParser();
     logParser.attach(child.stdout);
-    child.on('exit', () => {
+    logParser.on('build:done', () => {
       logParser.destroy();
       done();
+    });
+  });
+
+  she('has a clean cli command', (done) => {
+    const child = spawn('node', ['index.js', 'clean', 'test/tmpdata/basics'], {
+      cwd: path.resolve(__dirname, '../../'),
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    const logParser = Logger.getLogParser();
+    logParser.attach(child.stdout);
+    logParser.on('clean:done', () => {
+      logParser.destroy();
+      done();
+    });
+  });
+
+  she('has a deploy cli command', (done) => {
+    const child = spawn('node', ['index.js', 'build', 'test/tmpdata/basics'], {
+      cwd: path.resolve(__dirname, '../../'),
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    child.on('exit', () => {
+      const subchild = spawn('node', ['index.js', 'deploy', 'test/tmpdata/basics'], {
+        cwd: path.resolve(__dirname, '../../'),
+        stdio: ['ignore', 'pipe', 'pipe'],
+      });
+      const logParser = Logger.getLogParser();
+      logParser.attach(subchild.stdout);
+      logParser.on('deploy:done', () => {
+        logParser.destroy();
+        done();
+      });
     });
   });
 
