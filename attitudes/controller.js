@@ -7,26 +7,26 @@ module.exports = (aden) => {
   // subscribe, trace, unlock, unsubscribe
 
   aden
-    .registerFile('getPath', /\.get\.jsx?$/, { key: {
+    .registerFile('getPath', /\.get\.jsx?$/, {
       build: false,
       watch: true,
-    } })
-    .registerFile('postPath', /\.post\.jsx?$/, { key: {
+    })
+    .registerFile('postPath', /\.post\.jsx?$/, {
       build: false,
       watch: true,
-    } })
-    .registerFile('putPath', /\.put\.jsx?$/, { key: {
+    })
+    .registerFile('putPath', /\.put\.jsx?$/, {
       build: false,
       watch: true,
-    } })
-    .registerFile('deletePath', /\.delete\.jsx?$/, { key: {
+    })
+    .registerFile('deletePath', /\.delete\.jsx?$/, {
       build: false,
       watch: true,
-    } })
-    .registerFile('allPath', /\.all\.jsx?$/, { key: {
+    })
+    .registerFile('allPath', /\.all\.jsx?$/, {
       build: false,
       watch: true,
-    } });
+    });
 
   aden.hook('load', ({ page }) => {
     Object.assign(page, {

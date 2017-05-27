@@ -7,6 +7,7 @@ const pckgJson = require('./package.json');
 const open = require('open');
 const cluster = require('cluster');
 const chalk = require('chalk');
+const os = require('os');
 
 /**
  * Aden CLI
@@ -23,7 +24,7 @@ program
   .option('-p, --port <port>', 'Override the port to mount the server on')
   .option('-u, --use <attitude>', 'Specify attitude(s) to use', collectAttitudes, [])
   .option('-s, --silent', 'Do not output anything on purpose')
-  .option('-v, --verbose', 'Output a lot')
+  .option('--pretty', 'Use prettyjson to format log output')
   .option('--debug', 'Debug output')
 
   // TODO: --docs to run docs from package and open browser (different default port)
@@ -61,16 +62,35 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
   const hostName = splitPort.length > 1
     ? splitPort[0]
     : (process.env.HOSTNAME || aden.rootConfig.hostname || null);
+
+  const gracefulShutdown = () => {
+    aden.shutdown(() => process.exit(0));
+  };
+
+  process.on('SIGTERM', gracefulShutdown);
+  process.on('SIGINT', gracefulShutdown);
+
   aden.app.listen(port, hostName, (err) => {
     if (err) {
       reject(err);
       return;
     }
 
+    const mountAddress = hostName || 'localhost';
     const type = cluster.isMaster ? 'server' : 'worker';
+
+    let data;
+    if (type === 'server') {
+      data = {
+        address: mountAddress,
+        port,
+      };
+      log.event('ready', data);
+    }
 
     log.success(`Started ${type} at ${hostName || 'localhost'}:${port}`);
 
+    /* istanbul ignore next */
     if (doOpen) {
       open(`http://${hostName || 'localhost'}:${port}`);
     }
@@ -87,22 +107,22 @@ const deriveConfig = (prog, logOptions, dev) => ({
 
 const getLogOptions = (prog) => ({
   silent: prog.silent || false,
-  verbose: prog.verbose || process.env.NODE_VERBOSE || false,
   debug: prog.debug || false,
   noDate: !prog.logDate || false,
+  pretty: prog.pretty || false,
 });
 
 const initLogger = (dev, logOptions) => {
-  const log = logger(logOptions).namespace('aden cli'); // eslint-disable-line
+  const log = logger(logOptions).namespace('aden-cli'); // eslint-disable-line
 
   if (cluster.isMaster) {
     if (dev) {
-      log.info(chalk.cyan('           _             '));
-      log.info(chalk.cyan('          | |            '));
-      log.info(chalk.cyan(' _____  __| |_____ ____  '));
-      log.info(chalk.cyan('(____ |/ _  | ___ |  _ \\ '));
-      log.info(chalk.cyan('/ ___ ( (_| | ____| | | |'));
-      log.info(chalk.cyan('\\_____|\\____|_____)_| |_|.zwerk.io'));
+      log.raw(chalk.cyan('           _'));
+      log.raw(chalk.cyan('          | |'));
+      log.raw(chalk.cyan(' _____  __| |_____ ____'));
+      log.raw(chalk.cyan('(____ |/ _  | ___ |  _ \\'));
+      log.raw(chalk.cyan('/ ___ ( (_| | ____| | | |'));
+      log.raw(chalk.cyan('\\_____|\\____|_____)_| |_|.zwerk.io'));
       log.warn('Ahoy! Running in dev env.');
     } else {
       log.info(`Running in ${process.env.NODE_ENV || 'production (by default)'} env.`);
@@ -127,18 +147,26 @@ program
 
     // Default clustering for production
     if (program.workers && cluster.isMaster) {
-      const numCpus = require('os').cpus().length;
+      const numCpus = os.cpus().length;
       Promise.resolve().then(() => {
-        let max = parseInt(program.workers, 10) || numCpus;
+        const max = parseInt(program.workers, 10) || numCpus;
 
+        /* istanbul ignore next */
         if (max > numCpus) {
           log.warn(`Starting more workers than CPUs available (${max}/${numCpus})`);
-          max = numCpus;
         }
 
         const workersById = {};
         let numWorkersListening = 0;
         let exitStatus = 0;
+        const gracefulShutdown = () => {
+          Object.keys(workersById).forEach((key) => {
+            workersById[key].kill('SIGTERM');
+          });
+        };
+
+        process.on('SIGTERM', gracefulShutdown);
+        process.on('SIGINT', gracefulShutdown);
 
         cluster.on('fork', (worker) => {
           log.info(`Forked worker ${worker.id}`);
@@ -153,29 +181,37 @@ program
             numWorkersListening--;
 
             if (code > 0) {
-              log.error('Worker Exit with Error', { code, signal });
+              log.error('Worker Exit with Error', new Error(`Worker error code: ${code}`));
               exitStatus = 1;
               // TODO: Determine if viable for restart
             } else {
-              log.info('Worker Exit Normal', { code, signal });
+              log.info('Worker Exit Normal');
             }
+
+            log.event('worker:shutdown', { code, signal, id: worker.id });
 
             const numWorkers = numberOfWorkers(workersById);
             if (numWorkers === 0) {
               log.info('No workers left, exiting');
+              log.event('shutdown:complete');
               process.exit(exitStatus);
             }
           });
         });
 
         cluster.on('listening', (worker, address) => {
-          log.success(`Worker ${worker.id} listening at ${address.address
-            || '127.0.0.1'}:${address.port}`);
+          const mountAddress = address.address || 'localhost';
+
+          log.success(`Worker ${worker.id} listening at ${mountAddress}:${address.port}`);
 
           numWorkersListening++;
           if (numWorkersListening === max) {
-            log.success(`${numWorkersListening} workers listening at ${address.address
-              || '127.0.0.1'}:${address.port}`);
+            log.success(
+              `${numWorkersListening} workers listening at ${mountAddress}:${address.port}`);
+            log.event('ready', {
+              address: mountAddress,
+              port: address.port,
+            });
           }
         });
 
@@ -216,7 +252,7 @@ program
       .init(resolveRootPath(rootPath), program.focus)
       .then((aden) => aden.run('build'))
       .then(() => {
-        log.success('Build only done. Exiting.');
+        log.event('build:done');
         process.exit(0);
       })
       .catch(fatalErrorHandler);
@@ -225,14 +261,14 @@ program
 program
   .command('clean [rootPath]')
   .alias('c')
-  .description('Remove all dist folders')
+  .description('Remove all .dist folders')
   .action((rootPath) => {
     initLogAndConfig({ dev: false });
     createAden(config)
       .init(resolveRootPath(rootPath), program.focus)
       .then((aden) => aden.run('clean'))
       .then(() => {
-        log.success('Clean up done. Exiting.');
+        log.event('clean:done');
         process.exit(0);
       })
       .catch(fatalErrorHandler);
@@ -247,7 +283,7 @@ program
       .init(resolveRootPath(rest[1] ? rest[1] : rest[0]), program.focus)
       .then((aden) => aden.run('deploy', { target: rest[1] || null }))
       .then(() => {
-        log.success('Deploy done. Exiting.');
+        log.event('deploy:done');
         process.exit(0);
       })
       .catch(fatalErrorHandler);

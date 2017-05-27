@@ -2,7 +2,7 @@
 # Aden dev
 #
 
-NODE_ENV ?= development
+NODE_ENV ?= production
 TESTS=test/integration # test/unit
 MOCHA_OPTS=--check-leaks \
 	--recursive \
@@ -26,7 +26,6 @@ usage:
 	@echo '--------------------             : -----------'
 	@echo 'make dev                         : Setup repository for development (install, hooks)'
 	@echo 'make test                        : Run tests'
-	@echo 'make build                       : Nothing to do for now...'
 	@echo 'make coverage                    : Create test coverage report to ./coverage'
 	@echo 'make mincov                      : Run coverage and then check if minimum coverage is given'
 	@echo 'make lint                        : Run the linter (eslint)'
@@ -56,32 +55,35 @@ usage:
 # -
 help: usage
 
-build:
-	@exit 0
-.PHONY: build
-
 test:
 	@echo 'Checking behaviour for version '$(VERSION)'.'
 	@./node_modules/.bin/mocha $(TESTS) $(MOCHA_OPTS) $(MOCHA) \
 		--reporter spec
 .PHONY: test
 
-report: coverage
+report:
 	@echo 'Opening default browser with coverage report.'
+	@node ./node_modules/.bin/nyc report --reporter=lcov
 	@open ./coverage/lcov-report/index.html
+.PHONY: report
 
 coverage:
 	@echo 'Creating coverage report for version '$(VERSION)'.'
-	@node ./node_modules/istanbul/lib/cli.js cover \
-	./node_modules/.bin/_mocha -- $(TESTS) $(MOCHA_OPTS) $(MOCHA)
+	@node ./node_modules/.bin/nyc \
+	./node_modules/.bin/mocha $(TESTS) $(MOCHA_OPTS) $(MOCHA)
 .PHONY: coverage
 
+check-coverage:
+	@node ./node_modules/.bin/nyc check-coverage --statements 80 --functions 80 --lines 80 --branches 70
+.PHONY: check-coverage
+
 mincov: coverage
-	@node ./node_modules/istanbul/lib/cli.js check-coverage --statements 60 --functions 60 --lines 60 --branches 50
+	@node ./node_modules/.bin/nyc check-coverage --statements 80 --functions 80 --lines 80 --branches 70
 .PHONY: mincov
 
 coveralls:
-	@node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly $(TESTS) -- $(MOCHA_OPTS) $(MOCHA) -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+	@node ./node_modules/.bin/nyc report --reporter=lcov
+	@cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 .PHONY: coveralls
 
 specs:

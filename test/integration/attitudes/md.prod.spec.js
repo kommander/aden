@@ -43,7 +43,7 @@ describe('MD Markdown Attitude Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
-          .get('/sub')
+          .get('/sub/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/Sub Page/ig);
@@ -60,7 +60,7 @@ describe('MD Markdown Attitude Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
-          .get('/another.md')
+          .get('/another.html')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/Just a file/ig);
@@ -77,7 +77,7 @@ describe('MD Markdown Attitude Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
-          .get('/sub/additional.md')
+          .get('/sub/additional.html')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/yet another page/ig);
@@ -95,7 +95,7 @@ describe('MD Markdown Attitude Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
-          .get('/wrap')
+          .get('/wrap/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/id="wrapper"/ig);
@@ -112,7 +112,7 @@ describe('MD Markdown Attitude Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
-          .get('/wrap')
+          .get('/wrap/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toNotMatch(/id="wrapper"/ig);
@@ -128,7 +128,7 @@ describe('MD Markdown Attitude Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
-          .get('/sub/additional.md')
+          .get('/sub/additional.html')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toNotMatch(/id="wrapper"/ig);
@@ -142,7 +142,8 @@ describe('MD Markdown Attitude Prod', () => {
       .then((an) => an.run('build'))
       .then((an) => an.run('production'))
       .then((an) => {
-        const fileName = an.webpackStats[0].assets
+        const stats = an.webpackStats[0].children.find((child) => (child.name === 'frontend'));
+        const fileName = stats.assets
           .filter((asset) => asset.name.match(/^images/))[0].name;
         request(an.app)
           .get(`/${fileName}`)
@@ -163,7 +164,8 @@ describe('MD Markdown Attitude Prod', () => {
       .then((an) => {
         // In production images use a hash only name,
         // where images with same content become the same resource
-        const fileName = an.webpackStats[0].assets
+        const stats = an.webpackStats[0].children.find((child) => (child.name === 'frontend'));
+        const fileName = stats.assets
           .filter((asset) => asset.name.match(/^images/))[0].name;
         request(an.app)
           .get(`/${fileName}`)
@@ -183,7 +185,8 @@ describe('MD Markdown Attitude Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => {
         // resolve sub-test.png
-        const fileName = an.webpackStats[0].assets
+        const stats = an.webpackStats[0].children.find((child) => (child.name === 'frontend'));
+        const fileName = stats.assets
           .filter((asset) => asset.name.match(/^images/))[1].name;
         request(an.app)
           .get(`/${fileName}`)
@@ -203,7 +206,7 @@ describe('MD Markdown Attitude Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
-          .get('/wrap')
+          .get('/wrap/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/commons.js/ig);

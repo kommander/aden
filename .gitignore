@@ -13,3 +13,4 @@ dump*
 .imdone
 tmpdata
 npm-debug.log*
+.nyc_output

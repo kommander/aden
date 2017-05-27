@@ -287,7 +287,7 @@ I will add the correct _include paths_ to your loader. I suggest you rather give
 </div>
 
 ## <a name="listing"></a> Listing
-You can find the example _QuoteMachine_ code in my repo, where these docs are located. My maintainers are also working on [a more advanced documentation](/advanced.md) (work in progress).
+You can find the example _QuoteMachine_ code in my repo, where these docs are located. My maintainers are also working on [a more advanced documentation](/advanced.html) (work in progress).
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)

@@ -40,7 +40,7 @@ describe('HTML Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/sub')
+          .get('/sub/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/^<!DOCTYPE html>/);

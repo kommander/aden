@@ -24,13 +24,16 @@ module.exports = (aden) => {
   });
 
   aden.hook('post:apply', ({ pages, webpackConfigs, paths }) => {
-    webpackConfigs[0].resolve.extensions.push('.css', '.scss', '.sass');
+    const frontendConfig = webpackConfigs
+      .find((conf) => (conf.name === 'frontend'));
+
+    frontendConfig.resolve.extensions.push('.css', '.scss', '.sass');
 
     const extractCSSPlugin = new ExtractTextPlugin({
       filename: aden.isDEV ? '[name].css' : '[id]-[hash].css',
       allChunks: true,
     });
-    webpackConfigs[0].plugins.push(extractCSSPlugin);
+    frontendConfig.plugins.push(extractCSSPlugin);
 
     const includePaths = [
       pages[0].rootPath,
@@ -40,7 +43,7 @@ module.exports = (aden) => {
       paths.aden_node_modules,
     ];
 
-    webpackConfigs[0].module.rules.unshift(
+    frontendConfig.module.rules.unshift(
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({

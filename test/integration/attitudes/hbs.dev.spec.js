@@ -43,7 +43,7 @@ describe('HBS Dev', () => {
           .get('/sub')
           .end((err, res) => {
             if (err) done(err);
-            expect(res.text).toMatch(/^<!DOCTYPE html>/);
+            expect(res.text).toMatch(/^subsub/);
             an.shutdown(done);
           });
       })

@@ -5,19 +5,6 @@ const request = require('supertest');
 const expect = require('expect');
 
 describe('dev', () => {
-  she('has no root route without an entry', (done) => {
-    aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/empty'))
-      .then((an) => an.run('dev'))
-      .then((an) => {
-        request(an.app)
-          .get('/')
-          .expect(404, () => {
-            an.shutdown(done);
-          });
-      });
-  });
-
   she('recognises new files and sets up the page', (done) => {
     aden({ dev: true }).init(path.resolve(__dirname, '../tmpdata/dev'))
       .then((an) => an.run('dev'))
@@ -62,7 +49,7 @@ describe('dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/sub')
+          .get('/sub/')
           .end((err, res) => {
             if (err) {
               done(err);
@@ -73,7 +60,7 @@ describe('dev', () => {
             // Mhhh... need to know when a build has finished
             an.on('dev:reload:done', () => {
               request(an.app)
-                .get('/sub')
+                .get('/sub/')
                 // fckn hell. todo: use promisified supertest
                 .end((err2, res2) => {
                   if (err2) {

@@ -1,7 +1,9 @@
 const aden = require('../../lib/aden');
+const Logger = require('../../lib/aden.logger');
 const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
+const TestDuplex = require('../lib/test-duplex.js');
 
 describe('Routing Dev', () => {
   she('creates default route without specific config', (done) => {
@@ -83,7 +85,7 @@ describe('Routing Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/greedy/overrides')
+          .get('/greedy/overrides/')
           .end((err, res) => {
             if (err) { done(err); return; }
             expect(res.status).toBe(200);
@@ -111,6 +113,69 @@ describe('Routing Dev', () => {
       .catch(done);
   });
 
+  she('logs an error if no routes are given', (done) => {
+    const stream = new TestDuplex();
+    const logParser = Logger.getLogParser();
+    logParser.attach(stream);
+
+    const adn = aden({
+      dev: true,
+      logger: {
+        silent: false,
+        stdStream: stream,
+        errStream: stream,
+      },
+    });
+
+    logParser.on('error', (err) => {
+      expect(err.message).toMatch(/I could not setup routes/);
+      adn.shutdown(done);
+    });
+
+    adn.init(path.resolve(__dirname, '../tmpdata/noroutes'))
+      .then((an) => an.run('dev'))
+      .catch(done);
+  });
+
+  she('does not serve controllers, if .server { route: false }', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/nocontroller'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/notroute')
+          .end((err, res) => {
+            if (err) { done(err); return; }
+            expect(res.status).toBe(404);
+            an.shutdown(done);
+          });
+      })
+      .catch(done);
+  });
+
+  she('does not route empty subpaths', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/emptypath'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/api')
+          .end((err, res) => {
+            if (err) { done(err); return; }
+            expect(res.status).toBe(404);
+            request(an.app)
+              .get('/api/user')
+              .end((err2, res2) => {
+                if (err2) { done(err); return; }
+                expect(res2.status).toBe(200);
+                an.shutdown(done);
+              });
+          });
+      })
+      .catch(done);
+  });
+
   she('// Things Aden already does but are untested...');
   she('allows params in { route: \'/:id\'} > .server');
+  she('mounts absolute routes absolute');
 });

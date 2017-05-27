@@ -1,29 +1,21 @@
-const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const hogan = require('hogan.js');
+const _ = require('lodash');
 
 /**
  * layout
- * TODO: Expose render hooks to influence the response of other attitudes,
- *       so they don't have to be aware of the layout attitude.
- * TODO: Register hooks for layout compilation, to hook in with hbs/md to compile templates
  */
 module.exports = (aden) => {
   aden.registerKey('layout', {
     type: 'string',
     config: true,
-    value: null,
-  });
-
-  aden.registerKey('getLayout', {
-    type: 'function',
+    // inherit: true,
     value: null,
   });
 
   aden.registerKey('selectedLayout', {
     type: 'rpath',
+    distExt: '.html',
     // default: path.resolve(__dirname, 'empty.html'),
-    build: true,
   });
 
   aden.registerKey('layouts', {
@@ -32,67 +24,82 @@ module.exports = (aden) => {
     value: [],
   });
 
-  const getWrapper = (layoutPath) => () => {
-    const wrapper = fs.readFileSync(layoutPath, 'utf8');
-    const wrapperTemplate = hogan.compile(wrapper);
-    return wrapperTemplate;
-  };
-
   // TODO: make extensions setable via page.key and let other extensions add to them
   //       when they add a loader and layout is available.
   aden.registerFiles('layoutFiles', /^layout\..*?\.(html|hbs|md)$/, {
-    fn: ({ page, fileInfo }) => {
+    handler: ({ page, fileInfo }) => {
       Object.assign(page.key.layouts, {
         value: page.key.layouts.value.concat([{ fileInfo }]),
       });
     },
-    key: {
-      build: true,
-    },
   });
 
   aden.hook('pre:load', ({ page }) => {
-    const layout = page.keys.find((key) => (key.name === 'layout')).value;
-    const selectedLayout = (page.keys
-      .find((key) => (key.name === 'layouts'))
-      .value || [])
-      .find((availableLayout) =>
-        availableLayout.fileInfo.name.match(layout)
-      );
-    if (selectedLayout) {
-      Object.assign(page.keys.find((key) => (key.name === 'selectedLayout')), {
-        value: selectedLayout.fileInfo.rpath,
-      });
+    const pageLayout = page.keys
+      .find((k) => (k.name === 'layouts')).value
+      .find((layout) =>
+        layout.fileInfo.name.match(page.keys
+          .find((k) => (k.name === 'layout')).value)
+    );
+
+    if (pageLayout) {
+      Object.assign(page.keys.find((k) =>
+        (k.name === 'selectedLayout')),
+        {
+          value: pageLayout.fileInfo.rpath,
+        });
+      return;
     }
   });
 
-  // Note the appropriate loaders have to be added by the attitude using the layout.
-  aden.hook('apply', ({ page, webpackConfigs }) => {
-    if (page.key.selectedLayout.value) {
-      const chunks = ['global', page.entryName];
+  aden.hook('post:apply', ({ webpackConfigs, pages }) => {
+    const frontendConfig = webpackConfigs
+      .find((conf) => (conf.name === 'frontend'));
 
-      if (page.commons) {
-        chunks.unshift('commons');
-      }
+    const entry = aden.flattenPages(pages)
+      .filter((page) => (page.key.selectedLayout.value))
+      .map((page) => page.key.selectedLayout.resolved);
 
-      const layoutPlugin = new HtmlWebpackPlugin({
-        template: page.key.selectedLayout.resolved,
-        filename: page.key.selectedLayout.dist,
-        chunks,
-        inject: page.inject,
-        cache: false,
-        title: page.title || page.name || 'No Title',
-      });
-
-      webpackConfigs[0].plugins.push(layoutPlugin);
+    // TODO: Let aden apply paths and context
+    // Use something like aden.registerWebpack('layout', { config }, { before: 'frontend'})
+    if (entry.length > 0) {
+      const config = {
+        entry: _.uniq(entry),
+        name: 'layout',
+        target: 'web',
+        output: {
+          filename: '../layout.bundle.js',
+          path: frontendConfig.output.path,
+          publicPath: frontendConfig.output.publicPath,
+        },
+        context: frontendConfig.context,
+        resolve: {
+          modules: frontendConfig.resolve.modules,
+        },
+        module: frontendConfig.module,
+        plugins: aden.flattenPages(pages)
+          .filter((page) => (page.key.selectedLayout.value))
+          .map((page) => new HtmlWebpackPlugin({
+            template: page.key.selectedLayout.resolved,
+            filename: page.key.selectedLayout.dist,
+            inject: false,
+            cache: aden.isDEV,
+          })
+        ),
+      };
+      webpackConfigs.unshift(config);
     }
   });
 
-  aden.hook('load', ({ page }) => {
+  aden.hook('html', ({ page, data }) => {
     if (page.key.selectedLayout.value) {
-      Object.assign(page.key.getLayout, {
-        value: getWrapper(page.key.selectedLayout.dist),
-      });
+      return page.key.selectedLayout
+        .load()
+        .then((buffer) => buffer.toString('utf8'))
+        .then((wrapper) => Object.assign(data, {
+          html: wrapper.replace(/[\{]{1,3}\w?body[\}]{1,3}/, data.html),
+        }));
     }
+    return null;
   });
 };
