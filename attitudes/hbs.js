@@ -10,7 +10,7 @@ const cannot = require('brokens');
  */
 module.exports = (aden) => {
   const {
-    ENTRY_TYPE_DYNAMIC,
+    ENTRY_DYNAMIC,
   } = aden.constants;
 
   aden.registerKey('hbs', {
@@ -25,7 +25,7 @@ module.exports = (aden) => {
 
   aden.registerKey('hbsIndex', {
     type: 'rpath',
-    entry: ENTRY_TYPE_DYNAMIC,
+    entry: ENTRY_DYNAMIC,
   });
 
   aden.registerKey('templates', {
@@ -43,7 +43,7 @@ module.exports = (aden) => {
       }
     },
   }, {
-    entry: ENTRY_TYPE_DYNAMIC,
+    entry: ENTRY_DYNAMIC,
     distExt: '.hbs',
   });
 

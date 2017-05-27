@@ -3,7 +3,7 @@
  */
 module.exports = (aden) => {
   const {
-    ENTRY_TYPE_STATIC,
+    ENTRY_STATIC,
   } = aden.constants;
 
   aden.registerKey('md', {
@@ -18,7 +18,7 @@ module.exports = (aden) => {
   });
 
   aden.registerFiles('mdFiles', /\.(md|markdown)$/, {
-    entry: ENTRY_TYPE_STATIC,
+    entry: ENTRY_STATIC,
     distExt: '.html',
   });
 

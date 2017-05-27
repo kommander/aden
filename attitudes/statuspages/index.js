@@ -4,11 +4,11 @@ module.exports = (aden) => {
   const statusPages = {};
 
   const {
-    KEY_TYPE_BOOLEAN,
+    KEY_BOOLEAN,
   } = aden.constants;
 
   aden.registerKey('isStatusPage', {
-    type: KEY_TYPE_BOOLEAN,
+    type: KEY_BOOLEAN,
     value: false,
   });
 

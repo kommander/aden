@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = (aden) => {
   const {
-    ENTRY_TYPE_STATIC,
+    ENTRY_STATIC,
   } = aden.constants;
 
   aden.registerKey('html', {
@@ -18,7 +18,7 @@ module.exports = (aden) => {
     ({ page, fileInfo }) =>
       fileInfo.file.match(/\.html$/) && fileInfo.name === page.key.html.value,
     {
-      entry: ENTRY_TYPE_STATIC,
+      entry: ENTRY_STATIC,
       distExt: '.html',
     }
   );
