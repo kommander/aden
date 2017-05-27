@@ -15,7 +15,9 @@ module.exports = (aden) => {
   aden.hook('pre:load', ({ page }) => {
     const pageCode = parseInt(page.name, 10);
     if (pageCode && STATUS_CODES.includes(pageCode)) {
-      Object.assign(page, { route: false });
+      Object.assign(page.keys.find((k) => (k.name === 'mount')), {
+        value: false,
+      });
       Object.assign(page.keys.find((k) => (k.name === 'isStatusPage')), {
         value: true,
       });
@@ -58,6 +60,7 @@ module.exports = (aden) => {
 
   aden.hook('route:notFound', ({ req, res, next }) => {
     const page = statusPages['404'];
+
     if (page) {
       return page.get(req, res, next);
     }

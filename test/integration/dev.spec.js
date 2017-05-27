@@ -5,19 +5,6 @@ const request = require('supertest');
 const expect = require('expect');
 
 describe('dev', () => {
-  she('has no root route without an entry', (done) => {
-    aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/empty'))
-      .then((an) => an.run('dev'))
-      .then((an) => {
-        request(an.app)
-          .get('/')
-          .expect(404, () => {
-            an.shutdown(done);
-          });
-      });
-  });
-
   she('recognises new files and sets up the page', (done) => {
     aden({ dev: true }).init(path.resolve(__dirname, '../tmpdata/dev'))
       .then((an) => an.run('dev'))

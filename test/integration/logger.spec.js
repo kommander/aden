@@ -3,16 +3,8 @@ const Logger = require('../../lib/aden.logger');
 const path = require('path');
 const expect = require('expect');
 const sinon = require('sinon');
-const Duplex = require('stream').Duplex;
 const spawn = require('../lib/spawn');
-
-class TestDuplex extends Duplex {
-  _write(data, enc, next) {
-    this.emit('data', data);
-    next();
-  }
-  _read() {}
-}
+const TestDuplex = require('../lib/test-duplex.js');
 
 describe('Logger', () => {
   afterEach(() => {

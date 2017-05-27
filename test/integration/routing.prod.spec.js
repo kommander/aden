@@ -1,15 +1,14 @@
 const aden = require('../../lib/aden');
-const Logger = require('../../lib/aden.logger');
 const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
-const TestDuplex = require('../lib/test-duplex.js');
 
 describe('Routing Dev', () => {
   she('creates default route without specific config', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/')
@@ -21,9 +20,10 @@ describe('Routing Dev', () => {
   });
 
   she('adds route from .server to page path route', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/configured/manual')
@@ -35,9 +35,10 @@ describe('Routing Dev', () => {
   });
 
   she('adds route from .server to page path route (no slash)', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/configured2/noslash')
@@ -49,9 +50,10 @@ describe('Routing Dev', () => {
   });
 
   she('does not route pages with { route: false; } > .server', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/notaroute')
@@ -63,9 +65,10 @@ describe('Routing Dev', () => {
   });
 
   she('matches greedy routes', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/greedy/matched/by/something.possible')
@@ -80,9 +83,10 @@ describe('Routing Dev', () => {
   });
 
   she('puts greedy routes at the end of the router stack', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/greedy/overrides/')
@@ -97,9 +101,10 @@ describe('Routing Dev', () => {
   });
 
   she('allows params in page path /user/+id/edit', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/user/_test_id_')
@@ -113,34 +118,22 @@ describe('Routing Dev', () => {
       .catch(done);
   });
 
-  she('logs an error if no routes are given', (done) => {
-    const stream = new TestDuplex();
-    const logParser = Logger.getLogParser();
-    logParser.attach(stream);
-
-    const adn = aden({
-      dev: true,
-      logger: {
-        silent: false,
-        stdStream: stream,
-        errStream: stream,
-      },
-    });
-
-    logParser.on('error', (err) => {
-      expect(err.message).toMatch(/I could not setup routes/);
-      adn.shutdown(done);
-    });
-
+  she('logs an error when routes are empty', (done) => {
+    const adn = aden();
     adn.init(path.resolve(__dirname, '../tmpdata/noroutes'))
-      .then((an) => an.run('dev'))
-      .catch(done);
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
+      .catch((err) => {
+        expect(err.message).toMatch(/I could not setup routes/);
+        adn.shutdown(done);
+      });
   });
 
   she('does not serve controllers, if .server { route: false }', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/nocontroller'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/notroute')
@@ -154,9 +147,10 @@ describe('Routing Dev', () => {
   });
 
   she('does not route empty subpaths', (done) => {
-    aden({ dev: true })
+    aden()
       .init(path.resolve(__dirname, '../tmpdata/emptypath'))
-      .then((an) => an.run('dev'))
+      .then((an) => an.run('build'))
+      .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
           .get('/api')

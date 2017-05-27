@@ -1,17 +1,16 @@
-const aden = require('../../lib/aden');
+const aden = require('../../../lib/aden');
 const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('Statuspages Prod', () => {
+describe('Statuspages Dev', () => {
   she('does not route custom status pages (404)', (done) => {
-    aden()
-      .init(path.resolve(__dirname, '../tmpdata/custom'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/custom'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/404/')
+          .get('/404')
           .end((err, res) => {
             if (err) done(err);
             expect(res.status).toMatch(404);
@@ -21,14 +20,13 @@ describe('Statuspages Prod', () => {
       .catch(done);
   });
 
-  she('does not route custom status pages (error)', (done) => {
-    aden()
-      .init(path.resolve(__dirname, '../tmpdata/custom'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+  she('routes custom status pages (error)', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/custom'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/500/')
+          .get('/500')
           .end((err, res) => {
             if (err) done(err);
             expect(res.status).toMatch(404);
@@ -39,10 +37,9 @@ describe('Statuspages Prod', () => {
   });
 
   she('uses custom status pages (404)', (done) => {
-    aden()
-      .init(path.resolve(__dirname, '../tmpdata/custom'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/custom'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/not_a_page_in_path')
@@ -56,13 +53,12 @@ describe('Statuspages Prod', () => {
   });
 
   she('uses custom status pages (error)', (done) => {
-    aden()
-      .init(path.resolve(__dirname, '../tmpdata/custom'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/custom'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/provoke/')
+          .get('/provoke')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/Custom Error/ig);
