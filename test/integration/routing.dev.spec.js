@@ -1,8 +1,8 @@
 const aden = require('../../lib/aden');
-const Logger = require('../../lib/aden.logger');
 const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
+const Logger = require('../../lib/aden.logger');
 const TestDuplex = require('../lib/test-duplex.js');
 
 describe('Routing Dev', () => {
