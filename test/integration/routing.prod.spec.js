@@ -3,7 +3,7 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('Routing Dev', () => {
+describe('Routing Prod', () => {
   she('creates default route without specific config', (done) => {
     aden()
       .init(path.resolve(__dirname, '../tmpdata/routes'))
@@ -118,7 +118,7 @@ describe('Routing Dev', () => {
       .catch(done);
   });
 
-  she('logs an error when routes are empty', (done) => {
+  she('throws an error when routes are empty', (done) => {
     const adn = aden();
     adn.init(path.resolve(__dirname, '../tmpdata/noroutes'))
       .then((an) => an.run('build'))

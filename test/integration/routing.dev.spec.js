@@ -129,11 +129,12 @@ describe('Routing Dev', () => {
 
     logParser.on('error', (err) => {
       expect(err.message).toMatch(/I could not setup routes/);
-      adn.shutdown(done);
+      done();
     });
 
     adn.init(path.resolve(__dirname, '../tmpdata/noroutes'))
       .then((an) => an.run('dev'))
+      .then((an) => an.shutdown())
       .catch(done);
   });
 
