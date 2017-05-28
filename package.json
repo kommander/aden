@@ -56,7 +56,6 @@
     "open": "0.0.5",
     "path-is-inside": "1.0.2",
     "postcss-loader": "2.0.0",
-    "prettyjson": "1.2.1",
     "raw-loader": "0.5.1",
     "rimraf": "2.6.1",
     "sass-loader": "6.0.3",
