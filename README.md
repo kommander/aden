@@ -77,10 +77,9 @@ To create a build:
 aden build [path]
 ```
 
-Aden assumes a production environment if none is explicitly specified.
-To run an existing build:
+To run an existing production build:
 ```
-aden [path]
+aden start [path]
 ```
 
 # Resources
