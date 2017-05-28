@@ -60,7 +60,6 @@
     "rimraf": "2.6.1",
     "sass-loader": "6.0.5",
     "semver": "5.3.0",
-    "shelljs": "0.7.7",
     "source-map-loader": "0.2.1",
     "style-loader": "0.18.1",
     "url-loader": "0.5.8",

@@ -10,7 +10,7 @@ MOCHA_OPTS=--check-leaks \
 	--require "./dev/mocha.interface.js" \
 	--ui she-bdd \
 	--bail \
-	--timeout 20000 \
+	--timeout 25000 \
 	--globals addresses \
 	--globals __core-js_shared__ \
 	--slow 5000 \
