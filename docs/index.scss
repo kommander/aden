@@ -31,6 +31,13 @@
   }
 }
 
+#supportedOS {
+  i {
+    text-align: left;
+    font-size: 20px;
+  }
+}
+
 @media (max-width: 788px) {
   #quotemachine blockquote {
     min-height: 180px;

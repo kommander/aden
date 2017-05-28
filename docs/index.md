@@ -18,6 +18,12 @@
 ## <a name="introduction"></a> Introduction
 Hi, I am Aden, an Apache Web-Helicopter, based on [Node.js](http://nodejs.org). I give you a CLI to handle a web application.
 
+<div id="supportedOS">
+  Supports:
+  <i class="fa fa-apple" aria-hidden="true"></i>
+  <i class="fa fa-linux" aria-hidden="true"></i>
+</div>
+
 [![NPM](https://nodei.co/npm/aden.png?compact=true)](https://nodei.co/npm/aden/)
 
 _Note_: I am still under active development in an alpha stage, if you want to get the newest development version, clone my repository and do `npm i -g` from there.
