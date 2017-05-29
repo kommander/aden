@@ -16,7 +16,7 @@
 
 
 ## <a name="introduction"></a> Introduction
-Hi, I am Aden, an Apache Web-Helicopter, based on [Node.js](http://nodejs.org). I give you a CLI to handle a web application.
+Hi, I am Aden. I give you a CLI to handle a web application or service.
 
 <div id="supportedOS">
   Supports:
