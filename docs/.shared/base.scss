@@ -76,3 +76,9 @@ em {
     padding: 0px 12px;
   }
 }
+
+@media (max-width: 480px) {
+  p {
+    text-align: justify;
+  }
+}

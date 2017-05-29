@@ -24,11 +24,11 @@ Hi, I am Aden. I give you a CLI to handle a web application or service.
   <i class="fa fa-linux" aria-hidden="true"></i>
 </div>
 
-[![NPM](https://nodei.co/npm/aden.png?compact=true)](https://nodei.co/npm/aden/)
+<div id="npmBanner">
+  [![NPM](https://nodei.co/npm/aden.png?compact=true)](https://nodei.co/npm/aden/)
+</div>
 
 _Note_: I am still under active development in an alpha stage, if you want to get the newest development version, clone my repository and do `npm i -g` from there.
-
-I can automate a lot of things for you. I come with a _distinct subset of behaviours_, my _attitude_.
 
 I leverage a set of modern open source technologies like [Webpack](https://github.com/webpack/webpack), [Babel](https://babeljs.io/) and [Express](http://expressjs.com/) to deliver on my promises.
 Although you do not need to know about any of these in detail to get started, I strongly encourage you to read up on the technologies involved.
@@ -222,7 +222,7 @@ If you want to take our application to production, we need a production build. I
 
 Additionally to the dynamic templates and static content, I also generate a `pages.json` where all the routing and configuration information (Page Graph) is stored, so I can run the application without having to parse the file tree again, for super fast startup in production.
 
-You can start the production build by executing `aden` in the _root_ of your application or by pointing aden to it from anywhere with `aden start /path/to/myapp`.
+You can start the production build by executing `aden start` in the _root_ of your application or by pointing aden to it from anywhere with `aden start /path/to/myapp`.
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
