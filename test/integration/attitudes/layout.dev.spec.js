@@ -9,7 +9,6 @@ const TestDuplex = require('../../lib/test-duplex.js');
 describe('Layout Attitude', () => {
   she('recognises changes in a layout file and reloads it', (done) => {
     const stream = new TestDuplex();
-    stream.on('data', (data) => console.log(data.toString('utf8')));
     const logParser = Logger.getLogParser();
     logParser.attach(stream);
 
@@ -48,12 +47,13 @@ describe('Layout Attitude', () => {
                   expect(res2.text).toMatch(/<div>footer<\/div>/);
 
                   an.shutdown();
+                  done();
                 });
             });
 
             setTimeout(() => fs.writeFileSync(
               path.resolve(__dirname, '../../tmpdata/layoutdev/layout.default.html'),
-              '<div>{{body}}</div><div>footer</footer>'
+              '<div>{{body}}</div><div>footer</div>'
             ), 300);
           });
       });
