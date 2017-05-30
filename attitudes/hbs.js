@@ -41,16 +41,15 @@ module.exports = (aden) => {
         return;
       }
     },
-  }, {
     entry: ENTRY_DYNAMIC,
     distExt: '.hbs',
   });
 
-  aden.hook('load', ({ page }) =>
+  aden.hook('setup:route', ({ page }) =>
     Promise.resolve().then(() => {
       page.key.hbsFiles.value.forEach((file) => {
         try {
-          const content = fs.readFileSync(file.resolved, 'utf8');
+          const content = fs.readFileSync(file.dist, 'utf8');
           const template = hogan.compile(content);
           Object.assign(page.key.templates.value, {
             [file.name]: {
@@ -61,7 +60,7 @@ module.exports = (aden) => {
         } catch (ex) {
           throw cannot('compile', 'hbs template')
             .because(ex)
-            .addInfo(file.resolved);
+            .addInfo(file.dist);
         }
       });
     })
