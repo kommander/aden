@@ -30,7 +30,7 @@
     "commander": "2.9.0",
     "conflate": "1.4.0",
     "copy-webpack-plugin": "4.0.1",
-    "css-loader": "0.28.3",
+    "css-loader": "0.28.4",
     "escape-string-regexp": "1.0.5",
     "express": "4.15.3",
     "extract-text-webpack-plugin": "2.1.0",
