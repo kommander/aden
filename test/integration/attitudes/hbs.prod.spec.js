@@ -46,7 +46,7 @@ describe('HBS Prod', () => {
           .get('/sub')
           .end((err, res) => {
             if (err) done(err);
-            expect(res.text).toMatch(/^<!DOCTYPE html>/);
+            expect(res.text).toMatch(/^subsub/);
             an.shutdown(done);
           });
       })
@@ -109,7 +109,8 @@ describe('HBS Prod', () => {
       .then((an) => {
         // In production images use a hash only name,
         // where images with same content become the same resource
-        const fileName = an.webpackStats[0].assets
+        const stats = an.webpackStats[0].children.find((child) => (child.name === 'frontend'));
+        const fileName = stats.assets
           .filter((asset) => asset.name.match(/^images/))[0].name;
         request(an.app)
           .get(`/${fileName}`)
@@ -129,7 +130,8 @@ describe('HBS Prod', () => {
       .then((an) => {
         // In production images use a hash only name,
         // where images with same content become the same resource
-        const fileName = an.webpackStats[0].assets
+        const stats = an.webpackStats[0].children.find((child) => (child.name === 'frontend'));
+        const fileName = stats.assets
           .filter((asset) => asset.name.match(/^images/))[0].name;
         request(an.app)
           .get(`/${fileName}`)

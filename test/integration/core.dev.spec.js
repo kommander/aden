@@ -33,6 +33,7 @@ describe('Core Dev', () => {
   // docs/quotemachine/api/quote/quote.js
   she('clears the cache for changed modules used by controllers');
 
+  she('does not try to load invalid .server files multiple times until it is changed');
 
   she('// Things Aden already does but are untested...');
   she('takes ignores from .server, applied to subpath only');

@@ -38,9 +38,10 @@ describe('MD Markdown Attitude Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/sub')
+          .get('/sub/')
           .end((err, res) => {
             if (err) done(err);
+            expect(res.status).toEqual(200);
             expect(res.text).toMatch(/Sub Page/ig);
             an.shutdown(done);
           });
@@ -53,7 +54,7 @@ describe('MD Markdown Attitude Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/another.md')
+          .get('/another.html')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/Just a file/ig);
@@ -68,7 +69,7 @@ describe('MD Markdown Attitude Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/sub/additional.md')
+          .get('/sub/additional.html')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/yet another page/ig);
@@ -83,7 +84,7 @@ describe('MD Markdown Attitude Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/wrap')
+          .get('/wrap/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/id="wrapper"/ig);
@@ -98,7 +99,7 @@ describe('MD Markdown Attitude Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/wrap/sub')
+          .get('/wrap/sub/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toNotMatch(/id="wrapper"/ig);
@@ -113,7 +114,7 @@ describe('MD Markdown Attitude Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/wrap')
+          .get('/wrap/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toNotMatch(/id="wrapper"/ig);
@@ -128,7 +129,7 @@ describe('MD Markdown Attitude Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/sub/additional.md')
+          .get('/sub/additional.html')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toNotMatch(/id="wrapper"/ig);
@@ -203,7 +204,7 @@ describe('MD Markdown Attitude Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/wrap')
+          .get('/wrap/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/commons.js/ig);
@@ -218,7 +219,7 @@ describe('MD Markdown Attitude Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/nolayout')
+          .get('/nolayout/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/commons.js/ig);

@@ -11,7 +11,7 @@ $color-primary-4: #012A44;
 
 $color-secondary-2-0: #B997D5;
 
-#content {
+#content, #footer {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 60px;
@@ -19,6 +19,10 @@ $color-secondary-2-0: #B997D5;
   background-color: $color-background;
   color: $color-primary-4;
   line-height: 1.6em;
+}
+
+#footer {
+  font-size: 11px;
 }
 
 .section-menu {
@@ -51,6 +55,7 @@ pre {
   margin: 40px 0px;
   font-style: 'Roboto Mono';
   overflow: auto;
+  background-color: $color-background;
 }
 
 p {
@@ -72,17 +77,13 @@ em {
 }
 
 @media (max-width: 788px) {
-  #content {
+  #content, #footer {
     padding: 0px 12px;
-  }
-
-  #quotemachine blockquote {
-    min-height: 180px;
   }
 }
 
-@media (max-width: 420px) {
-  #quotemachine blockquote {
-    min-height: 220px;
+@media (max-width: 480px) {
+  p {
+    text-align: justify;
   }
 }

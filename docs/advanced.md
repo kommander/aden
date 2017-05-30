@@ -31,6 +31,12 @@ Aden does not care about NODE_ENV. She has two possible runtime _modes_ though, 
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#thetop)
 </div>
 
+## <a name="config"></a> The `.server` File
+All application specific settings should be _environment variables_, which always overrides the corresponding setting from the `.server` config. Values from the `.server` config can therefor be used to bootstrap a development environment, but will not be used in production mode.
+
+<div class="section-menu">
+  [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#thetop)
+</div>
 
 ## <a name="routing"></a> Routing
 Aden does not just serve files out of a static file system,
@@ -78,14 +84,6 @@ mkdir 404
 touch index.html
 echo error file not found > index.html
 ```
-
-<div class="section-menu">
-  [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#thetop)
-</div>
-
-
-## <a name="config"></a> The `.server` File
-All application specific settings should be _environment variables_, which always overrides the corresponding setting from the `.server` config. Values from the `.server` config can therefor be used to bootstrap a development environment, but will not be used in production mode.
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#thetop)

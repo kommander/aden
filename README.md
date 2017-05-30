@@ -10,10 +10,10 @@ Setting up Webpack again for each project, when the basics are always the same i
 Aden integrates [Webpack](https://github.com/webpack/webpack),
 [Babel](https://babeljs.io) and
 [Express](http://expressjs.com/) with an extensible [file](https://en.wikipedia.org/wiki/Computer_file) [tree](https://en.wikipedia.org/wiki/Tree_data_structure) [parser](https://en.wikipedia.org/wiki/Parsing),
-to generate universal frontend asset builds and allow for a classic webserver behaviour, mapping paths to routes, while setting up a non-mutable express app for production.
+to generate universal frontend asset builds and allow for a classic webserver behaviour, mapping paths to routes, while setting up a non-mutable express app for production. Aden also allows for straight forward server side rendering and API (Lambda) development.
 
 
-The _/docs_ from this repository are running on _aden_ on a heroku instance at [aden.zwerk.io](http://aden.zwerk.io).
+The _/docs_ from this repository are running on _aden_ on a heroku instance at [aden.zwerk.io](https://aden.zwerk.io).
 
 
 ## Prerequisites
@@ -57,7 +57,7 @@ Aden runs in _production_ by default, without any CLI options.
 ## Run
 ### Development
 To confirm aden is installed correctly, try running the docs from the repository,
-or check out the getting started guide at [aden.zwerk.io](http://aden.zwerk.io)
+or check out the getting started guide at [aden.zwerk.io](https://aden.zwerk.io)
 ```
 aden dev path/to/docs
 ```
@@ -77,10 +77,9 @@ To create a build:
 aden build [path]
 ```
 
-Aden assumes a production environment if none is explicitly specified.
-To run an existing build:
+To run an existing production build:
 ```
-aden [path]
+aden start [path]
 ```
 
 # Resources
