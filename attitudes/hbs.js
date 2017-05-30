@@ -34,10 +34,8 @@ module.exports = (aden) => {
 
   aden.registerFiles('hbsFiles', /\.(hbs|hdbs)$/, {
     handler: ({ page, fileInfo }) => {
-      if (fileInfo.name === page.key.hbs.value.entry) {
-        Object.assign(page.key.hbsIndex, {
-          value: fileInfo.rpath,
-        });
+      if (fileInfo.name === page.hbs.value.entry) {
+        page.set('hbsIndex', fileInfo.rpath);
         return;
       }
     },
@@ -47,13 +45,12 @@ module.exports = (aden) => {
 
   aden.hook('setup:route', ({ page }) =>
     Promise.resolve().then(() => {
-      page.key.hbsFiles.value.forEach((file) => {
+      const templates = page.hbsFiles.value.reduce((prev, file) => {
         try {
           const content = fs.readFileSync(file.dist, 'utf8');
           const template = hogan.compile(content);
-          Object.assign(page.key.templates.value, {
+          return Object.assign(prev, {
             [file.name]: {
-              content,
               render: (data, partials) => template.render(data, partials),
             },
           });
@@ -62,15 +59,16 @@ module.exports = (aden) => {
             .because(ex)
             .addInfo(file.dist);
         }
-      });
+      }, {});
+      page.set('templates', templates);
     })
   );
 
   aden.hook('setup:route', ({ page }) => {
-    if (page.key.hbsIndex.value) {
+    if (page.hbsIndex.value) {
       Object.assign(page, {
         get: (req, res, thepage, data) => {
-          page.key.hbsIndex
+          page.hbsIndex
             .load((content) => hogan.compile(content.toString('utf8')))
             .then((template) => {
               const html = template.render({ req, res, page: thepage, data });
@@ -93,9 +91,9 @@ module.exports = (aden) => {
     frontendConfig.module.rules.push({
       test: /\.(hbs|hdbs|handlebars)$/,
       include: [
-        path.resolve(pages[0].rootPath, '../node_modules'),
-        path.resolve(pages[0].rootPath, '../../node_modules'),
-      ].concat(aden.flattenPages(pages).map((page) => page.key.path.resolved)),
+        path.resolve(aden.rootPath, '../node_modules'),
+        path.resolve(aden.rootPath, '../../node_modules'),
+      ].concat(aden.flattenPages(pages).map((page) => page.path.resolved)),
       use: [
         {
           loader: require.resolve('html-loader'),

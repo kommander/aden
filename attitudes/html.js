@@ -16,7 +16,7 @@ module.exports = (aden) => {
   aden.registerFile(
     'htmlFile',
     ({ page, fileInfo }) =>
-      fileInfo.file.match(/\.html$/) && fileInfo.name === page.key.html.value,
+      fileInfo.file.match(/\.html$/) && fileInfo.name === page.html.value,
     {
       entry: ENTRY_STATIC,
       distExt: '.html',
@@ -32,9 +32,9 @@ module.exports = (aden) => {
     frontendConfig.module.rules.push({
       test: /\.html$/,
       include: [
-        path.resolve(pages[0].rootPath, '../node_modules'),
-        path.resolve(pages[0].rootPath, '../../node_modules'),
-      ].concat(aden.flattenPages(pages).map((page) => page.key.path.resolved)),
+        path.resolve(aden.rootPath, '../node_modules'),
+        path.resolve(aden.rootPath, '../../node_modules'),
+      ].concat(aden.flattenPages(pages).map((page) => page.path.resolved)),
       use: {
         loader: require.resolve('html-loader'),
         // options: {

@@ -1,17 +1,31 @@
 const aden = require('../../lib/aden');
 const path = require('path');
 const expect = require('expect');
+const Logger = require('../../lib/aden.logger');
+const TestDuplex = require('../lib/test-duplex.js');
 
 describe('Core Dev', () => {
   she('provides a startup callback', (done) => {
-    aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/startup'))
+    const stream = new TestDuplex();
+    const logParser = Logger.getLogParser();
+    logParser.attach(stream);
+
+    const adn = aden({
+      dev: true,
+      logger: {
+        silent: false,
+        stdStream: stream,
+        errStream: stream,
+      },
+    });
+
+    logParser.once('startup:callback', (data) => {
+      expect(data).toBe('blub!');
+    });
+
+    adn.init(path.resolve(__dirname, '../tmpdata/startup'))
       .then((an) => an.run('dev'))
-      .then((an) => {
-        expect(an.has('startupKey')).toBeAn('object');
-        an.shutdown(done);
-      })
-      .catch(done);
+      .then((an) => an.shutdown(done));
   });
 
   she('exposes aden.server in startup callback', (done) => {

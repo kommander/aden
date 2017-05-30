@@ -1,3 +1,4 @@
+const path = require('path');
 const STATUS_CODES = [404, 500];
 
 module.exports = (aden) => {
@@ -12,30 +13,33 @@ module.exports = (aden) => {
     value: false,
   });
 
+  // aden.registerPage(path.resolve(__dirname, '404'), {
+  //   id: 'status-404',
+  //   mount: false,
+  // });
+  //
+  // aden.hook('setup', () => {
+  //   statusPages[404] = aden.getPage('status-404');
+  // });
+
   aden.hook('pre:load', ({ page }) => {
     const pageCode = parseInt(page.name, 10);
     if (pageCode && STATUS_CODES.includes(pageCode)) {
-      Object.assign(page.keys.find((k) => (k.name === 'mount')), {
-        value: false,
-      });
-      Object.assign(page.keys.find((k) => (k.name === 'isStatusPage')), {
-        value: true,
-      });
-      Object.assign(page.keys.find((k) => (k.name === 'distSubPath')), {
-        value: 'statuspages',
-      });
+      page.set('mount', false);
+      page.set('isStatusPage', true);
+      page.set('distSubPath', 'statuspages');
     }
   });
 
   aden.hook('setup:route', ({ page }) => {
-    if (page.key.isStatusPage.value) {
-      if (statusPages[page.name]) {
+    if (page.isStatusPage.value) {
+      if (statusPages[parseInt(page.name, 10)]) {
         aden.log.warn(`Status page ${page.name} already set.`);
         return;
       }
 
-      if (!page.get && page.key.staticMain.value) {
-        const staticMainFile = page.key[page.key.staticMain.value];
+      if (!page.get && page.staticMain.value) {
+        const staticMainFile = page[page.staticMain.value];
         Object.assign(page, {
           get: (req, res) =>
             staticMainFile
@@ -45,13 +49,13 @@ module.exports = (aden) => {
       }
 
       if (page.get) {
-        statusPages[page.name] = page;
+        statusPages[parseInt(page.name, 10)] = page;
       }
     }
   });
 
   aden.hook('route:error', ({ req, res, next }) => {
-    const page = statusPages[res.statusCode];
+    const page = statusPages[res.statusCode || 500];
     if (page) {
       return page.get(req, res, next);
     }
@@ -59,7 +63,7 @@ module.exports = (aden) => {
   });
 
   aden.hook('route:notFound', ({ req, res, next }) => {
-    const page = statusPages['404'];
+    const page = statusPages[404];
 
     if (page) {
       return page.get(req, res, next);

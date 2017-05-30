@@ -151,56 +151,7 @@ describe('dev', () => {
 
             setTimeout(() => rimraf.sync(
               path.resolve(__dirname, '../tmpdata/devunlink/sub')
-            ), 300);
-          });
-      });
-  });
-
-  she('recognises changed watch keys', (done) => {
-    const stream = new TestDuplex();
-    const logParser = Logger.getLogParser();
-    logParser.attach(stream);
-
-    const adn = aden({
-      dev: true,
-      logger: {
-        silent: false,
-        stdStream: stream,
-        errStream: stream,
-      },
-    });
-
-    adn.init(path.resolve(__dirname, '../tmpdata/dev2'))
-      .then((an) => an.run('dev'))
-      .then((an) => {
-        request(an.app)
-          .get('/')
-          .end((err, res) => {
-            if (err) {
-              done(err);
-              return;
-            }
-            expect(res.status).toMatch(404);
-
-            logParser.on('dev:reload:done', () => {
-              request(an.app)
-                .get('/')
-                .end((err2, res2) => {
-                  if (err2) {
-                    done(err2);
-                    return;
-                  }
-
-                  expect(res2.text).toMatch('success');
-
-                  an.shutdown(done);
-                });
-            });
-
-            setTimeout(() => fs.writeFileSync(
-              path.resolve(__dirname, '../tmpdata/dev2', '.get.js'),
-              'module.exports=()=>(req, res)=>{res.send("success")};'
-            ), 300);
+            ), 500);
           });
       });
   });
