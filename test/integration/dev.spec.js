@@ -35,7 +35,6 @@ describe('dev', () => {
             expect(res.status).toMatch(404);
 
 
-            // Mhhh... need to know when a build has finished
             logParser.on('dev:reload:done', () => {
               request(an.app)
                 .get('/')
@@ -86,11 +85,9 @@ describe('dev', () => {
             }
             expect(res.status).toMatch(404);
 
-            // Mhhh... need to know when a build has finished
             logParser.on('dev:reload:done', () => {
               request(an.app)
                 .get('/sub/')
-                // fckn hell. todo: use promisified supertest
                 .end((err2, res2) => {
                   if (err2) {
                     done(err2);
@@ -137,11 +134,9 @@ describe('dev', () => {
             }
             expect(res.status).toMatch(200);
 
-            // Mhhh... need to know when a build has finished
             logParser.on('dev:reload:done', () => {
               request(an.app)
                 .get('/sub/')
-                // fckn hell. todo: use promisified supertest
                 .end((err2, res2) => {
                   if (err2) {
                     done(err2);
@@ -187,11 +182,9 @@ describe('dev', () => {
             }
             expect(res.status).toMatch(404);
 
-            // Mhhh... need to know when a build has finished
             logParser.on('dev:reload:done', () => {
               request(an.app)
                 .get('/')
-                // fckn hell. todo: use promisified supertest
                 .end((err2, res2) => {
                   if (err2) {
                     done(err2);

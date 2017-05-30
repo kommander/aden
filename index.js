@@ -184,6 +184,10 @@ program
               log.error('Worker Exit with Error', new Error(`Worker error code: ${code}`));
               exitStatus = 1;
               // TODO: Determine if viable for restart
+              //       -> default would be:
+              //         isAppLevelError ? restart() : err & shutdown
+              //       -> use aden.registerHooks(['master:start', 'worker:error', ...])
+              //        -> Let attitudes hook into cluster setup and determine restart viablility
             } else {
               log.info('Worker Exit Normal');
             }

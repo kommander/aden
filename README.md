@@ -13,7 +13,7 @@ Aden integrates [Webpack](https://github.com/webpack/webpack),
 to generate universal frontend asset builds and allow for a classic webserver behaviour, mapping paths to routes, while setting up a non-mutable express app for production. Aden also allows for straight forward server side rendering and API (Lambda) development.
 
 
-The _/docs_ from this repository are running on _aden_ on a heroku instance at [aden.zwerk.io](http://aden.zwerk.io).
+The _/docs_ from this repository are running on _aden_ on a heroku instance at [aden.zwerk.io](https://aden.zwerk.io).
 
 
 ## Prerequisites
@@ -57,7 +57,7 @@ Aden runs in _production_ by default, without any CLI options.
 ## Run
 ### Development
 To confirm aden is installed correctly, try running the docs from the repository,
-or check out the getting started guide at [aden.zwerk.io](http://aden.zwerk.io)
+or check out the getting started guide at [aden.zwerk.io](https://aden.zwerk.io)
 ```
 aden dev path/to/docs
 ```

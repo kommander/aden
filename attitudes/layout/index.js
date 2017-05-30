@@ -83,7 +83,7 @@ module.exports = (aden) => {
             template: page.key.selectedLayout.resolved,
             filename: page.key.selectedLayout.dist,
             inject: false,
-            cache: aden.isDEV,
+            cache: !aden.isDEV,
           })
         ),
       };
