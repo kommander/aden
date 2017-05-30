@@ -46,7 +46,7 @@ feel free to [open an issue](https://github.com/kommander/aden/issues/new).
 Remember, back in the 90s when my [big brother](http://httpd.apache.org/docs/2.4/) was serving the web?
 Those were amazing times. Lets start with what he could do. But dynamic by nature.
 
-Open a Terminal. Create a test folder `mkdir woa` and navigate to it `cd woa`. There, `touch .server`.
+Open a Terminal. Create a project _root folder_ `mkdir woa` and navigate to it `cd woa`. There, `touch .server`.
 Now I can help you out developing with `aden dev`.
 
 As you might have noticed, I am now running on port `5000`, with `./woa` as your _root folder_.
