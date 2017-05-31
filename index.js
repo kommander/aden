@@ -159,14 +159,14 @@ program
         const workersById = {};
         let numWorkersListening = 0;
         let exitStatus = 0;
-        const gracefulShutdown = () => {
+        const gracefulWorkerShutdown = () => {
           Object.keys(workersById).forEach((key) => {
             workersById[key].kill('SIGTERM');
           });
         };
 
-        process.on('SIGTERM', gracefulShutdown);
-        process.on('SIGINT', gracefulShutdown);
+        process.on('SIGTERM', gracefulWorkerShutdown);
+        process.on('SIGINT', gracefulWorkerShutdown);
 
         cluster.on('fork', (worker) => {
           log.info(`Forked worker ${worker.id}`);

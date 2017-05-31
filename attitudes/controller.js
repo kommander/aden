@@ -32,19 +32,19 @@ module.exports = (aden) => {
     Object.assign(page, {
       // TODO: Use page.controller('get', fn) -> warn when overwriting
       get: page.getPath.resolved
-        ? aden.loadCustom(page.getPath, page)
+        ? aden.loadWrappedFn(page.getPath, page)
         : page.get,
       post: page.postPath.resolved
-        ? aden.loadCustom(page.postPath, page)
+        ? aden.loadWrappedFn(page.postPath, page)
         : page.post,
       put: page.putPath.resolved
-        ? aden.loadCustom(page.putPath, page)
+        ? aden.loadWrappedFn(page.putPath, page)
         : page.put,
       delete: page.deletePath.resolved
-        ? aden.loadCustom(page.deletePath, page)
+        ? aden.loadWrappedFn(page.deletePath, page)
         : page.delete,
       all: page.allPath.resolved
-        ? aden.loadCustom(page.allPath, page)
+        ? aden.loadWrappedFn(page.allPath, page)
         : page.all,
     });
   });
