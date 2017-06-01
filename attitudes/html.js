@@ -1,29 +1,33 @@
 const path = require('path');
 
-module.exports = (aden) => {
+module.exports = (attitude) => {
   const {
     ENTRY_STATIC,
-  } = aden.constants;
+    KEY_STRING,
+  } = attitude.constants;
 
-  aden.registerKey('html', {
-    type: 'string',
+  // Allows .server { html: 'myentryname' },
+  attitude.registerKey('html', {
+    type: KEY_STRING,
     value: 'index',
+    config: true,
     inherit: true,
   });
 
   // TODO: Warn for overlapping static dist files like: [index.md, index.hbs] -> index.html
 
-  aden.registerFile(
+  attitude.registerFile(
     'htmlFile',
-    ({ page, fileInfo }) =>
-      fileInfo.file.match(/\.html$/) && fileInfo.name === page.html.value,
+    ({ page, fileInfo }) => {
+      return fileInfo.file.match(/\.html$/) && fileInfo.name === page.html.value;
+    },
     {
       entry: ENTRY_STATIC,
       distExt: '.html',
     }
   );
 
-  aden.hook('post:apply', ({ pages, webpackConfigs }) => {
+  attitude.hook('post:apply', ({ pages, webpackConfigs }) => {
     const frontendConfig = webpackConfigs
       .find((conf) => (conf.name === 'frontend'));
 
@@ -32,13 +36,13 @@ module.exports = (aden) => {
     frontendConfig.module.rules.push({
       test: /\.html$/,
       include: [
-        path.resolve(aden.rootPath, '../node_modules'),
-        path.resolve(aden.rootPath, '../../node_modules'),
-      ].concat(aden.flattenPages(pages).map((page) => page.path.resolved)),
+        path.resolve(attitude.rootPath, '../node_modules'),
+        path.resolve(attitude.rootPath, '../../node_modules'),
+      ].concat(attitude.flattenPages(pages).map((page) => page.path.resolved)),
       use: {
         loader: require.resolve('html-loader'),
         // options: {
-        //   minimize: !aden.isDEV,
+        //   minimize: !attitude.isDEV,
         // },
       },
     });
