@@ -9,6 +9,7 @@ module.exports = (attitude) => {
 
   // Allows .server { copy: [{ from: ..., to: ... }] },
   // -> https://github.com/kevlened/copy-webpack-plugin
+  // -> it applies the page context to each plugin
   attitude.registerKey('copy', {
     type: KEY_ARRAY,
     value: [],
@@ -26,8 +27,18 @@ module.exports = (attitude) => {
       const frontendConfig = webpackConfigs
         .find((conf) => (conf.name === 'frontend'));
 
+      const copyPatters = page.copy.value.map((pattern) => Object.assign(pattern, {
+        context: page.path.resolved,
+        to: path.resolve(
+          attitude.settings.dist, 
+          page.distSubPath.value,
+          page.relativePath,
+          pattern.to || ''
+        ),
+      }));
+
       frontendConfig.plugins.push(new CopyWebpackPlugin(
-        page.copy.value,
+        copyPatters,
         page.copyOptions.value
       ));
     }

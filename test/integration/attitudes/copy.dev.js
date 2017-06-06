@@ -35,4 +35,20 @@ describe('Copy Dev', () => {
       })
       .catch(done);
   });
+
+  she('moves selected subpage files to .dist/public/subpage', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/copy'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/subpage/file-to-copy.json')
+          .expect(200, (err, res) => {
+            expect(res.text).toMatch(/"key": "subdata"/)
+            an.shutdown();
+            done(err)
+          });
+      })
+      .catch(done);
+  });
 });
