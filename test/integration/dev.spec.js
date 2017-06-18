@@ -155,4 +155,55 @@ describe('dev', () => {
           });
       });
   });
+
+  she('does not multi add pages that are already in page graph', (done) => {
+    const stream = new TestDuplex();
+    const logParser = Logger.getLogParser();
+    logParser.attach(stream);
+
+    const adn = aden({
+      dev: true,
+      logger: {
+        silent: false,
+        debug: true,
+        stdStream: stream,
+        errStream: stream,
+      },
+    });
+
+    adn.init(path.resolve(__dirname, '../tmpdata/dev'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/test.html')
+          .end((err, res) => {
+            if (err) {
+              done(err);
+              return;
+            }
+            expect(res.status).toMatch(404);
+
+            let alreadyParsed = false;
+            logParser.on('info', (info) => {
+              if (info.data
+                && info.data.action === 'parseGraph'
+                && info.data.entryName === 'dev.sub') {
+                if (alreadyParsed) {
+                  done(new Error('already re-parsed, no multi reparse'));
+                }
+                alreadyParsed = true;
+              }
+            });
+
+            logParser.on('dev:reload:done', () => {
+              adn.shutdown(done);
+            });
+
+            setTimeout(() => fs.writeFileSync(
+              path.resolve(__dirname, '../tmpdata/dev', 'test.html'),
+              '<tag>content</tag>'
+            ), 300);
+          });
+      });
+  });
 });
