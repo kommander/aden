@@ -41,7 +41,7 @@ describe('Core Dev', () => {
 
   she('calls startup hooks for subpages');
 
-  // (static entry point templates got into public build)
+  // (static entry point templates go into public build)
   she('distincts between static and dynamic entry points');
 
   // docs/quotemachine/api/quote/quote.js
