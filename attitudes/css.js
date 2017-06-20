@@ -36,7 +36,7 @@ module.exports = (aden) => {
     frontendConfig.plugins.push(extractCSSPlugin);
 
     const extractSCSSPlugin = new ExtractTextPlugin({
-      filename: aden.isDEV ? '[name].css' : '[id]-[hash].css',
+      filename: aden.isDEV ? 's-[name].css' : 's-[id]-[hash].css',
       allChunks: true,
     });
     frontendConfig.plugins.push(extractSCSSPlugin);
