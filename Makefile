@@ -13,6 +13,7 @@ MOCHA_OPTS=--check-leaks \
 	--timeout 25000 \
 	--globals addresses \
 	--globals __core-js_shared__ \
+	-gc \
 	--slow 5000 \
 	./test/lib/inject.js
 VERSION = $(shell node -pe 'require("./package.json").version')
