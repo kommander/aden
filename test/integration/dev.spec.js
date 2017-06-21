@@ -151,12 +151,12 @@ describe('dev', () => {
 
             setTimeout(() => rimraf.sync(
               path.resolve(__dirname, '../tmpdata/devunlink/sub')
-            ), 300);
+            ), 500);
           });
       });
   });
 
-  she('recognises changed watch keys', (done) => {
+  she('does not multi add pages that are already in page graph', (done) => {
     const stream = new TestDuplex();
     const logParser = Logger.getLogParser();
     logParser.attach(stream);
@@ -165,16 +165,17 @@ describe('dev', () => {
       dev: true,
       logger: {
         silent: false,
+        debug: true,
         stdStream: stream,
         errStream: stream,
       },
     });
 
-    adn.init(path.resolve(__dirname, '../tmpdata/dev2'))
+    adn.init(path.resolve(__dirname, '../tmpdata/dev'))
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/')
+          .get('/test.html')
           .end((err, res) => {
             if (err) {
               done(err);
@@ -182,24 +183,25 @@ describe('dev', () => {
             }
             expect(res.status).toMatch(404);
 
+            let alreadyParsed = false;
+            logParser.on('info', (info) => {
+              if (info.data
+                && info.data.action === 'parseGraph'
+                && info.data.entryName === 'dev.sub') {
+                if (alreadyParsed) {
+                  done(new Error('already re-parsed, no multi reparse'));
+                }
+                alreadyParsed = true;
+              }
+            });
+
             logParser.on('dev:reload:done', () => {
-              request(an.app)
-                .get('/')
-                .end((err2, res2) => {
-                  if (err2) {
-                    done(err2);
-                    return;
-                  }
-
-                  expect(res2.text).toMatch('success');
-
-                  an.shutdown(done);
-                });
+              adn.shutdown(done);
             });
 
             setTimeout(() => fs.writeFileSync(
-              path.resolve(__dirname, '../tmpdata/dev2', '.get.js'),
-              'module.exports=()=>(req, res)=>{res.send("success")};'
+              path.resolve(__dirname, '../tmpdata/dev', 'test.html'),
+              '<tag>content</tag>'
             ), 300);
           });
       });

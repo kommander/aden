@@ -8,7 +8,6 @@ module.exports = (aden) => {
   aden.registerKey('layout', {
     type: 'string',
     config: true,
-    // inherit: true,
     value: null,
   });
 
@@ -28,26 +27,18 @@ module.exports = (aden) => {
   //       when they add a loader and layout is available.
   aden.registerFiles('layoutFiles', /^layout\..*?\.(html|hbs|md)$/, {
     handler: ({ page, fileInfo }) => {
-      Object.assign(page.key.layouts, {
-        value: page.key.layouts.value.concat([{ fileInfo }]),
-      });
+      page.set('layouts', page.layouts.value.concat([{ fileInfo }]));
     },
   });
 
   aden.hook('pre:load', ({ page }) => {
-    const pageLayout = page.keys
-      .find((k) => (k.name === 'layouts')).value
+    const pageLayout = page.layouts.value
       .find((layout) =>
-        layout.fileInfo.name.match(page.keys
-          .find((k) => (k.name === 'layout')).value)
+        layout.fileInfo.name.match(page.layout.value)
     );
 
     if (pageLayout) {
-      Object.assign(page.keys.find((k) =>
-        (k.name === 'selectedLayout')),
-        {
-          value: pageLayout.fileInfo.rpath,
-        });
+      page.set('selectedLayout', pageLayout.fileInfo.rpath);
       return;
     }
   });
@@ -57,14 +48,15 @@ module.exports = (aden) => {
       .find((conf) => (conf.name === 'frontend'));
 
     const entry = aden.flattenPages(pages)
-      .filter((page) => (page.key.selectedLayout.value))
-      .map((page) => page.key.selectedLayout.resolved);
+      .filter((page) => (page.selectedLayout.value))
+      .map((page) => page.selectedLayout.resolved);
 
     // TODO: Let aden apply paths and context
     // Use something like aden.registerWebpack('layout', { config }, { before: 'frontend'})
-    if (entry.length > 0) {
+    const uniq = _.uniq(entry);
+    if (uniq.length > 0) {
       const config = {
-        entry: _.uniq(entry),
+        entry: uniq,
         name: 'layout',
         target: 'web',
         output: {
@@ -78,10 +70,10 @@ module.exports = (aden) => {
         },
         module: frontendConfig.module,
         plugins: aden.flattenPages(pages)
-          .filter((page) => (page.key.selectedLayout.value))
+          .filter((page) => (page.selectedLayout.value))
           .map((page) => new HtmlWebpackPlugin({
-            template: page.key.selectedLayout.resolved,
-            filename: page.key.selectedLayout.dist,
+            template: page.selectedLayout.resolved,
+            filename: page.selectedLayout.dist,
             inject: false,
             cache: !aden.isDEV,
           })
@@ -92,8 +84,8 @@ module.exports = (aden) => {
   });
 
   aden.hook('html', ({ page, data }) => {
-    if (page.key.selectedLayout.value) {
-      return page.key.selectedLayout
+    if (page.selectedLayout.value) {
+      return page.selectedLayout
         .load()
         .then((buffer) => buffer.toString('utf8'))
         .then((wrapper) => Object.assign(data, {

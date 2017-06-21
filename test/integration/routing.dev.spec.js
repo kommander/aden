@@ -125,6 +125,7 @@ describe('Routing Dev', () => {
         stdStream: stream,
         errStream: stream,
       },
+      attitudes: '!statuspages',
     });
 
     logParser.on('error', (err) => {
