@@ -1,4 +1,4 @@
-Creating coverage report for version 0.2.0-alpha.11.
+Creating coverage report for version 0.2.0-alpha.12.
 
 
   Controller Dev
@@ -14,6 +14,11 @@ Creating coverage report for version 0.2.0-alpha.11.
     ✓ uses .put.js as controller
     ✓ uses .delete.js as controller
     ✓ uses .all.js as controller
+
+  Copy Dev
+    ✓ moves selected files to .dist/public
+    ✓ does not move non-selected files to .dist/public
+    ✓ moves selected subpage files to .dist/public/subpage
 
   CSS Attitude Dev
     - puts common requires/imports into common css
@@ -72,6 +77,9 @@ Creating coverage report for version 0.2.0-alpha.11.
     - // Things Aden already does but are untested...
     - puts common requires/imports into common js
 
+  Layout Attitude
+    ✓ recognises changes in a layout file and reloads it (4836ms)
+
   MD Markdown Attitude Dev
     ✓ has a root route with index.md entry point
     ✓ delivers index.md at root path
@@ -103,15 +111,36 @@ Creating coverage report for version 0.2.0-alpha.11.
     ✓ includes images from sub path in the build
     ✓ injects commons (nolayout)
 
+  Statuspages Dev
+    ✓ does not route custom status pages (404)
+    ✓ routes custom status pages (error)
+    ✓ uses custom status pages (404)
+    ✓ uses custom status pages (error)
+
+  Statuspages Prod
+    ✓ does not route custom status pages (404)
+    ✓ does not route custom status pages (error)
+    ✓ uses custom status pages (404)
+    ✓ uses custom status pages (error)
+
   Attitudes API
     ✓ allows to load app level attitudes
+    ✓ logs a warning when an attitude could not be resolved
+    ✓ allows to load attitudes from absolute paths
+    ✓ logs a warning when an attitude is not a function
 
   CLI
-    ✓ has a dev mode cli command (3610ms)
-    ✓ has a start (production mode) cli command
-    ✓ has a build cli command
+    ✓ has a dev mode cli command (6197ms)
+    ✓ has a start (production mode) cli command (2632ms)
+    ✓ has a build cli command (4063ms)
+    ✓ has a clean cli command
+    ✓ has a deploy cli command (5352ms)
+    ✓ logs error if no .server file at root folder
+    ✓ logs error if address is rejected (3817ms)
+    ✓ starts a cluster with -w option (5562ms)
+    ✓ shuts down workers (3051ms)
+    ✓ logs worker errors (5823ms)
     - // Things Aden already does but are untested...
-    - provides a build flag to output a production build
     - provides a flag to set the focus path
     - provides a cleanup flag
 
@@ -127,6 +156,7 @@ Creating coverage report for version 0.2.0-alpha.11.
     - calls startup hooks for subpages
     - distincts between static and dynamic entry points
     - clears the cache for changed modules used by controllers
+    - does not try to load invalid .server files multiple times until it is changed
     - // Things Aden already does but are untested...
     - takes ignores from .server, applied to subpath only
     - calls a build hook for keys marked as build
@@ -144,31 +174,49 @@ Creating coverage report for version 0.2.0-alpha.11.
     ✓ executes deploy hooks if target was matched
 
   dev
-    ✓ has no root route without an entry
-    ✓ recognises new files and sets up the page (4195ms)
-    ✓ recognises new files in sub folders and sets up the page (4441ms)
-    ✓ recognises changed watch keys (3614ms)
+    ✓ recognises new files and sets up the page (5247ms)
+    ✓ recognises new files in sub folders and sets up the page (4957ms)
+    ✓ recognises deleted folders and removes the page (3331ms)
+    ✓ does not multi add pages that are already in page graph (5496ms)
 
-  page keys (registerKey)
-    ✓ adds a named key to the page
-    - complains about duplicated keys
-    - has default keys
+  Extension API (Attitudes)
+    ✓ throws if a hook does not exist
+    ✓ hooking the same handler twice for a hook throws
+    ✓ can register and apply a hook
+    ✓ can bulk register hooks
+    ✓ can unhook a registered function again
+    ✓ throws for an unhook that does not exist
 
   Logger
     ✓ has a log
     ✓ has a log with all methods needed
     ✓ has a silent log by default
     ✓ logs debug level messages
+    ✓ logs debug level messages (with debug Object)
     ✓ logs info level messages
+    ✓ logs info level messages (without debug object)
+    ✓ logs info level messages (with debug Object)
     ✓ logs warn level messages
     ✓ logs error level messages
+    ✓ logs warn level messages (with debug Object)
+    ✓ logs error level messages (with Error Object)
+    ✓ logs error level messages (with debug Object)
     ✓ logs start level messages
+    ✓ logs start level messages (with debug Object)
     ✓ logs success level messages
+    ✓ logs success level messages (with debug Object)
+    ✓ logs raw messages
     ✓ throws and error for a namespace without name
+    ✓ throws and error for a namespace with space in name
     ✓ can create a new namespace from a log
+    ✓ has a ready event in log (3828ms)
+    ✓ provides address/port to ready (3877ms)
     ✓ overrides the silent setting with env ADEN_FORCE_LOG=true
     ✓ logs a date
     ✓ can omit the date
+
+  Page Dev
+    ✓ throws an error when a registered page is not accessible
 
   Routing Dev
     ✓ creates default route without specific config
@@ -178,34 +226,72 @@ Creating coverage report for version 0.2.0-alpha.11.
     ✓ matches greedy routes
     ✓ puts greedy routes at the end of the router stack
     ✓ allows params in page path /user/+id/edit
+    ✓ logs an error if no routes are given
+    ✓ does not serve controllers, if .server { route: false }
+    ✓ does not route empty subpaths
     - // Things Aden already does but are untested...
     - allows params in { route: '/:id'} > .server
+    - mounts absolute routes absolute
 
-  Statuspages Dev
-    ✓ routes custom status pages (404)
-    ✓ routes custom status pages (error)
-    ✓ uses custom status pages (404)
-    ✓ uses custom status pages (error)
-    ✓ notices a missing 404 page
-    ✓ notices a missing 500 page
-
-  Statuspages Prod
-    ✓ does not route custom status pages (404)
-    ✓ does not route custom status pages (error)
-    ✓ uses custom status pages (404)
-    ✓ uses custom status pages (error)
+  Routing Prod
+    ✓ creates default route without specific config
+    ✓ adds route from .server to page path route
+    ✓ adds route from .server to page path route (no slash)
+    ✓ does not route pages with { route: false; } > .server
+    ✓ matches greedy routes
+    ✓ puts greedy routes at the end of the router stack
+    ✓ allows params in page path /user/+id/edit
+    ✓ throws an error when routes are empty
+    ✓ does not serve controllers, if .server { route: false }
+    ✓ does not route empty subpaths
+    - // Things Aden already does but are untested...
+    - allows params in { route: '/:id'} > .server
+    - mounts absolute routes absolute
 
   Webpack Dev
     ✓ merges a webpack config from a page .server config
+    ✓ takes additional webpack entry files and adds them to the the entry array
 
 
-  127 passing (2m)
-  22 pending
+  171 passing (4m)
+  24 pending
 
-
-=============================== Coverage summary ===============================
-Statements   : 90.61% ( 1197/1321 ), 15 ignored
-Branches     : 77.13% ( 425/551 ), 2 ignored
-Functions    : 95.38% ( 62/65 ), 5 ignored
-Lines        : 90.63% ( 1170/1291 )
-================================================================================
+--------------------------------|----------|----------|----------|----------|----------------|
+File                            |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
+--------------------------------|----------|----------|----------|----------|----------------|
+All files                       |    91.46 |    77.16 |    94.43 |    91.67 |                |
+ aden                           |    91.28 |    77.63 |       90 |    92.81 |                |
+  index.js                      |    91.28 |    77.63 |       90 |    92.81 |... 313,314,321 |
+ aden/attitudes                 |    97.58 |    93.75 |    97.73 |    97.56 |                |
+  controller.js                 |      100 |      100 |      100 |      100 |                |
+  copy.js                       |      100 |      100 |      100 |      100 |                |
+  css.js                        |      100 |      100 |      100 |      100 |                |
+  favicon.js                    |      100 |      100 |      100 |      100 |                |
+  hbs.js                        |    94.59 |      100 |    92.31 |    94.59 |          52,56 |
+  html.js                       |      100 |      100 |      100 |      100 |                |
+  js.js                         |      100 |      100 |      100 |      100 |                |
+  md.js                         |    92.31 |       50 |      100 |    92.31 |             36 |
+ aden/attitudes/layout          |      100 |      100 |      100 |      100 |                |
+  index.js                      |      100 |      100 |      100 |      100 |                |
+ aden/attitudes/statuspages     |    87.04 |    67.74 |       80 |    87.04 |                |
+  index.js                      |    87.04 |    67.74 |       80 |    87.04 |... 1,53,98,109 |
+ aden/attitudes/statuspages/404 |      100 |      100 |      100 |      100 |                |
+  .aden.js                      |      100 |      100 |      100 |      100 |                |
+ aden/attitudes/statuspages/500 |      100 |      100 |      100 |      100 |                |
+  .aden.js                      |      100 |      100 |      100 |      100 |                |
+ aden/dev                       |      100 |      100 |      100 |      100 |                |
+  mocha.interface.js            |      100 |      100 |      100 |      100 |                |
+ aden/lib                       |    90.76 |    76.34 |    94.91 |    90.82 |                |
+  aden.attitude.js              |      100 |    81.82 |      100 |      100 |          48,70 |
+  aden.build.js                 |    88.89 |    68.75 |      100 |    88.89 |... 196,213,214 |
+  aden.constants.js             |      100 |      100 |      100 |      100 |                |
+  aden.dev.js                   |    89.55 |    77.78 |       85 |    90.77 |... 123,131,137 |
+  aden.extend.js                |      100 |      100 |      100 |      100 |                |
+  aden.init.js                  |    96.34 |    86.36 |      100 |    96.34 |      76,85,145 |
+  aden.js                       |    88.52 |    69.39 |       80 |    88.52 |... 284,294,295 |
+  aden.load.js                  |    93.39 |    77.61 |    98.11 |    93.16 |... 264,279,280 |
+  aden.logger.js                |    96.05 |    85.29 |    97.83 |    95.59 |... 259,260,277 |
+  aden.page.js                  |    94.44 |    80.95 |    98.11 |    94.38 |... 319,377,495 |
+  aden.routes.js                |    70.59 |    56.72 |    76.47 |    71.93 |... 265,273,274 |
+  aden.webpack.js               |    89.34 |    76.79 |    93.55 |    89.08 |... 395,396,397 |
+--------------------------------|----------|----------|----------|----------|----------------|
