@@ -52,6 +52,29 @@ describe('Core Dev', () => {
       .catch(done);
   });
 
+  she('logs a warning when multiple dot server files are present', (done) => {
+    const stream = new TestDuplex();
+    const logParser = Logger.getLogParser();
+    logParser.attach(stream);
+
+    const adn = aden({
+      dev: true,
+      logger: {
+        silent: false,
+        stdStream: stream,
+        errStream: stream,
+      },
+    });
+
+    logParser.once('warn', (data) => {
+      expect(data.msg).toMatch(/Multiple server config files, using/);
+    });
+
+    adn.init(path.resolve(__dirname, '../tmpdata/multidotserver'))
+      .then((an) => an.run('dev'))
+      .then((an) => an.shutdown(done));
+  });
+
   she('exposes aden.server in startup callback', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/startup'))
