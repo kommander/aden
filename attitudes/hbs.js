@@ -5,7 +5,6 @@ const cannot = require('brokens');
 
 /**
  * hbs
- * Gathers
  */
 module.exports = (aden) => {
   const {
@@ -17,7 +16,6 @@ module.exports = (aden) => {
     config: true,
     value: {
       entry: 'index',
-      layout: true,
     },
     inherit: true,
   });
@@ -64,11 +62,11 @@ module.exports = (aden) => {
     })
   );
 
-  aden.hook('setup:route', ({ page }) => {
+  aden.hook('setup:page', ({ page }) => {
     if (page.hbsIndex.value) {
       Object.assign(page, {
         get: (req, res, thepage, data) => {
-          page.hbsIndex
+          return thepage.hbsIndex
             .load((content) => hogan.compile(content.toString('utf8')))
             .then((template) => {
               const html = template.render({ req, res, page: thepage, data });

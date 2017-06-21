@@ -7,13 +7,13 @@ describe('Config', () => {
   she('handles string config keys', (done) => {
     const adn = aden({ dev: true });
 
-    adn.hook('init', ({ rootPage }) => {
+    adn.hook('init:page', ({ page }) => {
       const att = new Attitude(adn, 'custom-att');
       att.registerKey('testkey', {
         type: 'string',
         config: true,
       });
-      att.applyTo(rootPage);
+      att.applyTo(page);
     })
     .init(path.resolve(__dirname, '../tmpdata/config'))
     .then((an) => an.run('dev'))
@@ -28,13 +28,13 @@ describe('Config', () => {
   she('handles custom config keys', (done) => {
     const adn = aden({ dev: true });
 
-    adn.hook('init', ({ rootPage }) => {
+    adn.hook('init:page', ({ page }) => {
       const att = new Attitude(adn, 'custom-att');
       att.registerKey('testkey2', {
         type: 'custom',
         config: true,
       });
-      att.applyTo(rootPage);
+      att.applyTo(page);
     })
     .init(path.resolve(__dirname, '../tmpdata/config'))
     .then((an) => an.run('dev'))
@@ -48,13 +48,13 @@ describe('Config', () => {
 
   she('does not include unregistered keys from config', (done) => {
     const adn = aden({ dev: true });
-    adn.hook('init', ({ rootPage }) => {
+    adn.hook('init:page', ({ page }) => {
       const att = new Attitude(adn, 'custom-att');
       att.registerKey('testkey2', {
         type: 'custom',
         config: true,
       });
-      att.applyTo(rootPage);
+      att.applyTo(page);
     })
     .init(path.resolve(__dirname, '../tmpdata/config'))
     .then((an) => an.run('dev'))
@@ -69,13 +69,13 @@ describe('Config', () => {
 
   she('resolves rpath config keys', (done) => {
     const adn = aden({ dev: true });
-    adn.hook('init', ({ rootPage }) => {
+    adn.hook('init:page', ({ page }) => {
       const att = new Attitude(adn, 'custom-att');
       att.registerKey('testkey3', {
         type: 'rpath',
         config: true,
       });
-      att.applyTo(rootPage);
+      att.applyTo(page);
     })
     .init(path.resolve(__dirname, '../tmpdata/config'))
     .then((an) => an.run('dev'))

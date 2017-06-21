@@ -54,20 +54,30 @@ module.exports = (aden) => {
     }
   });
 
-  aden.hook('route:error', ({ req, res, next }) => {
-    const page = statusPages[res.statusCode || 500];
-    if (page) {
-      return page.get(req, res, next);
-    }
-    return null;
-  });
+  aden.hook('post:setup', ({ pages, app }) => {
+    app.use((err, req, res, next) => {
+      if (res.statusCode === 200) {
+        res.status(err.status || 500);
+      }
+        
+      const page = statusPages[res.statusCode] || statusPages[500];
+      
+      if (page) {
+        return page.get(req, res, next);
+      }
+      
+      next(err);
+    });
 
-  aden.hook('route:notFound', ({ req, res, next }) => {
-    const page = statusPages[404];
+    app.use(pages[0].basePath, (req, res, next) => {
+      const page = statusPages[404];
 
-    if (page) {
-      return page.get(req, res, next);
-    }
-    return null;
+      if (page) {
+        res.status(404);
+        return page.get(req, res, next);
+      }
+      
+      next();
+    });
   });
 };
