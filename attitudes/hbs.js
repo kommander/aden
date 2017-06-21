@@ -65,11 +65,13 @@ module.exports = (aden) => {
   aden.hook('setup:page', ({ page }) => {
     if (page.hbsIndex.value) {
       Object.assign(page, {
-        get: (req, res, thepage, data) => {
+        get: (req, res, thepage) => {
           return thepage.hbsIndex
             .load((content) => hogan.compile(content.toString('utf8')))
             .then((template) => {
-              const html = template.render({ req, res, page: thepage, data });
+              const html = template.render({ 
+                req, res, page: thepage,
+              });
               res.send(html);
             });
         },

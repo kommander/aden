@@ -119,7 +119,9 @@ describe('Routing Prod', () => {
   });
 
   she('throws an error when routes are empty', (done) => {
-    const adn = aden();
+    const adn = aden({
+      attitudes: '!statuspages',
+    });
     adn.init(path.resolve(__dirname, '../tmpdata/noroutes'))
       .then((an) => an.run('build'))
       .then((an) => an.run('production'))
