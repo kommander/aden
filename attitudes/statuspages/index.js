@@ -14,24 +14,23 @@ module.exports = (aden) => {
     value: false,
   });
 
-  aden.hook('init', () => {
-    return Promise.all([
-      aden.loadPage(path.resolve(__dirname, '404'), {
-        id: 'status-404',
-      }),
-      aden.loadPage(path.resolve(__dirname, '500'), {
-        id: 'status-500',
-      }), 
-    ])
-    .then((pages) => {
-      pages.forEach((page) => {
-        page.set('isStatusPage', true);
-        page.set('mount', false);
-        page.set('distSubPath', 'statuspages');
-      });
-      defaultPages[404] = pages[0];
-      defaultPages[500] = pages[1];
-    });
+  aden.registerKey('statusDefaults', {
+    type: KEY_BOOLEAN,
+    value: true,
+    config: true,
+  });
+
+  aden.hook('init', ({ rootPage }) => {
+    if (rootPage.statusDefaults.value === true) {
+      return Promise.all([
+        aden.loadPage(path.resolve(__dirname, '404'), {
+          id: 'status-404',
+        }),
+        aden.loadPage(path.resolve(__dirname, '500'), {
+          id: 'status-500',
+        }), 
+      ]);
+    }
   });
 
   aden.hook('pre:load', ({ page }) => {
@@ -55,6 +54,22 @@ module.exports = (aden) => {
     }
   }
 
+  aden.hook('setup', () => {
+    const pages = [
+      aden.getPage('status-404'),
+      aden.getPage('status-500'),
+    ];
+    pages
+      .filter((page) => !!page)
+      .forEach((page) => {
+        page.set('isStatusPage', true);
+        page.set('mount', false);
+        page.set('distSubPath', 'statuspages');
+      });
+    defaultPages[404] = pages[0];
+    defaultPages[500] = pages[1];
+  });
+
   aden.hook('post:apply', ({ pages }) => {
     pages.forEach((page) => {
       if (page.isStatusPage.value) {
@@ -63,15 +78,7 @@ module.exports = (aden) => {
           return;
         }
 
-        if (!page.get && page.staticMain.value) {
-          const staticMainFile = page[page.staticMain.value];
-          Object.assign(page, {
-            get: (req, res) =>
-              staticMainFile
-                .load()
-                .then((buffer) => res.send(buffer.toString('utf8'))),
-          });
-        }
+        ensureController(page);
 
         if (page.get) {
           statusPages[parseInt(page.name, 10)] = page;
