@@ -35,12 +35,6 @@ module.exports = (aden) => {
     });
     frontendConfig.plugins.push(extractCSSPlugin);
 
-    const extractSCSSPlugin = new ExtractTextPlugin({
-      filename: aden.isDEV ? 's-[name].css' : 's-[id]-[hash].css',
-      allChunks: true,
-    });
-    frontendConfig.plugins.push(extractSCSSPlugin);
-
     const includePaths = [
       aden.rootPath,
       path.resolve(aden.rootPath, 'node_modules'),
@@ -60,7 +54,7 @@ module.exports = (aden) => {
       },
       {
         test: /\.scss$/,
-        use: extractSCSSPlugin.extract({
+        use: extractCSSPlugin.extract({
           fallback: require.resolve('style-loader'),
           // resolve-url-loader may be chained before sass-loader if necessary
           use: [require.resolve('css-loader'), require.resolve('sass-loader')],
