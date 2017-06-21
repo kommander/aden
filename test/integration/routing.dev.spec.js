@@ -177,6 +177,51 @@ describe('Routing Dev', () => {
       .catch(done);
   });
 
+  she('has a core status page (404)', (done) => {
+    aden({ 
+      dev: true,
+      attitudes: ['!statuspages'],
+    })
+    .init(path.resolve(__dirname, '../tmpdata/emptypath'))
+    .then((an) => an.run('dev'))
+    .then((an) => {
+      request(an.app)
+        .get('/')
+        .end((err, res) => {
+          if (err) done(err);
+          expect(res.status).toBe(404);
+          expect(res.text).toMatch(/Could not find what you were looking for\./ig);
+          an.shutdown(done);
+        });
+    })
+    .catch(done);
+  });
+
+  she('core error route returns when headers already sent (500)', (done) => {
+    aden({ 
+      dev: true,
+      attitudes: ['!statuspages'],
+    })
+    .hook('post:setup', ({ app }) => {
+      app.use((err, req, res, next) => {
+        res.send('errrrr');
+        next(err);
+      });
+    })
+    .init(path.resolve(__dirname, '../tmpdata/custom/provoke'))
+    .then((an) => an.run('dev'))
+    .then((an) => {
+      request(an.app)
+        .get('/')
+        .end((err, res) => {
+          if (err) done(err);
+          expect(res.text).toMatch(/errrrr/ig);
+          an.shutdown(done);
+        });
+    })
+    .catch(done);
+  });
+
   she('// Things Aden already does but are untested...');
   she('allows params in { route: \'/:id\'} > .server');
   she('mounts absolute routes absolute');
