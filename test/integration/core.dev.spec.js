@@ -75,6 +75,29 @@ describe('Core Dev', () => {
       .then((an) => an.shutdown(done));
   });
 
+  she('logs a warning for an invalid .server file', (done) => {
+    const stream = new TestDuplex();
+    const logParser = Logger.getLogParser();
+    logParser.attach(stream);
+
+    const adn = aden({
+      dev: true,
+      logger: {
+        silent: false,
+        stdStream: stream,
+        errStream: stream,
+      },
+    });
+
+    logParser.once('error', (err) => {
+      expect(err.message).toMatch(/Unexpected token n in JSON at position/);
+    });
+
+    adn.init(path.resolve(__dirname, '../tmpdata/brokendotserver'))
+      .then((an) => an.run('dev'))
+      .then((an) => an.shutdown(done));
+  });
+
   she('exposes aden.server in startup callback', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/startup'))
