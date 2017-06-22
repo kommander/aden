@@ -64,7 +64,7 @@
     "url-loader": "0.5.8",
     "uuid": "3.1.0",
     "webpack": "2.6.1",
-    "webpack-dev-middleware": "1.10.2",
+    "webpack-dev-middleware": "1.11.0",
     "webpack-hot-middleware": "git://github.com/kommander/webpack-hot-middleware.git",
     "webpack-merge": "4.1.0"
   },
