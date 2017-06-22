@@ -4,6 +4,10 @@ before((done) => {
   lib.setup().then(() => done());
 });
 
+afterEach(() => {
+  global.gc();
+});
+
 process.on('uncaughtException', (ex) => {
   console.error('TEST FATAL: Uncaught Exception', ex); // eslint-disable-line
 });

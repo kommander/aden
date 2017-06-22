@@ -8,7 +8,7 @@ describe('Controller Dev', () => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/controller'))
       .then((an) => an.run('dev'))
-      .then((an) => {
+      .then((an) => {        
         request(an.app)
           .get('/')
           .end((err, res) => {
