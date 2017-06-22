@@ -6,7 +6,6 @@ before((done) => {
 
 afterEach(() => {
   global.gc();
-  console.log(process.memoryUsage());
 });
 
 process.on('uncaughtException', (ex) => {
