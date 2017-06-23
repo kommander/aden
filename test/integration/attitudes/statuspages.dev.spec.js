@@ -67,4 +67,52 @@ describe('Statuspages Dev', () => {
       })
       .catch(done);
   });
+
+  she('has a default status page (404)', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/custom/defaults'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/<b>Could not find what you were looking for\.<\/b>/ig);
+            an.shutdown(done);
+          });
+      })
+      .catch(done);
+  });
+
+  she('has a default status page (500)', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/custom/provoke'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/<b>Something went wrong\.<\/b>/ig);
+            an.shutdown(done);
+          });
+      })
+      .catch(done);
+  });
+
+  she('takes core error route if no default is given', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/custom/nodefaults'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.text).toMatch(/<pre>Error:/ig);
+            an.shutdown(done);
+          });
+      })
+      .catch(done);
+  });
 });

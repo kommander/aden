@@ -1,5 +1,5 @@
 module.exports = {
-  startup: (server) => {
-    server.registerKey('startupKey');
+  startup: (aden) => {
+    aden.log.event('startup:callback', 'blub!');
   },
 };

@@ -104,14 +104,14 @@ describe('CLI', () => {
   });
 
   she('logs error if address is rejected', (done) => {
-    const child = spawn('node', ['index.js', 'dev', 'test/tmpdata/basics', '-p', '80'], {
+    const child = spawn('node', ['index.js', 'dev', 'test/tmpdata/basics', '-p', '256.256.256.1:80'], {
       cwd: path.resolve(__dirname, '../../'),
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     const logParser = Logger.getLogParser();
     logParser.attach(child.stderr);
     logParser.once('error', (err) => {
-      expect(err.message).toMatch('listen EACCES');
+      expect(err.message).toMatch('getaddrinfo ENOTFOUND');
       logParser.destroy();
       done();
     });

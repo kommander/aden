@@ -2,6 +2,8 @@ const aden = require('../../lib/aden');
 const path = require('path');
 const expect = require('expect');
 const sinon = require('sinon');
+const Logger = require('../../lib/aden.logger');
+const TestDuplex = require('../lib/test-duplex.js');
 
 describe('Deploy', () => {
   she('logs a warning for non existent deploy target', (done) => {
@@ -44,6 +46,37 @@ describe('Deploy', () => {
         expect(an.deployTargets.default.fn.callCount).toEqual(1);
         an.shutdown(done);
       });
+  });
+
+  she('logs an error when registering another target with the same name', (done) => {
+    const stream = new TestDuplex();
+    const logParser = Logger.getLogParser();
+    logParser.attach(stream);
+    
+    logParser.on('error', (err) => {
+      expect(err.message).toMatch(/I could not register deployTarget, because it already exists\. \(default\)/);
+    });
+
+    aden({
+      logger: {
+        silent: false,
+        stdStream: stream,
+        errStream: stream,
+      },
+    })
+    .registerDeployTarget('default', {
+      fn: sinon.spy(),
+    })
+    .registerDeployTarget('default', {
+      fn: sinon.spy(),
+    })
+    .init(path.resolve(__dirname, '../tmpdata/emptypath'))
+    .then((an) => an.run('build'))
+    .then((an) => an.run('deploy'))
+    .then((an) => {
+      expect(an.deployTargets.default.fn.callCount).toEqual(1);
+      an.shutdown(done);
+    });
   });
 
   she('runs deploy if target was matched', (done) => {

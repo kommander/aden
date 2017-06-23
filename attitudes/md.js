@@ -31,7 +31,7 @@ module.exports = (aden) => {
       loader: require.resolve('markdown-loader'),
     };
 
-    const markedOpts = pages[0].key.md.value.marked;
+    const markedOpts = pages[0].md.value.marked;
     if (markedOpts && Object.keys(markedOpts).length > 0) {
       Object.assign(markdownLoader, {
         options: markedOpts,
