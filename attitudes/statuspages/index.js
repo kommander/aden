@@ -1,7 +1,9 @@
+const path = require('path');
 const STATUS_CODES = [404, 500];
 
 module.exports = (aden) => {
   const statusPages = {};
+  const defaultPages = {};
 
   const {
     KEY_BOOLEAN,
@@ -12,58 +14,106 @@ module.exports = (aden) => {
     value: false,
   });
 
+  aden.registerKey('statusDefaults', {
+    type: KEY_BOOLEAN,
+    value: true,
+    config: true,
+  });
+
+  aden.hook('init', ({ rootPage }) => {
+    if (rootPage.statusDefaults.value === true) {
+      return Promise.all([
+        aden.loadPage(path.resolve(__dirname, '404'), {
+          id: 'status-404',
+        }),
+        aden.loadPage(path.resolve(__dirname, '500'), {
+          id: 'status-500',
+        }), 
+      ]);
+    }
+  });
+
   aden.hook('pre:load', ({ page }) => {
     const pageCode = parseInt(page.name, 10);
     if (pageCode && STATUS_CODES.includes(pageCode)) {
-      Object.assign(page.keys.find((k) => (k.name === 'mount')), {
-        value: false,
-      });
-      Object.assign(page.keys.find((k) => (k.name === 'isStatusPage')), {
-        value: true,
-      });
-      Object.assign(page.keys.find((k) => (k.name === 'distSubPath')), {
-        value: 'statuspages',
-      });
+      page.set('mount', false);
+      page.set('isStatusPage', true);
+      page.set('distSubPath', 'statuspages');
     }
   });
 
-  aden.hook('setup:route', ({ page }) => {
-    if (page.key.isStatusPage.value) {
-      if (statusPages[page.name]) {
-        aden.log.warn(`Status page ${page.name} already set.`);
-        return;
-      }
+  function ensureController(page) {
+    if (!page.get && page.staticMain.value) {
+      const staticMainFile = page[page.staticMain.value];
+      Object.assign(page, {
+        get: (req, res) =>
+          staticMainFile
+            .load()
+            .then((buffer) => res.send(buffer.toString('utf8'))),
+      });
+    }
+  }
 
-      if (!page.get && page.key.staticMain.value) {
-        const staticMainFile = page.key[page.key.staticMain.value];
-        Object.assign(page, {
-          get: (req, res) =>
-            staticMainFile
-              .load()
-              .then((buffer) => res.send(buffer.toString('utf8'))),
+  aden.hook('setup', () => {
+    const pages = [
+      aden.getPage('status-404'),
+      aden.getPage('status-500'),
+    ];
+    pages
+      .filter((page) => !!page)
+      .forEach((page) => {
+        page.set('isStatusPage', true);
+        page.set('mount', false);
+        page.set('distSubPath', 'statuspages');
+      });
+    defaultPages[404] = pages[0];
+    defaultPages[500] = pages[1];
+  });
+
+  aden.hook('post:apply', ({ pages }) => {
+    pages.forEach((page) => {
+      if (page.isStatusPage.value) {
+        if (statusPages[parseInt(page.name, 10)]) {
+          aden.log.warn(`Status page ${page.name} already set.`);
+          return;
+        }
+
+        ensureController(page);
+
+        if (page.get) {
+          statusPages[parseInt(page.name, 10)] = page;
+        }
+      }
+    });
+  });
+
+  aden.hook('post:setup', ({ pages, app }) => {
+    app.use((err, req, res, next) => {
+      if (res.statusCode === 200) {
+        res.status(err.status || 500);
+      }
+        
+      const page = statusPages[res.statusCode] || statusPages[500] || defaultPages[500];
+      
+      if (page) {
+        Object.assign(res, {
+          data: err,
         });
+        return page.get(req, res, next);
       }
+      
+      next(err);
+    });
 
-      if (page.get) {
-        statusPages[page.name] = page;
+    app.use(pages[0].basePath, (req, res, next) => {
+      const page = statusPages[404] || defaultPages[404];
+
+      if (page) {
+        res.status(404);
+        return page.get(req, res, next);
       }
-    }
-  });
-
-  aden.hook('route:error', ({ req, res, next }) => {
-    const page = statusPages[res.statusCode];
-    if (page) {
-      return page.get(req, res, next);
-    }
-    return null;
-  });
-
-  aden.hook('route:notFound', ({ req, res, next }) => {
-    const page = statusPages['404'];
-
-    if (page) {
-      return page.get(req, res, next);
-    }
-    return null;
+      
+      next();
+    });
   });
 };

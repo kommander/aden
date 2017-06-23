@@ -32,7 +32,7 @@ describe('Layout Attitude', () => {
               return;
             }
             expect(res.status).toMatch(200);
-            expect(res.text).toMatch(/<div><p>content<\/p>\n<\/div>/);
+            expect(res.text).toMatch(/<div><p>content<\/p>(\n|\r\n)<\/div>/);
 
             logParser.on('dev:rebuild:done', () => {
               request(an.app)

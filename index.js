@@ -57,11 +57,11 @@ const fatalErrorHandler = (err) => {
 const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((resolve, reject) => {
   const splitPort = program.port
     ? program.port.split(':')
-    : [process.env.PORT || aden.rootConfig.port || 5000];
+    : [process.env.PORT || aden.settings.port || 5000];
   const port = splitPort[splitPort.length > 1 ? 1 : 0];
   const hostName = splitPort.length > 1
     ? splitPort[0]
-    : (process.env.HOSTNAME || aden.rootConfig.hostname || null);
+    : (process.env.HOSTNAME || aden.settings.hostname || null);
 
   const gracefulShutdown = () => {
     aden.shutdown(() => process.exit(0));
@@ -159,14 +159,14 @@ program
         const workersById = {};
         let numWorkersListening = 0;
         let exitStatus = 0;
-        const gracefulShutdown = () => {
+        const gracefulWorkerShutdown = () => {
           Object.keys(workersById).forEach((key) => {
             workersById[key].kill('SIGTERM');
           });
         };
 
-        process.on('SIGTERM', gracefulShutdown);
-        process.on('SIGINT', gracefulShutdown);
+        process.on('SIGTERM', gracefulWorkerShutdown);
+        process.on('SIGINT', gracefulWorkerShutdown);
 
         cluster.on('fork', (worker) => {
           log.info(`Forked worker ${worker.id}`);

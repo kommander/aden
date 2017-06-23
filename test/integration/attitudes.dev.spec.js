@@ -11,37 +11,7 @@ describe('Attitudes API', () => {
       .init(path.resolve(__dirname, '../tmpdata/attitudes'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        expect(an.rootPage.key).toIncludeKey('customAttitudeKey');
-        an.shutdown(done);
-      })
-      .catch(done);
-  });
-
-  she('logs a warning when attitudes path is not available', (done) => {
-    const stream = new TestDuplex();
-    const logParser = Logger.getLogParser();
-    logParser.attach(stream);
-
-    const adn = aden({
-      dev: true,
-      attitudesPath: 'not-a-path', // <-
-      logger: {
-        silent: false,
-        stdStream: stream,
-        errStream: stream,
-      },
-    });
-
-    const spy = sinon.spy((json) => {
-      expect(json.msg).toMatch(/Trying to load attitudes from ENOENT/);
-    });
-
-    logParser.once('warn', spy);
-
-    adn.init(path.resolve(__dirname, '../tmpdata/noroutes'))
-      .then((an) => an.run('dev'))
-      .then((an) => {
-        expect(spy.calledOnce).toBeTruthy();
+        expect(an.rootPage).toIncludeKey('customAttitudeKey');
         an.shutdown(done);
       })
       .catch(done);
@@ -85,7 +55,7 @@ describe('Attitudes API', () => {
     .init(path.resolve(__dirname, '../tmpdata/basics'))
     .then((an) => an.run('dev'))
     .then((an) => {
-      expect(an.rootPage.key).toIncludeKey('customAttitudeKey');
+      expect(an.rootPage).toIncludeKey('customAttitudeKey');
       an.shutdown(done);
     })
     .catch(done);

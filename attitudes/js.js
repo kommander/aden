@@ -7,10 +7,10 @@ module.exports = (aden) => {
 
   // TODO: use page.getKey(name) and page.setKey(name, value)
   aden.registerFile('jsFile', ({ page, fileInfo }) =>
-    fileInfo.file.match(/\.(js|jsx)$/) && fileInfo.name === page.key.js.value
+    fileInfo.file.match(/\.(js|jsx)$/) && fileInfo.name === page.js.value
   );
 
-  aden.hook('post:apply', ({ pages, webpackConfigs }) => {
+  aden.hook('post:apply', ({ webpackConfigs }) => {
     const frontendConfig = webpackConfigs
       .find((conf) => (conf.name === 'frontend'));
 
@@ -30,7 +30,7 @@ module.exports = (aden) => {
           },
         },
         include: [
-          pages[0].rootPath,
+          aden.rootPath,
         ],
         exclude: /node_modules/,
       });
@@ -38,8 +38,8 @@ module.exports = (aden) => {
   });
 
   aden.hook('apply', ({ page, webpackEntry }) => {
-    if (page.key.jsFile.value) {
-      webpackEntry.push(page.key.jsFile.resolved);
+    if (page.jsFile.value) {
+      webpackEntry.push(page.jsFile.resolved);
     }
   });
 };

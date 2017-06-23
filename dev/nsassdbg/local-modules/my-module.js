@@ -1,0 +1,3 @@
+.someStyle {
+	color: red;
+}

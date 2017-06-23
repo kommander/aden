@@ -14,16 +14,16 @@ module.exports = (aden) => {
   // TODO: Let an attitude add to ignores (css -> css/style, js -> lib/components/...)
 
   aden.registerFile('cssFile', ({ page, fileInfo }) =>
-    fileInfo.file.match(/\.(css|scss)$/) && fileInfo.name === page.key.css.value.entry
+    fileInfo.file.match(/\.(css|scss)$/) && fileInfo.name === page.css.value.entry
   );
 
   aden.hook('apply', ({ page, webpackEntry }) => {
-    if (page.key.cssFile.value) {
-      webpackEntry.push(page.key.cssFile.resolved);
+    if (page.cssFile.value) {
+      webpackEntry.push(page.cssFile.resolved);
     }
   });
 
-  aden.hook('post:apply', ({ pages, webpackConfigs, paths }) => {
+  aden.hook('post:apply', ({ webpackConfigs, paths }) => {
     const frontendConfig = webpackConfigs
       .find((conf) => (conf.name === 'frontend'));
 
@@ -36,26 +36,25 @@ module.exports = (aden) => {
     frontendConfig.plugins.push(extractCSSPlugin);
 
     const includePaths = [
-      pages[0].rootPath,
-      path.resolve(pages[0].rootPath, 'node_modules'),
-      path.resolve(pages[0].rootPath, '../node_modules'),
-      path.resolve(pages[0].rootPath, '../../node_modules'),
+      aden.rootPath,
+      path.resolve(aden.rootPath, 'node_modules'),
+      path.resolve(aden.rootPath, '../node_modules'),
+      path.resolve(aden.rootPath, '../../node_modules'),
       paths.aden_node_modules,
     ];
 
     frontendConfig.module.rules.unshift(
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
+        use: extractCSSPlugin.extract({
           fallback: require.resolve('style-loader'),
-          // resolve-url-loader may be chained before sass-loader if necessary
           use: [require.resolve('css-loader')],
           allChunks: true,
         }),
       },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
+        use: extractCSSPlugin.extract({
           fallback: require.resolve('style-loader'),
           // resolve-url-loader may be chained before sass-loader if necessary
           use: [require.resolve('css-loader'), require.resolve('sass-loader')],
