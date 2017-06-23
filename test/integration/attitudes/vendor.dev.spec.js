@@ -18,4 +18,15 @@ describe('Vendor Attitude', () => {
       })
       .catch(done);
   });
+
+  she('does not include the same assets twice', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/vendor2'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        expect(an.pages[0].assets.value.length).toBe(1);
+        an.shutdown(done);
+      })
+      .catch(done);
+  });
 });
