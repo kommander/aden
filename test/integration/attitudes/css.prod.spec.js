@@ -14,7 +14,7 @@ describe('CSS Attitude Prod', () => {
       .then((an) => {
         // The hashed version of the filename for production
         const stats = an.webpackStats[0].children.find((child) => (child.name === 'frontend'));
-        const fileName = stats.assetsByChunkName['sub/bundle'][1];
+        const fileName = stats.assetsByChunkName[`sub${path.sep}bundle`][1];
         request(an.app)
           .get(`/${fileName}`)
           .end((err, res) => {
@@ -34,7 +34,7 @@ describe('CSS Attitude Prod', () => {
       .then((an) => {
         // The hashed version of the filename for production
         const stats = an.webpackStats[0].children.find((child) => (child.name === 'frontend'));
-        const fileName = stats.assetsByChunkName['sub2/bundle'][1];
+        const fileName = stats.assetsByChunkName[`sub2${path.sep}bundle`][1];
         request(an.app)
           .get(`/${fileName}`)
           .end((err, res) => {

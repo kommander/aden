@@ -32,7 +32,7 @@ describe('Webpack Dev', () => {
         ).toBeTruthy();
         
         expect(
-          frontendConfig.entry['subentry/bundle']
+          frontendConfig.entry[`subentry${path.sep}bundle`]
             .find((p) => p.match(/sub_entry\.js/))
         ).toBeTruthy();
 
