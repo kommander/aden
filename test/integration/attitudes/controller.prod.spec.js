@@ -79,16 +79,7 @@ describe('Controller Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => new Promise((resolve, reject) => {
         request(an.app)
-          .delete('/alltest')
-          .end((err, res) => {
-            if (err) reject(err);
-            expect(res.text).toMatch(/^alltest-all/);
-            resolve(an);
-          });
-      }))
-      .then((an) => new Promise((resolve, reject) => {
-        request(an.app)
-          .get('/alltest')
+          .delete('/alltest/')
           .end((err, res) => {
             if (err) reject(err);
             expect(res.text).toMatch(/^alltest-all/);

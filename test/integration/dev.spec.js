@@ -187,7 +187,7 @@ describe('dev', () => {
             logParser.on('info', (info) => {
               if (info.data
                 && info.data.action === 'parseGraph'
-                && info.data.entryName === 'dev.sub') {
+                && info.data.entryName === 'sub/') {
                 if (alreadyParsed) {
                   done(new Error('already re-parsed, no multi reparse'));
                 }

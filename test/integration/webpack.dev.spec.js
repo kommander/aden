@@ -26,8 +26,15 @@ describe('Webpack Dev', () => {
         const frontendConfig = an.webpackConfigs
           .find((conf) => (conf.name === 'frontend'));
 
-        expect(frontendConfig.entry['addentry']).toInclude('./add_entry.js');
-        expect(frontendConfig.entry['addentry.subentry']).toInclude('./sub_entry.js');
+        expect(
+          frontendConfig.entry['bundle']
+            .find((p) => p.match(/add_entry\.js/))
+        ).toBeTruthy();
+        
+        expect(
+          frontendConfig.entry['subentry/bundle']
+            .find((p) => p.match(/sub_entry\.js/))
+        ).toBeTruthy();
 
         an.shutdown(done);
       })

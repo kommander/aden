@@ -31,7 +31,7 @@ module.exports = (attitude) => {
         context: page.path.resolved,
         to: path.resolve(
           attitude.settings.dist, 
-          page.distSubPath.value,
+          page.distSubPath.value || 'public',
           page.relativePath,
           pattern.to || ''
         ),

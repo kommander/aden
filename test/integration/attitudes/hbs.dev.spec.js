@@ -40,7 +40,7 @@ describe('HBS Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/sub')
+          .get('/sub/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/^subsub/);
@@ -56,7 +56,7 @@ describe('HBS Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/wrap')
+          .get('/wrap/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/id="wrapper"/ig);
@@ -71,7 +71,7 @@ describe('HBS Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/wrap')
+          .get('/wrap/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toNotMatch(/id="wrapper"/ig);
@@ -131,7 +131,7 @@ describe('HBS Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/wrap')
+          .get('/wrap/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/commons.js/ig);
@@ -146,7 +146,7 @@ describe('HBS Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/nolayout')
+          .get('/nolayout/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/commons.js/ig);
