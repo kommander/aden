@@ -4,7 +4,9 @@ const _ = require('lodash');
 const path = require('path');
 
 /**
- * layout
+ * Vendor
+ * Allows to mark modules/paths as vendor assets and pre-compiles them
+ * into a vendor bundle, which is injected into entry points.
  */
 module.exports = (aden) => {
   const {
@@ -62,7 +64,6 @@ module.exports = (aden) => {
 
       pagesWithVendorConfig.forEach((page) => aden.applyPagePathsToConfig(config, page));
 
-      // webpackConfigs.unshift(config);
       return Promise.resolve()
         .then(() => new Promise((resolve, reject) => {
           const compiler = webpack(config);
