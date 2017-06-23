@@ -68,9 +68,10 @@ module.exports = (aden) => {
         .then(() => new Promise((resolve, reject) => {
           const compiler = webpack(config);
           compiler.run((err, stats) => {
-            if (err) {
-              aden.log.error('Vendor compilation', err);
-              reject(err);
+            const error = err || stats.compilation.errors[0];
+            if (error) {
+              aden.log.error('Vendor compilation', error);
+              reject(error);
               return;
             }
 

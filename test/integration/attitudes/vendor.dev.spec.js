@@ -29,4 +29,15 @@ describe('Vendor Attitude', () => {
       })
       .catch(done);
   });
+
+  she('throws vendor compiler errors', (done) => {
+    const adn = aden({ dev: true });
+    adn
+      .init(path.resolve(__dirname, '../../tmpdata/vendorerror'))
+      .then((an) => an.run('dev'))
+      .catch((err) => {
+        expect(err.message).toMatch(/Module not found/);
+        adn.shutdown(done);
+      });
+  });
 });
