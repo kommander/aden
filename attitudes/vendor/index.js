@@ -11,10 +11,17 @@ const path = require('path');
 module.exports = (aden) => {
   const {
     KEY_STRING_ARRAY,
+    KEY_OBJECT,
   } = aden.constants;
 
   aden.registerKey('vendor', {
     type: KEY_STRING_ARRAY,
+    config: true,
+    value: null,
+  });
+
+  aden.registerKey('vendors', {
+    type: KEY_OBJECT,
     config: true,
     value: null,
   });
@@ -26,7 +33,9 @@ module.exports = (aden) => {
     const pagesWithVendorConfig = aden.flattenPages(pages)
       .filter((page) => (page.vendor.value.length > 0));
 
-    const entry = pagesWithVendorConfig
+    const entry = {};
+
+    const entries = pagesWithVendorConfig
       .map((page) => {
         if (!page.assets.value.includes('v-vendor.js')) {
           page.assets.value.push('v-vendor.js');
@@ -34,9 +43,31 @@ module.exports = (aden) => {
         return page.vendor.value;
       })
       .reduce((prev, arr) => prev.concat(arr), []);
+    const uniq = _.uniq(entries);
 
-    const uniq = _.uniq(entry);
     if (uniq.length > 0) {
+      Object.assign(entry, {
+        'v-vendor': uniq,
+      });
+    }
+
+    const pagesWithVendorsConfig = aden.flattenPages(pages)
+      .filter((page) => (page.vendors.value && Object.keys(page.vendors.value).length > 0));
+
+    _.merge.apply(null, [entry].concat(pagesWithVendorsConfig
+      .map((page) => page.vendors.value))
+    );
+
+    pagesWithVendorsConfig.forEach((page) => {
+      const vendorNames = Object.keys(page.vendors.value);
+      vendorNames.forEach((vendorName) => {
+        if (!page.assets.value.includes(`${vendorName}.js`)) {
+          page.assets.value.push(`${vendorName}.js`);
+        }
+      });
+    });
+
+    if (Object.keys(entry).length) {
       const manifestPath = path.join(aden.settings.dist, 'vendor-manifest.json');
       const dllPlugin = new DllPlugin({
         context: frontendConfig.context,
@@ -45,11 +76,11 @@ module.exports = (aden) => {
       });
 
       const config = {
-        entry: { vendor: uniq },
+        entry,
         name: 'vendor',
         target: 'web',
         output: {
-          filename: 'v-[name].js',
+          filename: '[name].js',
           path: frontendConfig.output.path,
           publicPath: frontendConfig.output.publicPath,
           library: '[name]_lib',
@@ -62,7 +93,9 @@ module.exports = (aden) => {
         plugins: [dllPlugin],
       };
 
-      pagesWithVendorConfig.forEach((page) => aden.applyPagePathsToConfig(config, page));
+      pagesWithVendorConfig
+        .concat(pagesWithVendorsConfig)
+        .forEach((page) => aden.applyPagePathsToConfig(config, page));
 
       return Promise.resolve()
         .then(() => new Promise((resolve, reject) => {

@@ -40,4 +40,24 @@ describe('Vendor Attitude', () => {
         adn.shutdown(done);
       });
   });
+
+  she('can take multiple named vendor specs', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../../tmpdata/vendor3'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/ven1.js')
+          .expect(200, (err, res) => {
+            expect(res.text).toMatch(/teststring1/);
+            request(an.app)
+              .get('/ven2.js')
+              .expect(200, (err, res) => {
+                expect(res.text).toMatch(/teststring2/);
+                an.shutdown(done);
+              });
+          });
+      })
+      .catch(done);
+  });
 });
