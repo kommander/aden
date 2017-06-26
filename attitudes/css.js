@@ -7,6 +7,7 @@ module.exports = (aden) => {
     config: true,
     value: {
       entry: 'index',
+      postcss: false,
     },
     inherit: true,
   });
@@ -23,7 +24,7 @@ module.exports = (aden) => {
     }
   });
 
-  aden.hook('post:apply', ({ webpackConfigs, paths }) => {
+  aden.hook('post:apply', ({ webpackConfigs, paths, pages }) => {
     const frontendConfig = webpackConfigs
       .find((conf) => (conf.name === 'frontend'));
 
@@ -43,12 +44,20 @@ module.exports = (aden) => {
       paths.aden_node_modules,
     ];
 
+    const cssLoaders = [require.resolve('css-loader')];
+    const scssLoaders = [require.resolve('css-loader'), require.resolve('sass-loader')];
+
+    if (pages[0].css.value.postcss) {
+      cssLoaders.push(require.resolve('postcss-loader'));
+      scssLoaders.push(require.resolve('postcss-loader'));
+    }
+
     frontendConfig.module.rules.unshift(
       {
         test: /\.css$/,
         use: extractCSSPlugin.extract({
           fallback: require.resolve('style-loader'),
-          use: [require.resolve('css-loader')],
+          use: cssLoaders,
           allChunks: true,
         }),
       },
@@ -57,7 +66,7 @@ module.exports = (aden) => {
         use: extractCSSPlugin.extract({
           fallback: require.resolve('style-loader'),
           // resolve-url-loader may be chained before sass-loader if necessary
-          use: [require.resolve('css-loader'), require.resolve('sass-loader')],
+          use: scssLoaders,
           allChunks: true,
         }),
       },
