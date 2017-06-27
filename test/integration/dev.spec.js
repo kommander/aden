@@ -206,4 +206,30 @@ describe('dev', () => {
           });
       });
   });
+
+  she('logs dev compiler errors', (done) => {
+    const stream = new TestDuplex();
+    const logParser = Logger.getLogParser();
+    logParser.attach(stream);
+
+    const adn = aden({
+      dev: true,
+      logger: {
+        silent: false,
+        stdStream: stream,
+        errStream: stream,
+      },
+      attitudes: '!statuspages',
+    });
+
+    logParser.once('error', (err) => {
+      expect(err.message).toMatch(/Module not found/);
+      done();
+    });
+
+    adn.init(path.resolve(__dirname, '../tmpdata/webpackerror'))
+      .then((an) => an.run('dev'))
+      .then((an) => an.shutdown())
+      .catch(() => adn.shutdown());
+  });
 });
