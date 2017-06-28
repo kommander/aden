@@ -43,7 +43,7 @@ describe('HTML Prod', () => {
       .then((an) => an.run('production'))
       .then((an) => {
         request(an.app)
-          .get('/sub')
+          .get('/sub/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/^<!DOCTYPE html>/);

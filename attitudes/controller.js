@@ -2,7 +2,6 @@ module.exports = (attitude) => {
   
   attitude.supportedMethods.forEach((method) => {
     attitude.registerFile(`${method}Path`, new RegExp(`\.${method}\.jsx?$`), {
-      build: false,
       watch: true,
     });
   });

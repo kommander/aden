@@ -70,7 +70,7 @@ module.exports = (aden) => {
     defaultPages[500] = pages[1];
   });
 
-  aden.hook('post:apply', ({ pages }) => {
+  aden.hook('post:setup', ({ pages, app }) => {
     pages.forEach((page) => {
       if (page.isStatusPage.value) {
         if (statusPages[parseInt(page.name, 10)]) {
@@ -85,9 +85,7 @@ module.exports = (aden) => {
         }
       }
     });
-  });
-
-  aden.hook('post:setup', ({ pages, app }) => {
+    
     app.use((err, req, res, next) => {
       if (res.statusCode === 200) {
         res.status(err.status || 500);
