@@ -2,14 +2,14 @@
 
 - [Introduction](#introduction)
 - [Getting Started](#gettingstarted)
-- [Scripting](#scripting)
-- [Styling](#styling)
-- [Application](#application)
-- [Modules](#modules)
-- [API](#api)
-- [Build](#build)
-- [Deploy](#deploy)
-- [Scale](#scale)
+  - [Scripting](#scripting)
+  - [Styling](#styling)
+  - [Application](#application)
+  - [Modules](#modules)
+  - [API](#api)
+  - [Build](#build)
+  - [Deploy](#deploy)
+  - [Scale](#scale)
 - [Attitudes](#attitudes)
   - [Vendor](/attitudes/vendor.html)
 - [TL;DR](#tldr)
@@ -23,6 +23,7 @@ Hi, I am Aden. I give you a CLI to handle a web application or service.
   Supports:
   <i class="fa fa-apple" aria-hidden="true"></i>
   <i class="fa fa-linux" aria-hidden="true"></i>
+  <i class="fa fa-windows" aria-hidden="true"></i>
 </div>
 
 <div id="npmBanner">
@@ -66,7 +67,7 @@ Your Browser should greet you with `Hello Web`.
 </div>
 
 
-## <a name="scripting"></a> Scripting
+### <a name="scripting"></a> Scripting
 Now, that can be done with any static file server. Let's see if you like this:
 
 ```bash
@@ -80,7 +81,7 @@ Check your browser. I just _injected the script_ into your html. You can wrap yo
 </div>
 
 
-## <a name="styling"></a> Styling
+### <a name="styling"></a> Styling
 As you might have guessed by now, I can also _inject stylesheets_ for you. Try it like this.
 
 ```bash
@@ -97,7 +98,7 @@ Better. We just created a page, that could be deployed as is. I will take care o
 </div>
 
 
-## <a name="application"></a> Application
+### <a name="application"></a> Application
 That one page would be pretty lonely though. Lets get started with our first app.
 
 <div id="quotemachine">
@@ -162,7 +163,7 @@ Clicking the newly added button on the page should result in the next random quo
 </div>
 
 
-## <a name="modules"></a> Modules
+### <a name="modules"></a> Modules
 Looks a bit 90s though, lets add some styling. I heard [bootstrap](http://getbootstrap.com/) gives you a good head-start and is widely used. To be able to add modules to our project we need to initialize npm with `npm init --yes`, then we can add bootstrap via `npm i bootstrap`. Create an _entry style_ `touch index.css` and just put `@import "~bootstrap/dist/css/bootstrap.min.css";` at the very top.
 
 Add `class="btn btn-primary"` to our button element.
@@ -174,7 +175,7 @@ Check our app. Looks better. Should do for now.
 </div>
 
 
-## <a name="api"></a> API
+### <a name="api"></a> API
 If you want to get your quotes from an API, rather than delivering thousands of them with every request, I can help you out as well.
 
 Lets move our `getRandomQuote` method to the server, by creating a _route_ for our API with `mkdir -p api/quote`. Move our `quote.js` there `mv quote.js api/quote/quote.js`.
@@ -218,7 +219,7 @@ You can adjust Babel by creating a `.babelrc` file in your _root folder_.
 </div>
 
 
-## <a name="build"></a> Build
+### <a name="build"></a> Build
 If you want to take our application to production, we need a production build. I can do that for you, after you stop the development server, with `aden build`. The resulting development build in `.dist` can be moved to a production environment. It contains all _dynamic templates_. _Static output_ can be found in `.dist/public`.
 
 Additionally to the dynamic templates and static content, I also generate a `pages.json` where all the routing and configuration information (Page Graph) is stored, so I can run the application without having to parse the file tree again, for super fast startup in production.
@@ -230,7 +231,7 @@ You can start the production build by executing `aden start` in the _root_ of yo
 </div>
 
 
-## <a name="deploy"></a> Deploy
+### <a name="deploy"></a> Deploy
 If you only built _static assets_, you can use the output in the `.dist/public` folder and serve via your CDN or a static application hosting service like [Surge.sh](http://surge.sh) or [Github Pages](https://pages.github.com/).
 
 Your _dynamic entry points_ I can run as a standalone server and serve your app when asked to, as you have seen with a global install `npm i -g aden`. I can also serve as a package dependency in your project, from where you can leverage my full CLI via _npm scripts_. Or use me as a library to extend an existing express application.
@@ -242,7 +243,7 @@ So I am able to comply with a variety of Node.js hosting services, like [Heroku]
 </div>
 
 
-## <a name="scale"></a> Scale
+### <a name="scale"></a> Scale
 I can become overloaded with _dynamic entry and API endpoints_, that might need additional server resources.
 
 Lets scale our _QuoteMachine_ to four workers with `aden start -w 4`. I should be running with four worker processes now.
