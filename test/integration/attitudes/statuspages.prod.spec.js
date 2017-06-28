@@ -55,6 +55,30 @@ describe('Statuspages Prod', () => {
       .catch(done);
   });
 
+  she('uses custom status pages (404, separate instance)', (done) => {
+    aden()
+      .init(path.resolve(__dirname, '../../tmpdata/custom'))
+      .then((an) => an.run('build'))
+      .then((an) => {
+        an.shutdown();
+
+        aden()
+          .init(path.resolve(__dirname, '../../tmpdata/custom'))
+          .then((an) => an.run('production'))
+          .then((an) => {
+            request(an.app)
+              .get('/not_a_page_in_path')
+              .end((err, res) => {
+                if (err) done(err);
+                expect(res.text).toMatch(/Custom 404/ig);
+                an.shutdown(done);
+              });
+          })
+          .catch(done);
+      })
+      .catch(done);
+  });
+
   she('uses custom status pages (error)', (done) => {
     aden()
       .init(path.resolve(__dirname, '../../tmpdata/custom'))
