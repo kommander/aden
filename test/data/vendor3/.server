@@ -1,0 +1,6 @@
+{
+  "vendors": {
+    "ven1": ["myvendor1"],
+  	"ven2": ["myvendor2"]
+  }
+}

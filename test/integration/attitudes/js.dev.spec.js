@@ -10,7 +10,7 @@ describe('JS Attitude Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/js.js')
+          .get('/bundle.js')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/testFn/ig);

@@ -11,6 +11,7 @@
 - [Deploy](#deploy)
 - [Scale](#scale)
 - [Attitudes](#attitudes)
+  - [Vendor](/attitudes/vendor.html)
 - [TL;DR](#tldr)
 - [Listing](#listing)
 

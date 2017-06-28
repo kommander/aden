@@ -1,4 +1,5 @@
 module.exports = {
+  vendor: ['bootstrap'],
   md: {
     marked: {
       highlight: (code, lang) => {

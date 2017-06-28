@@ -74,16 +74,7 @@ describe('Controller Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => new Promise((resolve, reject) => {
         request(an.app)
-          .delete('/alltest')
-          .end((err, res) => {
-            if (err) reject(err);
-            expect(res.text).toMatch(/^alltest-all/);
-            resolve(an);
-          });
-      }))
-      .then((an) => new Promise((resolve, reject) => {
-        request(an.app)
-          .get('/alltest')
+          .delete('/alltest/')
           .end((err, res) => {
             if (err) reject(err);
             expect(res.text).toMatch(/^alltest-all/);

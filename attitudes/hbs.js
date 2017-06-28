@@ -9,10 +9,13 @@ const cannot = require('brokens');
 module.exports = (aden) => {
   const {
     ENTRY_DYNAMIC,
+    KEY_OBJECT,
+    KEY_RPATH,
+    KEY_CUSTOM,
   } = aden.constants;
 
   aden.registerKey('hbs', {
-    type: 'object',
+    type: KEY_OBJECT,
     config: true,
     value: {
       entry: 'index',
@@ -21,12 +24,12 @@ module.exports = (aden) => {
   });
 
   aden.registerKey('hbsIndex', {
-    type: 'rpath',
+    type: KEY_RPATH,
     entry: ENTRY_DYNAMIC,
   });
 
   aden.registerKey('templates', {
-    type: 'custom',
+    type: KEY_CUSTOM,
     value: {},
   });
 
@@ -44,19 +47,13 @@ module.exports = (aden) => {
   aden.hook('setup:route', ({ page }) =>
     Promise.resolve().then(() => {
       const templates = page.hbsFiles.value.reduce((prev, file) => {
-        try {
-          const content = fs.readFileSync(file.dist, 'utf8');
-          const template = hogan.compile(content);
-          return Object.assign(prev, {
-            [file.name]: {
-              render: (data, partials) => template.render(data, partials),
-            },
-          });
-        } catch (ex) {
-          throw cannot('compile', 'hbs template')
-            .because(ex)
-            .addInfo(file.dist);
-        }
+        return Object.assign(prev, {
+          [file.name]: {
+            render: (data, partials, indent) => file
+              .load((content) => hogan.compile(content.toString('utf8')))
+              .then((template) => template.render(data, partials, indent)),
+          },
+        });
       }, {});
       page.set('templates', templates);
     })
