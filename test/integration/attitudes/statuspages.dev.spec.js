@@ -10,7 +10,7 @@ describe('Statuspages Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/404')
+          .get('/404/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.status).toMatch(404);
@@ -26,7 +26,7 @@ describe('Statuspages Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/500')
+          .get('/500/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.status).toMatch(404);
@@ -58,7 +58,7 @@ describe('Statuspages Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/provoke')
+          .get('/provoke/')
           .end((err, res) => {
             if (err) done(err);
             expect(res.text).toMatch(/Custom Error/ig);

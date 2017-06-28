@@ -67,18 +67,6 @@ module.exports = () => (req, res) => res.send(req.params.id);
 ## <a name="statuspages"></a> Status Pages
 Aden currently handles the `404` and `500` response states with _custom  pages_, which behave just like any page. By default, pages with the names _404_ and _500_ in the page graph, will be hooked up as status pages.
 
-```js
-// .server options
-{
-  "statuspages": {
-    // a path to match in the page graph
-    "500": "statuspages/500",
-    "404": "statuspages/404",
-    ...
-  }
-}
-```
-
 ```
 mkdir 404
 touch index.html

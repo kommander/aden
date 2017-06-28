@@ -12,6 +12,7 @@ const updateQuote = () => Promise.resolve()
       updateQuote();
       return;
     }
+
     quoteElement.innerText = json.text;
     authorElement.innerText = json.author;
     originElement.innerText = json.origin;

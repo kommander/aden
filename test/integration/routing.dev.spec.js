@@ -145,7 +145,7 @@ describe('Routing Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/notroute')
+          .get('/notroute/')
           .end((err, res) => {
             if (err) { done(err); return; }
             expect(res.status).toBe(404);
@@ -161,12 +161,12 @@ describe('Routing Dev', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/api')
+          .get('/api/')
           .end((err, res) => {
             if (err) { done(err); return; }
             expect(res.status).toBe(404);
             request(an.app)
-              .get('/api/user')
+              .get('/api/user/')
               .end((err2, res2) => {
                 if (err2) { done(err); return; }
                 expect(res2.status).toBe(200);

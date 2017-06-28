@@ -75,7 +75,7 @@ describe('Core Dev', () => {
       .then((an) => an.shutdown(done));
   });
 
-  she('logs a warning for an invalid .server file', (done) => {
+  she('logs an error for an invalid .server file', (done) => {
     const stream = new TestDuplex();
     const logParser = Logger.getLogParser();
     logParser.attach(stream);
@@ -109,6 +109,24 @@ describe('Core Dev', () => {
       .catch(done);
   });
 
+  she('calls load hook only once per page', (done) => {
+    const pagesLoaded = [];
+
+    aden({ dev: true })
+      .hook('load', ({ page }) => {
+        if (pagesLoaded.includes(page.id)) {
+          throw new Error('Page loaded multiple times');
+        }
+        pagesLoaded.push(page.id);
+      })
+      .init(path.resolve(__dirname, '../tmpdata/cssbase'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        an.shutdown(done);
+      })
+      .catch(done);
+  });
+
   she('calls startup hooks for subpages');
 
   // (static entry point templates go into public build)
@@ -116,8 +134,6 @@ describe('Core Dev', () => {
 
   // docs/quotemachine/api/quote/quote.js
   she('clears the cache for changed modules used by controllers');
-
-  she('does not try to load invalid .server files multiple times until it is changed');
 
   she('// Things Aden already does but are untested...');
   she('takes ignores from .server, applied to subpath only');
