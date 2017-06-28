@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 module.exports = (aden) => {
   aden.registerKey('js', {
     type: 'string',
@@ -16,18 +19,30 @@ module.exports = (aden) => {
 
     frontendConfig.resolve.extensions.push('.js', '.jsx');
 
+    const options = {
+      highlightCode: false,
+    };
+
+    const rootBabel = path.resolve(aden.rootPath, '.babelrc');
+    try {
+      // No default presets, because it takes precedence over .babelrc
+      // If there's a switch to let .babelrc take precedence, defaults would be nice.
+      fs.accessSync(rootBabel, fs.F_OK | fs.R_OK);
+    } catch(ex) {
+      Object.assign(options, {
+        presets: [
+          require.resolve('babel-preset-es2015'),
+        ],
+      });
+    }
+
     // on-board babel by default
     webpackConfigs.forEach((config) => {
       config.module.rules.push({
         test: /\.jsx?$/,
         use: {
           loader: require.resolve('babel-loader'),
-          options: {
-            presets: [
-              require.resolve('babel-preset-env'),
-              require.resolve('babel-preset-es2015'),
-            ],
-          },
+          options,
         },
         include: [
           aden.rootPath,
