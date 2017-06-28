@@ -62,7 +62,7 @@ module.exports = (aden) => {
         }),
       },
       {
-        test: /\.scss$/,
+        test: /\.s[ca]ss$/,
         use: extractCSSPlugin.extract({
           fallback: require.resolve('style-loader'),
           // resolve-url-loader may be chained before sass-loader if necessary
