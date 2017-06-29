@@ -10,7 +10,7 @@ describe('Vendor Attitude', () => {
       .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/v-vendor.js')
+          .get('/v_vendor.js')
           .expect(200, (err, res) => {
             expect(res.text).toMatch(/teststring/);
             an.shutdown(done);
