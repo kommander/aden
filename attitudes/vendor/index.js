@@ -37,8 +37,8 @@ module.exports = (aden) => {
 
     const entries = pagesWithVendorConfig
       .map((page) => {
-        if (!page.assets.value.includes('v-vendor.js')) {
-          page.assets.value.push('v-vendor.js');
+        if (!page.assets.value.includes('v_vendor.js')) {
+          page.assets.value.push('v_vendor.js');
         }
         return page.vendor.value;
       })
@@ -47,7 +47,7 @@ module.exports = (aden) => {
 
     if (uniq.length > 0) {
       Object.assign(entry, {
-        'v-vendor': uniq,
+        'v_vendor': uniq,
       });
     }
 
