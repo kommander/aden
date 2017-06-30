@@ -21,6 +21,7 @@ module.exports = (aden) => {
 
     const options = {
       highlightCode: false,
+      forceEnv: aden.isDEV ? 'development' : 'production',
     };
 
     const rootBabel = path.resolve(aden.rootPath, '.babelrc');
