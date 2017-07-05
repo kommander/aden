@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const _ = require('lodash');
+const resolve = require('resolve');
 
 module.exports = (aden) => {
   aden.registerKey('js', {
@@ -24,18 +26,53 @@ module.exports = (aden) => {
       forceEnv: aden.isDEV ? 'development' : 'production',
     };
 
-    const rootBabel = path.resolve(aden.rootPath, '.babelrc');
-    try {
-      // No default presets, because it takes precedence over .babelrc
-      // If there's a switch to let .babelrc take precedence, defaults would be nice.
-      fs.accessSync(rootBabel, fs.F_OK | fs.R_OK);
-    } catch(ex) {
+    const rootBabels = [
+      '.babelrc',
+      '.babelrc.js',
+    ];
+
+    const babelFiles = aden.checkAccessMulti(aden.rootPath, rootBabels);
+
+    if (babelFiles.length > 0) {
+      const babelConfig = aden.loadNativeOrJSON(babelFiles[0]);
+      _.extend(options, babelConfig);
+
+      // Resolve default presets and plugins
+      Object.assign(options, {
+        presets: options.presets.map((preset) => {
+          try {
+            const inRootPath = resolve.sync(`babel-preset-${preset}`, { basedir: aden.rootPath });
+            if (inRootPath) {
+              return inRootPath;
+            }
+          } catch(ex) {
+            aden.log.debug('Preset not found in app node_modules', ex);
+          }
+
+          try {
+            const inAdenPath = resolve.sync(`babel-preset-${preset}`, { 
+              basedir: path.resolve(__dirname, '../'),
+            });
+            if (inAdenPath) {
+              return inAdenPath;
+            }
+          } catch(ex) {
+            aden.log.debug('Preset not found in aden node_modules', ex);
+          }
+
+          return preset;
+        }),
+      });
+    } else {
+      aden.log.info('No .babelrc in root, using default presets.');
       Object.assign(options, {
         presets: [
           require.resolve('babel-preset-es2015'),
         ],
       });
     }
+
+    Object.assign(options, { babelrc: false });
 
     // on-board babel by default
     webpackConfigs.forEach((config) => {
