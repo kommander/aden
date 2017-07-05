@@ -39,7 +39,7 @@ module.exports = (aden) => {
 
       // Resolve default presets and plugins
       Object.assign(options, {
-        presets: options.presets.map((preset) => {
+        presets: (options.presets || []).map((preset) => {
           try {
             const inRootPath = resolve.sync(`babel-preset-${preset}`, { basedir: aden.rootPath });
             if (inRootPath) {

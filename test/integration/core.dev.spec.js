@@ -143,6 +143,17 @@ describe('Core Dev', () => {
       .catch(done);
   });
 
+  she('resolves default babel presets from aden node_modules', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/babel'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        expect(an.server).toBeAn('object');
+        an.shutdown(done);
+      })
+      .catch(done);
+  });
+
   she('calls startup hooks for subpages');
 
   // (static entry point templates go into public build)
