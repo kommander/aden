@@ -127,6 +127,22 @@ describe('Core Dev', () => {
       .catch(done);
   });
 
+  she('does not create bundles for empty paths', (done) => {
+    aden({ dev: true })
+      .init(path.resolve(__dirname, '../tmpdata/emptypath'))
+      .then((an) => an.run('dev'))
+      .then((an) => {
+        request(an.app)
+          .get('/api/bundle.js')
+          .end((err, res) => {
+            if (err) done(err);
+            expect(res.status).toBe(404);
+            an.shutdown(done);
+          });
+      })
+      .catch(done);
+  });
+
   she('calls startup hooks for subpages');
 
   // (static entry point templates go into public build)
