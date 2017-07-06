@@ -74,7 +74,7 @@ Now, that can be done with any static file server. Let's see if you like this:
 echo "alert('woa')" > index.js
 ```
 
-Check your browser. I just _injected the script_ into your html. You can wrap your html in a layout by using a template engine like [handlebars](/attitudes/hbs.md) or the [default layout attitude](/attitudes/layout.md).
+Check your browser. I just _injected the script_ into your html. You can wrap your html in a layout by using a template engine like [handlebars](/attitudes/hbs.html) or the [default layout attitude](/attitudes/layout.html).
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
