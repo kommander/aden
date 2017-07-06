@@ -178,6 +178,7 @@ describe('Core Dev', () => {
         logParser.attach(child.stdout);
         logParser.on('ready', () => {
           logParser.destroy();
+          child.kill('SIGINT');
           done();
         });
       });
@@ -202,6 +203,7 @@ describe('Core Dev', () => {
         logParser.attach(child.stdout);
         logParser.on('webpack:build:errors', () => {
           logParser.destroy();
+          child.kill('SIGINT');
           done();
         });
       });
