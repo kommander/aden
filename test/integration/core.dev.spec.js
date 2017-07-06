@@ -159,6 +159,9 @@ describe('Core Dev', () => {
 
   she('resolves default babel presets (external path)', (done) => {
     const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel');
+    // Node spawn does not handle .cmd/.bat on windows
+    // -> https://github.com/nodejs/node-v0.x-archive/issues/2318
+    const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden';
     ncp(
       path.resolve(__dirname, '../tmpdata/babel'),
       tmpTarget,
@@ -167,7 +170,7 @@ describe('Core Dev', () => {
           done(err);
           return;
         }
-        const child = spawn('aden', ['dev'], {
+        const child = spawn(spawnCmd, ['dev'], {
           cwd: tmpTarget,
           stdio: ['ignore', 'pipe', 'pipe'],
         });
@@ -182,6 +185,7 @@ describe('Core Dev', () => {
 
   she('still fails the build for non-resolved (external path)', (done) => {
     const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel2');
+    const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden';
     ncp(
       path.resolve(__dirname, '../tmpdata/babel3'),
       tmpTarget,
@@ -190,7 +194,7 @@ describe('Core Dev', () => {
           done(err);
           return;
         }
-        const child = spawn('aden', ['dev'], {
+        const child = spawn(spawnCmd, ['dev'], {
           cwd: tmpTarget,
           stdio: ['ignore', 'pipe', 'pipe'],
         });
