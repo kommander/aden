@@ -5,6 +5,9 @@ const expect = require('expect');
 const request = require('supertest');
 const Logger = require('../../lib/aden.logger');
 const TestDuplex = require('../lib/test-duplex.js');
+const spawn = require('../lib/spawn');
+const ncp = require('ncp').ncp;
+const os = require('os');
 
 describe('Core Dev', () => {
   she('provides a startup callback', (done) => {
@@ -152,6 +155,52 @@ describe('Core Dev', () => {
         an.shutdown(done);
       })
       .catch(done);
+  });
+
+  she('resolves default babel presets (external path)', (done) => {
+    const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel');
+    ncp(
+      path.resolve(__dirname, '../tmpdata/babel'),
+      tmpTarget,
+      (err) => {
+        if (err) {
+          done(err);
+          return;
+        }
+        const child = spawn('aden', ['dev'], {
+          cwd: tmpTarget,
+          stdio: ['ignore', 'pipe', 'pipe'],
+        });
+        const logParser = Logger.getLogParser();
+        logParser.attach(child.stdout);
+        logParser.on('ready', () => {
+          logParser.destroy();
+          done();
+        });
+      });
+  });
+
+  she('still fails the build for non-resolved (external path)', (done) => {
+    const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel2');
+    ncp(
+      path.resolve(__dirname, '../tmpdata/babel3'),
+      tmpTarget,
+      (err) => {
+        if (err) {
+          done(err);
+          return;
+        }
+        const child = spawn('aden', ['dev'], {
+          cwd: tmpTarget,
+          stdio: ['ignore', 'pipe', 'pipe'],
+        });
+        const logParser = Logger.getLogParser();
+        logParser.attach(child.stdout);
+        logParser.on('webpack:build:errors', () => {
+          logParser.destroy();
+          done();
+        });
+      });
   });
 
   she('calls startup hooks for subpages');

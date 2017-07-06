@@ -32,7 +32,7 @@ module.exports = (aden) => {
     ];
 
     const babelFiles = aden.checkAccessMulti(aden.rootPath, rootBabels);
-
+            
     if (babelFiles.length > 0) {
       const babelConfig = aden.loadNativeOrJSON(babelFiles[0]);
       _.extend(options, babelConfig);
@@ -41,21 +41,15 @@ module.exports = (aden) => {
       Object.assign(options, {
         presets: (options.presets || []).map((preset) => {
           try {
-            const inRootPath = resolve.sync(`babel-preset-${preset}`, { basedir: aden.rootPath });
-            if (inRootPath) {
-              return inRootPath;
-            }
+            return resolve.sync(`babel-preset-${preset}`, { basedir: aden.rootPath });
           } catch(ex) {
             aden.log.debug('Preset not found in app node_modules', ex);
           }
 
           try {
-            const inAdenPath = resolve.sync(`babel-preset-${preset}`, { 
+            return resolve.sync(`babel-preset-${preset}`, { 
               basedir: path.resolve(__dirname, '../'),
             });
-            if (inAdenPath) {
-              return inAdenPath;
-            }
           } catch(ex) {
             aden.log.debug('Preset not found in aden node_modules', ex);
           }
