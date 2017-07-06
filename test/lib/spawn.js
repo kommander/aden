@@ -13,6 +13,10 @@ const anakin = () => {
   });
 };
 
+process.on('error', () => {
+  anakin();
+});
+
 process.on('exit', () => {
   anakin();
 });

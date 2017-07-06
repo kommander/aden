@@ -10,6 +10,10 @@ const ncp = require('ncp').ncp;
 const os = require('os');
 
 describe('Core Dev', () => {
+  afterEach(() => {
+    spawn.anakin();
+  });
+  
   she('provides a startup callback', (done) => {
     const stream = new TestDuplex();
     const logParser = Logger.getLogParser();
