@@ -21,10 +21,7 @@ module.exports = (aden) => {
 
     frontendConfig.resolve.extensions.push('.js', '.jsx');
 
-    const options = {
-      highlightCode: false,
-      forceEnv: aden.isDEV ? 'development' : 'production',
-    };
+    const options = {};
 
     const rootBabels = [
       '.babelrc',
@@ -32,7 +29,7 @@ module.exports = (aden) => {
     ];
 
     const babelFiles = aden.checkAccessMulti(aden.rootPath, rootBabels);
-            
+
     if (babelFiles.length > 0) {
       const babelConfig = aden.loadNativeOrJSON(babelFiles[0]);
       _.extend(options, babelConfig);
@@ -56,6 +53,23 @@ module.exports = (aden) => {
 
           return preset;
         }),
+        plugins: (options.plugins || []).map((plugin) => {
+          try {
+            return resolve.sync(`babel-plugin-${plugin}`, { basedir: aden.rootPath });
+          } catch(ex) {
+            aden.log.debug('Plugin not found in app node_modules', ex);
+          }
+
+          try {
+            return resolve.sync(`babel-plugin-${plugin}`, { 
+              basedir: path.resolve(__dirname, '../'),
+            });
+          } catch(ex) {
+            aden.log.debug('Plugin not found in aden node_modules', ex);
+          }
+
+          return plugin;
+        }),
       });
     } else {
       aden.log.info('No .babelrc in root, using default presets.');
@@ -66,7 +80,12 @@ module.exports = (aden) => {
       });
     }
 
-    Object.assign(options, { babelrc: false });
+    // Default overrides
+    Object.assign(options, { 
+      babelrc: false,
+      highlightCode: true,
+      forceEnv: aden.isDEV ? 'development' : 'production',
+    });
 
     // on-board babel by default
     webpackConfigs.forEach((config) => {
