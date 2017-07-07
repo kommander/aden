@@ -16,6 +16,7 @@
     "type": "git",
     "url": "https://github.com/kommander/aden"
   },
+  "engines" : { "node" : ">=6.11.0 <9.0" },
   "author": "Sebastian Herrlinger <rootkid815@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
