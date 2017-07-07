@@ -22,7 +22,9 @@ const anakin = (done) => {
       }
       child.on('exit', () => setTimeout(() => resolve(), 500))
       if (os.platform() === 'win32') {
-        exec('taskkill /pid ' + child.pid + ' /T /F');
+        // https://stackoverflow.com/a/28163919
+        // Works best so far.
+        exec(`taskkill /pid ${child.pid} /T /F`);
       } else {
         child.kill('SIGINT');
         setTimeout(() => child.kill('SIGKILL'), 1000);
