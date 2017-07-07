@@ -7,8 +7,8 @@ const spawn = require('../lib/spawn');
 const TestDuplex = require('../lib/test-duplex.js');
 
 describe('Logger', () => {
-  afterEach(() => {
-    spawn.anakin();
+  afterEach((done) => {
+    spawn.anakin(done);
   });
 
   she('has a log', (done) => {
@@ -60,7 +60,7 @@ describe('Logger', () => {
   });
 
   she('logs debug level messages', (done) => {
-    const stream = new TestDuplex();
+    const stream = new TestDuplex(); // <- test stream, where logs get written to (not visible in console)
     const logParser = Logger.getLogParser();
     logParser.attach(stream);
 
@@ -77,7 +77,7 @@ describe('Logger', () => {
     .then((an) => {
       logParser.once('debug', (obj) => {
         expect(obj.msg).toMatch('debugtext');
-        logParser.detach(stream);
+        logParser.destroy();
         an.shutdown(done);
       });
       an.log.debug('debugtext');
@@ -105,7 +105,7 @@ describe('Logger', () => {
       logParser.once('debug', (obj) => {
         expect(obj.msg).toMatch('debugtext');
         expect(obj.data.add).toMatch('debug');
-        logParser.detach(stream);
+        logParser.destroy();
         an.shutdown(done);
       });
       an.log.debug('debugtext', { add: 'debug' });
@@ -154,7 +154,7 @@ describe('Logger', () => {
     .then((an) => {
       logParser.once('info', (obj) => {
         expect(obj.data).toBe(undefined);
-        logParser.detach(stream);
+        logParser.destroy();
         an.shutdown(done);
       });
       an.log.info('infotext', { add: 'info' });
@@ -182,7 +182,7 @@ describe('Logger', () => {
       logParser.once('info', (obj) => {
         expect(obj.msg).toMatch('infotext');
         expect(obj.data.add).toMatch('info');
-        logParser.detach(stream);
+        logParser.destroy();
         an.shutdown(done);
       });
       an.log.info('infotext', { add: 'info' });
@@ -256,7 +256,7 @@ describe('Logger', () => {
     .then((an) => {
       logParser.once('warn', (obj) => {
         expect(obj.data.add).toMatch('info');
-        logParser.detach(stream);
+        logParser.destroy();
         an.shutdown(done);
       });
       an.log.warn('warntext', { add: 'info' });
@@ -282,7 +282,7 @@ describe('Logger', () => {
     .then((an) => {
       logParser.once('error', (err) => {
         expect(err.message).toMatch('failed');
-        logParser.detach(stream);
+        logParser.destroy();
         an.shutdown(done);
       });
       an.log.error('errortext', new Error('failed'));
@@ -309,7 +309,7 @@ describe('Logger', () => {
     .then((an) => {
       logParser.once('error', (err, obj) => {
         expect(obj.data.stuff).toMatch('data');
-        logParser.detach(stream);
+        logParser.destroy();
         an.shutdown(done);
       });
       an.log.error('errortext', new Error('failed'), { stuff: 'data' });
@@ -359,7 +359,7 @@ describe('Logger', () => {
     .then((an) => {
       logParser.once('start', (obj) => {
         expect(obj.data.add).toMatch('start');
-        logParser.detach(stream);
+        logParser.destroy();
         an.shutdown(done);
       });
       an.log.start('starttext', { add: 'start' });
@@ -409,7 +409,7 @@ describe('Logger', () => {
     .then((an) => {
       logParser.once('success', (obj) => {
         expect(obj.data.add).toMatch('success');
-        logParser.detach(stream);
+        logParser.destroy();
         an.shutdown(done);
       });
       an.log.success('successtext', { add: 'success' });
@@ -436,7 +436,7 @@ describe('Logger', () => {
       logParser.once('raw', (str) => {
         expect(str).toMatch('rawtext');
         expect(str).toBeA('string');
-        logParser.detach(stream);
+        logParser.destroy();
         an.shutdown(done);
       });
       an.log.raw('rawtext');

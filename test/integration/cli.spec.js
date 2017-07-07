@@ -6,8 +6,8 @@ const http = require('http');
 const spawn = require('../lib/spawn');
 
 describe('CLI', () => {
-  afterEach(() => {
-    spawn.anakin();
+  afterEach((done) => {
+    spawn.anakin(done);
   });
 
   she('has a dev mode cli command', (done) => {

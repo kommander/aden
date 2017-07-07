@@ -10,8 +10,8 @@ const ncp = require('ncp').ncp;
 const os = require('os');
 
 describe('Core Dev', () => {
-  afterEach(() => {
-    spawn.anakin();
+  afterEach((done) => {
+    spawn.anakin(done);
   });
   
   she('provides a startup callback', (done) => {
@@ -180,9 +180,9 @@ describe('Core Dev', () => {
         });
         const logParser = Logger.getLogParser();
         logParser.attach(child.stdout);
+        logParser.attach(child.stderr);
         logParser.on('ready', () => {
           logParser.destroy();
-          child.kill('SIGINT');
           done();
         });
       });
@@ -205,9 +205,9 @@ describe('Core Dev', () => {
         });
         const logParser = Logger.getLogParser();
         logParser.attach(child.stdout);
+        logParser.attach(child.stderr);
         logParser.on('webpack:build:errors', () => {
           logParser.destroy();
-          child.kill('SIGINT');
           done();
         });
       });
