@@ -11,22 +11,24 @@ const spawn = (...rest) => {
 };
 
 const anakin = (done) => {
-  return Promise.all(children
+  const registeredChildren = children;
+  children = [];
+
+  return Promise.all(registeredChildren
     .map((child) => new Promise((resolve) => {
       if (child.killed || [0, 1].includes(child.exitCode)) {
         resolve();
         return;
       }
+      child.on('exit', () => setTimeout(() => resolve(), 500))
       if (os.platform() === 'win32') {
-        child.on('exit', () => setTimeout(() => resolve(), 500))
         exec('taskkill /pid ' + child.pid + ' /T /F');
       } else {
         child.kill('SIGINT');
-        resolve();
+        setTimeout(() => child.kill('SIGKILL'), 1000);
       }
     })))
     .then(() => {
-      children = [];
       if(typeof done === 'function') {
         done();
       }
