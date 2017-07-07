@@ -15,6 +15,41 @@ module.exports = (aden) => {
     fileInfo.file.match(/\.(js|jsx)$/) && fileInfo.name === page.js.value
   );
 
+  function resolveDependencies(type, items = []) {
+    return items.map((item) => {
+      let itemName = Array.isArray(item) ? item[0] : item;
+
+      if (path.isAbsolute(itemName)) {
+        return item;
+      }
+
+      if (!itemName.match(new RegExp(`babel-${type}-`))) {
+        itemName = [`babel-${type}-`, itemName].join('');
+      }
+
+      try {
+        itemName = resolve.sync(itemName, { basedir: aden.rootPath });
+      } catch(ex) {
+        aden.log.debug(`${type} not found in app node_modules`, ex);
+      }
+
+      try {
+        itemName = resolve.sync(itemName, { 
+          basedir: path.resolve(__dirname, '../'),
+        });
+      } catch(ex) {
+        aden.log.debug(`${type} not found in aden node_modules`, ex);
+      }
+
+      if (Array.isArray(item)) {
+        item[0] = itemName;
+        return item;
+      }
+
+      return itemName;
+    });
+  }
+
   aden.hook('post:apply', ({ webpackConfigs }) => {
     const frontendConfig = webpackConfigs
       .find((conf) => (conf.name === 'frontend'));
@@ -36,40 +71,8 @@ module.exports = (aden) => {
 
       // Resolve default presets and plugins
       Object.assign(options, {
-        presets: (options.presets || []).map((preset) => {
-          try {
-            return resolve.sync(`babel-preset-${preset}`, { basedir: aden.rootPath });
-          } catch(ex) {
-            aden.log.debug('Preset not found in app node_modules', ex);
-          }
-
-          try {
-            return resolve.sync(`babel-preset-${preset}`, { 
-              basedir: path.resolve(__dirname, '../'),
-            });
-          } catch(ex) {
-            aden.log.debug('Preset not found in aden node_modules', ex);
-          }
-
-          return preset;
-        }),
-        plugins: (options.plugins || []).map((plugin) => {
-          try {
-            return resolve.sync(`babel-plugin-${plugin}`, { basedir: aden.rootPath });
-          } catch(ex) {
-            aden.log.debug('Plugin not found in app node_modules', ex);
-          }
-
-          try {
-            return resolve.sync(`babel-plugin-${plugin}`, { 
-              basedir: path.resolve(__dirname, '../'),
-            });
-          } catch(ex) {
-            aden.log.debug('Plugin not found in aden node_modules', ex);
-          }
-
-          return plugin;
-        }),
+        presets: resolveDependencies('preset', options.presets),
+        plugins: resolveDependencies('plugin', options.plugins),
       });
     } else {
       aden.log.info('No .babelrc in root, using default presets.');

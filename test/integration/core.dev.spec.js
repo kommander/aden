@@ -188,6 +188,35 @@ describe('Core Dev', () => {
       });
   });
 
+  she('resolves default babel presets with options (external path)', (done) => {
+    const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel5');
+    const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden';
+    ncp(
+      path.resolve(__dirname, '../tmpdata/babel5'),
+      tmpTarget,
+      (err) => {
+        if (err) {
+          done(err);
+          return;
+        }
+        const child = spawn(spawnCmd, ['dev'], {
+          cwd: tmpTarget,
+          stdio: ['ignore', 'pipe', 'pipe'],
+        });
+        const logParser = Logger.getLogParser();
+        logParser.attach(child.stdout);
+        logParser.attach(child.stderr);
+        logParser.on('error', (err) => {
+          logParser.destroy();
+          done(err);
+        });
+        logParser.on('ready', () => {
+          logParser.destroy();
+          done();
+        });
+      });
+  });
+
   she('still fails the build for non-resolved babel presets (external path)', (done) => {
     const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel3');
     const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden';
@@ -226,8 +255,6 @@ describe('Core Dev', () => {
 
   she('resolves default babel plugins (external path)', (done) => {
     const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel2');
-    // Node spawn does not handle .cmd/.bat on windows
-    // -> https://github.com/nodejs/node-v0.x-archive/issues/2318
     const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden';
     ncp(
       path.resolve(__dirname, '../tmpdata/babel2'),
@@ -247,6 +274,35 @@ describe('Core Dev', () => {
         logParser.on('webpack:build:errors', () => {
           logParser.destroy();
           done(new Error('should not fail'));
+        });
+        logParser.on('ready', () => {
+          logParser.destroy();
+          done();
+        });
+      });
+  });
+
+  she('resolves default babel plugins with options (external path)', (done) => {
+    const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel6');
+    const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden';
+    ncp(
+      path.resolve(__dirname, '../tmpdata/babel6'),
+      tmpTarget,
+      (err) => {
+        if (err) {
+          done(err);
+          return;
+        }
+        const child = spawn(spawnCmd, ['dev'], {
+          cwd: tmpTarget,
+          stdio: ['ignore', 'pipe', 'pipe'],
+        });
+        const logParser = Logger.getLogParser();
+        logParser.attach(child.stdout);
+        logParser.attach(child.stderr);
+        logParser.on('error', (err) => {
+          logParser.destroy();
+          done(err);
         });
         logParser.on('ready', () => {
           logParser.destroy();
