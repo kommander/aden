@@ -1,5 +1,7 @@
-# Aden
-Automation for the Web.
+# :seedling: Aden
+> Automated Server for the Web.
+
+Aden lets you create static or dynamic sites using a framework of your choice (like React, Inferno, Angular, Vue). 
 
 Aden integrates [Webpack](https://github.com/webpack/webpack),
 [Babel](https://babeljs.io) and
@@ -14,12 +16,10 @@ The _/docs_ from this repository are running on _aden_ on a heroku instance at [
 [![Coverage Status](https://coveralls.io/repos/github/kommander/aden/badge.svg?branch=master)](https://coveralls.io/github/kommander/aden?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/kommander/aden.svg)](https://greenkeeper.io/)
 [![Known Vulnerabilities](https://snyk.io/test/github/kommander/aden/badge.svg)](https://snyk.io/test/github/kommander/aden)
 
-
-## Prerequisites
-[Node 6+](https://nodejs.org/en/) and [NPM 3+](https://www.npmjs.com/).
-Currently supporting OSX and Linux.
+Supporting OSX, Linux and Windows.
 
 ## Install
+Using [Node 6+](https://nodejs.org/en/) and [NPM 3+](https://www.npmjs.com/) do:
 ```
 npm install -g aden
 ```
@@ -27,31 +27,8 @@ npm install -g aden
 ## Help
 ```
 $ aden -h
-
-Usage: aden <command> [rootPath] [options]
-
-Commands:
-
-  start|s [rootPath]          Run in production mode
-  dev|d [rootPath]            Run in development mode (live reload)
-  build|b [rootPath]          Will create a production build and exit
-  clean|c [rootPath]          Remove all dist folders
-  deploy [rootPath] [target]  Run deploy task with default or given target(s)
-
-Options:
-
-  -h, --help            output usage information
-  -f, --focus <path>    Choose one route to focus on. Mount only that.
-  -w, --workers [num]   Start with given [num] of workers, or all CPUs.
-  -p, --port <port>     Override the port to mount the server on
-  -u, --use <attitude>  Specify attitude(s) to use
-  -s, --silent          Do not output anything on purpose
-  -v, --verbose         Output a lot
-  --debug               Debug output
-  --log-no-date         Omit date from log output
-  -V, --version         output the version number
 ```
-Aden runs in _production_ by default, without any CLI options.
+Aden runs in _production_ by default, without any specific CLI options.
 
 ## Run
 ### Development
@@ -83,6 +60,9 @@ aden start [path]
 
 # Resources
 Learn more about the technologies used:
+ - [Webpack](https://webpack.js.org/)
+ - [Babel](https://babeljs.io/)
+ - [Express](http://expressjs.com/)
  - [Awesome Webpack](https://github.com/webpack-contrib/awesome-webpack)
  - [12 Factor Application](https://12factor.net/)
 
@@ -91,7 +71,7 @@ _Aden_ is an effort to allow convenient aggregation of data from services,
 with a focus on frontend development, packaging and delivery automation.
 
 ---
-Copyright 1997-2017 Sebastian Herrlinger
+Copyright 2016-2017 Sebastian Herrlinger
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
