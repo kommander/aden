@@ -10,7 +10,6 @@ module.exports = (aden) => {
     inherit: true,
   });
 
-  // TODO: use page.getKey(name) and page.setKey(name, value)
   aden.registerFile('jsFile', ({ page, fileInfo }) =>
     fileInfo.file.match(/\.(js|jsx)$/) && fileInfo.name === page.js.value
   );
