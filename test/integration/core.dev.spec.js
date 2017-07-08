@@ -205,11 +205,6 @@ describe('Core Dev', () => {
         });
         const logParser = Logger.getLogParser();
         logParser.attach(child.stdout);
-        logParser.attach(child.stderr);
-        logParser.on('error', (err) => {
-          logParser.destroy();
-          done(err);
-        });
         logParser.on('ready', () => {
           logParser.destroy();
           done();
@@ -271,13 +266,15 @@ describe('Core Dev', () => {
         const logParser = Logger.getLogParser();
         logParser.attach(child.stdout);
         logParser.attach(child.stderr);
+        let failed = false;
         logParser.on('webpack:build:errors', () => {
           logParser.destroy();
+          failed = true;
           done(new Error('should not fail'));
         });
         logParser.on('ready', () => {
           logParser.destroy();
-          done();
+          !failed && done();
         });
       });
   });
@@ -299,11 +296,6 @@ describe('Core Dev', () => {
         });
         const logParser = Logger.getLogParser();
         logParser.attach(child.stdout);
-        logParser.attach(child.stderr);
-        logParser.on('error', (err) => {
-          logParser.destroy();
-          done(err);
-        });
         logParser.on('ready', () => {
           logParser.destroy();
           done();

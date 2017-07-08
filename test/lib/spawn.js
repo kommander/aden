@@ -20,7 +20,7 @@ const anakin = (done) => {
         resolve();
         return;
       }
-      child.on('exit', () => setTimeout(() => resolve(), 500))
+      child.on('close', () => setTimeout(() => resolve(), 500))
       if (os.platform() === 'win32') {
         // https://stackoverflow.com/a/28163919
         // Works best so far.
