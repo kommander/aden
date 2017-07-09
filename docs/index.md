@@ -1,4 +1,5 @@
 # <a name="aden"></a> Aden
+> Automated Server for the Web.
 
 - [Introduction](#introduction)
 - [Getting Started](#gettingstarted)
@@ -10,14 +11,15 @@
   - [Build](#build)
   - [Deploy](#deploy)
   - [Scale](#scale)
-- [Attitudes](#attitudes)
+- [Attitudes (Plugins/Extensions)](#attitudes)
+  - [JS (Babel)](/attitudes/js.html)
   - [Vendor](/attitudes/vendor.html)
 - [TL;DR](#tldr)
 - [Listing](#listing)
 
 
 ## <a name="introduction"></a> Introduction
-Hi, I am Aden. I give you a CLI to handle a web application or service.
+Hi, I am Aden. I give you a CLI to handle a web application or service. I can help you develop and deploy static and dynamic sites or a full featured web application.
 
 <div id="supportedOS">
   Supports:
@@ -32,7 +34,7 @@ Hi, I am Aden. I give you a CLI to handle a web application or service.
 
 You can check what my CLI can do for you at any time with `aden -h`.
 
-_Note_: I am still in active development in an alpha stage, if you want to get the newest development version, clone my repository and do `npm i -g` from there.
+_Note_: Help us get out of alpha stage, by providing feedback. If you want to get the newest development version, clone my repository and do `npm i -g` from there.
 
 I leverage a set of modern open source technologies like [Webpack](https://github.com/webpack/webpack), [Babel](https://babeljs.io/) and [Express](http://expressjs.com/) to deliver on my promises.
 Although you do not need to know about any of these in detail to get started, I strongly encourage you to read up on the technologies involved.
@@ -74,7 +76,7 @@ Now, that can be done with any static file server. Let's see if you like this:
 echo "alert('woa')" > index.js
 ```
 
-Check your browser. I just _injected the script_ into your html. You can wrap your html in a layout by using a template engine like [handlebars](/attitudes/hbs.md) or the [default layout attitude](/attitudes/layout.md).
+Check your browser. I just _injected the script_ into your html. You can wrap your html in a layout by using a template engine like [handlebars](/attitudes/hbs.html) or the [default layout attitude](/attitudes/layout.html).
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)

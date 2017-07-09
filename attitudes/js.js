@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const _ = require('lodash');
+const resolve = require('resolve');
 
 module.exports = (aden) => {
   aden.registerKey('js', {
@@ -8,10 +10,44 @@ module.exports = (aden) => {
     inherit: true,
   });
 
-  // TODO: use page.getKey(name) and page.setKey(name, value)
   aden.registerFile('jsFile', ({ page, fileInfo }) =>
     fileInfo.file.match(/\.(js|jsx)$/) && fileInfo.name === page.js.value
   );
+
+  function resolveDependencies(type, items = []) {
+    return items.map((item) => {
+      let itemName = Array.isArray(item) ? item[0] : item;
+
+      if (path.isAbsolute(itemName)) {
+        return item;
+      }
+
+      if (!itemName.match(new RegExp(`babel-${type}-`))) {
+        itemName = [`babel-${type}-`, itemName].join('');
+      }
+
+      try {
+        itemName = resolve.sync(itemName, { basedir: aden.rootPath });
+      } catch(ex) {
+        aden.log.debug(`${type} not found in app node_modules`, ex);
+      }
+
+      try {
+        itemName = resolve.sync(itemName, { 
+          basedir: path.resolve(__dirname, '../'),
+        });
+      } catch(ex) {
+        aden.log.debug(`${type} not found in aden node_modules`, ex);
+      }
+
+      if (Array.isArray(item)) {
+        item[0] = itemName;
+        return item;
+      }
+
+      return itemName;
+    });
+  }
 
   aden.hook('post:apply', ({ webpackConfigs }) => {
     const frontendConfig = webpackConfigs
@@ -19,22 +55,39 @@ module.exports = (aden) => {
 
     frontendConfig.resolve.extensions.push('.js', '.jsx');
 
-    const options = {
-      highlightCode: false,
-    };
+    const options = {};
 
-    const rootBabel = path.resolve(aden.rootPath, '.babelrc');
-    try {
-      // No default presets, because it takes precedence over .babelrc
-      // If there's a switch to let .babelrc take precedence, defaults would be nice.
-      fs.accessSync(rootBabel, fs.F_OK | fs.R_OK);
-    } catch(ex) {
+    const rootBabels = [
+      '.babelrc',
+      '.babelrc.js',
+    ];
+
+    const babelFiles = aden.checkAccessMulti(aden.rootPath, rootBabels);
+
+    if (babelFiles.length > 0) {
+      const babelConfig = aden.loadNativeOrJSON(babelFiles[0]);
+      _.extend(options, babelConfig);
+
+      // Resolve default presets and plugins
+      Object.assign(options, {
+        presets: resolveDependencies('preset', options.presets),
+        plugins: resolveDependencies('plugin', options.plugins),
+      });
+    } else {
+      aden.log.info('No .babelrc in root, using default presets.');
       Object.assign(options, {
         presets: [
           require.resolve('babel-preset-es2015'),
         ],
       });
     }
+
+    // Default overrides
+    Object.assign(options, { 
+      babelrc: false,
+      highlightCode: true,
+      forceEnv: aden.isDEV ? 'development' : 'production',
+    });
 
     // on-board babel by default
     webpackConfigs.forEach((config) => {
