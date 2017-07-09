@@ -71,7 +71,7 @@
     "uuid": "3.1.0",
     "webpack": "3.1.0",
     "webpack-dev-middleware": "1.11.0",
-    "webpack-hot-middleware": "git://github.com/kommander/webpack-hot-middleware.git",
+    "webpack-hot-middleware": "2.18.2",
     "webpack-merge": "4.1.0"
   },
   "devDependencies": {
