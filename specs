@@ -1,178 +1,188 @@
-Creating coverage report for version 0.2.0-alpha.13.
+Creating coverage report for version 0.2.0-alpha.14.
 
 
   Controller Dev
-    ✓ uses .get.js as controller (4984ms)
-    ✓ uses .post.js as controller (3126ms)
-    ✓ uses .put.js as controller (2701ms)
-    ✓ uses .delete.js as controller (3265ms)
-    ✓ uses .all.js as controller (3052ms)
+    ✓ uses .get.js as controller
+    ✓ uses .post.js as controller
+    ✓ uses .put.js as controller
+    ✓ uses .delete.js as controller
+    ✓ uses .all.js as controller
 
   Controller Prod
-    ✓ uses .get.js as controller (2739ms)
-    ✓ uses .post.js as controller (2636ms)
-    ✓ uses .put.js as controller (2761ms)
-    ✓ uses .delete.js as controller (2894ms)
-    ✓ uses .all.js as controller (2737ms)
+    ✓ uses .get.js as controller
+    ✓ uses .post.js as controller
+    ✓ uses .put.js as controller
+    ✓ uses .delete.js as controller
+    ✓ uses .all.js as controller
 
   Copy Dev
-    ✓ moves selected files to .dist/public (3673ms)
-    ✓ does not move non-selected files to .dist/public (3790ms)
-    ✓ moves selected subpage files to .dist/public/subpage (3618ms)
+    ✓ moves selected files to .dist/public
+    ✓ does not move non-selected files to .dist/public
+    ✓ moves selected subpage files to .dist/public/subpage
 
   CSS Attitude Dev
     - puts common requires/imports into common css
-    ✓ includes page css (5371ms)
-    ✓ includes page scss (4145ms)
-    ✓ takes care of images (4109ms)
+    ✓ includes page css (2753ms)
+    ✓ includes page scss
+    ✓ takes care of images
 
   CSS Attitude Prod
     - puts common requires/imports into common css
-    ✓ includes page css (hashed name) (3638ms)
-    ✓ includes page scss (hashed name) (3654ms)
-    ✓ takes care of images (3523ms)
+    ✓ includes page css (hashed name)
+    ✓ includes page scss (hashed name)
+    ✓ takes care of images
 
   Favicon Dev
-    ✓ delivers favicon from root (4326ms)
-    ✓ does not deliver favicon if there is none (3847ms)
+    ✓ delivers favicon from root
+    ✓ does not deliver favicon if there is none
 
   HBS Dev
-    ✓ has a root route with index.hbs entry point (5354ms)
-    ✓ delivers index.hbs at root path (5467ms)
-    ✓ delivers index.hbs at sub path (5440ms)
-    ✓ wraps hbs in given layout (layout.default.html|hbs|md) (5356ms)
-    ✓ works without layout attitude active (hbs) (5171ms)
-    ✓ works with layout inactive for hbs (nolayout) (4213ms)
-    ✓ includes images in the build (hbs) (5463ms)
-    ✓ includes images required from sub path in the build (hbs) (5563ms)
-    ✓ injects commons in hbs (layout inactive) (5395ms)
-    ✓ injects commons in hbs (nolayout) (5410ms)
-    ✓ recognises changed hbs files and reloads them (14237ms)
+    ✓ has a root route with index.hbs entry point
+    ✓ delivers index.hbs at root path
+    ✓ delivers index.hbs at sub path
+    ✓ wraps hbs in given layout (layout.default.html|hbs|md)
+    ✓ works without layout attitude active (hbs)
+    ✓ works with layout inactive for hbs (nolayout)
+    ✓ includes images in the build (hbs)
+    ✓ includes images required from sub path in the build (hbs)
+    ✓ injects commons in hbs (layout inactive)
+    ✓ injects commons in hbs (nolayout)
+    ✓ recognises changed hbs files and reloads them (11981ms)
 
   HBS Prod
-    ✓ has a root route with index.hbs entry point (4881ms)
-    ✓ delivers index.hbs at root path (4317ms)
-    ✓ delivers index.hbs at sub path (4243ms)
-    ✓ wraps hbs in given layout (layout.default.html|hbs|md) (4615ms)
-    ✓ works without layout attitude active (hbs) (5407ms)
-    ✓ works with layout inactive for hbs (nolayout) (4826ms)
-    ✓ includes images in the build (hbs) (5389ms)
-    ✓ includes images required from sub path in the build (hbs) (5040ms)
-    ✓ injects commons in hbs (layout inactive) (4260ms)
-    ✓ injects commons in hbs (nolayout) (4352ms)
+    ✓ has a root route with index.hbs entry point
+    ✓ delivers index.hbs at root path
+    ✓ delivers index.hbs at sub path
+    ✓ wraps hbs in given layout (layout.default.html|hbs|md)
+    ✓ works without layout attitude active (hbs)
+    ✓ works with layout inactive for hbs (nolayout)
+    ✓ includes images in the build (hbs)
+    ✓ includes images required from sub path in the build (hbs)
+    ✓ injects commons in hbs (layout inactive)
+    ✓ injects commons in hbs (nolayout)
 
   HTML Dev
-    ✓ has a root route with index.html entry point (4676ms)
-    ✓ delivers index.html at root path (3988ms)
-    ✓ delivers index.html at sub path (4161ms)
-    ✓ injects common.js into existing html (4317ms)
+    ✓ has a root route with index.html entry point
+    ✓ delivers index.html at root path
+    ✓ delivers index.html at sub path
+    ✓ injects common.js into existing html
 
   HTML Prod
-    ✓ has a root route with index.html entry point (3797ms)
-    ✓ delivers index.html at root path (3563ms)
-    ✓ delivers index.html at sub path (3585ms)
-    ✓ injects common.js into existing html (3467ms)
+    ✓ has a root route with index.html entry point
+    ✓ delivers index.html at root path
+    ✓ delivers index.html at sub path
+    ✓ injects common.js into existing html
 
   JS Attitude Dev
-    ✓ includes page js (5485ms)
+    ✓ includes page js
     - // Things Aden already does but are untested...
     - puts common requires/imports into common js
 
   Layout Attitude
-    ✓ recognises changes in a layout file and reloads it (9840ms)
+    ✓ recognises changes in a layout file and reloads it (6191ms)
 
   MD Markdown Attitude Dev
-    ✓ has a root route with index.md entry point (5751ms)
-    ✓ delivers index.md at root path (5222ms)
-    ✓ delivers index.md at sub path (5350ms)
-    ✓ delivers additional md files at page path (5365ms)
-    ✓ delivers additional md files at page sub path (5907ms)
-    ✓ wraps md in given layout (layout.default.html|hbs|md) (5464ms)
-    ✓ does not wrap subpage md in given layout (layout.default.html|hbs|md) (5440ms)
-    ✓ works without layout attitude active (5063ms)
-    ✓ works for additionals without layout attitude active (4973ms)
-    ✓ works with layout inactive for md (nolayout) (4121ms)
-    ✓ includes images in the build (5444ms)
-    ✓ includes images required from sub path in the build (5205ms)
-    ✓ includes images from sub path in the build (4919ms)
-    ✓ injects commons (layout inactive) (4985ms)
-    ✓ injects commons (nolayout) (5161ms)
+    ✓ has a root route with index.md entry point
+    ✓ delivers index.md at root path
+    ✓ delivers index.md at sub path
+    ✓ delivers additional md files at page path
+    ✓ delivers additional md files at page sub path
+    ✓ wraps md in given layout (layout.default.html|hbs|md)
+    ✓ does not wrap subpage md in given layout (layout.default.html|hbs|md)
+    ✓ works without layout attitude active
+    ✓ works for additionals without layout attitude active
+    ✓ works with layout inactive for md (nolayout)
+    ✓ includes images in the build
+    ✓ includes images required from sub path in the build
+    ✓ includes images from sub path in the build
+    ✓ injects commons (layout inactive)
+    ✓ injects commons (nolayout)
 
   MD Markdown Attitude Prod
-    ✓ has a root route with index.md entry point (4369ms)
-    ✓ delivers index.md at root path (4045ms)
-    ✓ delivers index.md at sub path (4401ms)
-    ✓ delivers additional md files at page path (4342ms)
-    ✓ delivers additional md files at page sub path (4154ms)
-    ✓ wraps md in given layout (layout.default.html) (4159ms)
-    ✓ works without layout attitude active (4081ms)
-    ✓ works for additionals without layout attitude active (3892ms)
-    ✓ includes images in the build (4284ms)
-    ✓ includes images required from sub path in the build (4100ms)
-    ✓ includes images from sub path in the build (4199ms)
-    ✓ injects commons (nolayout) (4124ms)
+    ✓ has a root route with index.md entry point
+    ✓ delivers index.md at root path
+    ✓ delivers index.md at sub path
+    ✓ delivers additional md files at page path
+    ✓ delivers additional md files at page sub path
+    ✓ wraps md in given layout (layout.default.html)
+    ✓ works without layout attitude active
+    ✓ works for additionals without layout attitude active
+    ✓ includes images in the build
+    ✓ includes images required from sub path in the build
+    ✓ includes images from sub path in the build
+    ✓ injects commons (nolayout)
 
   Statuspages Dev
-    ✓ does not route custom status pages (404) (5624ms)
-    ✓ routes custom status pages (error) (5270ms)
-    ✓ uses custom status pages (404) (5558ms)
-    ✓ uses custom status pages (error) (5269ms)
-    ✓ has a default status page (404) (3990ms)
-    ✓ has a default status page (500) (3991ms)
+    ✓ does not route custom status pages (404)
+    ✓ routes custom status pages (error)
+    ✓ uses custom status pages (404)
+    ✓ uses custom status pages (error)
+    ✓ has a default status page (404)
+    ✓ has a default status page (500)
     ✓ takes core error route if no default is given
 
   Statuspages Prod
-    ✓ does not route custom status pages (404) (3869ms)
-    ✓ does not route custom status pages (error) (3651ms)
-    ✓ uses custom status pages (404) (3567ms)
-    ✓ uses custom status pages (error) (3666ms)
-    ✓ has a default status page (404) (3346ms)
-    ✓ has a default status page (500) (3672ms)
+    ✓ does not route custom status pages (404)
+    ✓ does not route custom status pages (error)
+    ✓ uses custom status pages (404)
+    ✓ uses custom status pages (404, separate instance)
+    ✓ uses custom status pages (error)
+    ✓ has a default status page (404)
+    ✓ has a default status page (500)
     ✓ takes core error route if no default is given
 
   Vendor Attitude
-    ✓ puts specified modules into vendor bundle (4441ms)
-    ✓ does not include the same assets twice (4229ms)
+    ✓ puts specified modules into vendor bundle
+    ✓ does not include the same assets twice
     ✓ throws vendor compiler errors
-    ✓ can take multiple named vendor specs (4282ms)
+    ✓ can take multiple named vendor specs (2970ms)
 
   Attitudes API
-    ✓ allows to load app level attitudes (3992ms)
-    ✓ logs a warning when an attitude could not be resolved (4088ms)
-    ✓ allows to load attitudes from absolute paths (4193ms)
-    ✓ logs a warning when an attitude is not a function (3935ms)
+    ✓ allows to load app level attitudes
+    ✓ logs a warning when an attitude could not be resolved (2601ms)
+    ✓ allows to load attitudes from absolute paths
+    ✓ logs a warning when an attitude is not a function
 
   CLI
-    ✓ has a dev mode cli command (9916ms)
-    ✓ has a start (production mode) cli command (7711ms)
-    ✓ has a build cli command (8561ms)
+    ✓ has a dev mode cli command (4878ms)
+    ✓ has a start (production mode) cli command (3308ms)
+    ✓ has a build cli command (3785ms)
     ✓ has a clean cli command
-    ✓ has a deploy cli command (10629ms)
+    ✓ has a deploy cli command (5051ms)
     ✓ logs error if no .server file at root folder
-    ✓ logs error if address is rejected (9133ms)
-    ✓ starts a cluster with -w option (13580ms)
-    ✓ shuts down workers (7400ms)
-    ✓ logs worker errors (12495ms)
+    ✓ logs error if address is rejected (3985ms)
+    ✓ starts a cluster with -w option (6198ms)
+    ✓ shuts down workers (3298ms)
+    ✓ logs worker errors (6426ms)
     - // Things Aden already does but are untested...
     - provides a flag to set the focus path
     - provides a cleanup flag
 
   Config
-    ✓ handles string config keys (4749ms)
-    ✓ handles custom config keys (3702ms)
-    ✓ does not include unregistered keys from config (3638ms)
-    ✓ resolves rpath config keys (3777ms)
+    ✓ handles string config keys
+    ✓ handles custom config keys
+    ✓ does not include unregistered keys from config
+    ✓ resolves rpath config keys
 
   Core Dev
-    ✓ provides a startup callback (3880ms)
-    ✓ takes existing express app (4311ms)
-    ✓ logs a warning when multiple dot server files are present (4199ms)
-    ✓ logs a warning for an invalid .server file (4037ms)
-    ✓ exposes aden.server in startup callback (3957ms)
+    ✓ provides a startup callback
+    ✓ takes existing express app
+    ✓ logs a warning when multiple dot server files are present
+    ✓ logs an error for an invalid .server file
+    ✓ exposes aden.server in startup callback
+    ✓ calls load hook only once per page
+    ✓ does not create bundles for empty paths
+    ✓ resolves default babel presets from aden node_modules
+    ✓ resolves default babel presets (external path) (4233ms)
+    ✓ resolves default babel presets with options (external path) (5690ms)
+    ✓ still fails the build for non-resolved babel presets (external path) (3629ms)
+    ✓ resolves default babel plugins from aden node_modules
+    ✓ resolves default babel plugins (external path) (3823ms)
+    ✓ resolves default babel plugins with options (external path) (4060ms)
+    ✓ still fails the build for non-resolved babel plugins (external path) (3616ms)
     - calls startup hooks for subpages
     - distincts between static and dynamic entry points
     - clears the cache for changed modules used by controllers
-    - does not try to load invalid .server files multiple times until it is changed
     - // Things Aden already does but are untested...
     - takes ignores from .server, applied to subpath only
     - calls a build hook for keys marked as build
@@ -182,19 +192,19 @@ Creating coverage report for version 0.2.0-alpha.13.
     - does not expose bare assets from page tree
 
   Deploy
-    ✓ logs a warning for non existent deploy target (3850ms)
-    ✓ runs no deploy if non-existing target was specified (default) (3460ms)
-    ✓ runs default deploy if target was matched (3446ms)
-    ✓ logs an error when registering another target with the same name (3474ms)
-    ✓ runs deploy if target was matched (3560ms)
-    ✓ does not execute deploy hooks if no target was matched (3246ms)
-    ✓ executes deploy hooks if target was matched (3308ms)
+    ✓ logs a warning for non existent deploy target
+    ✓ runs no deploy if non-existing target was specified (default)
+    ✓ runs default deploy if target was matched
+    ✓ logs an error when registering another target with the same name
+    ✓ runs deploy if target was matched
+    ✓ does not execute deploy hooks if no target was matched
+    ✓ executes deploy hooks if target was matched
 
   dev
-    ✓ recognises new files and sets up the page (10441ms)
-    ✓ recognises new files in sub folders and sets up the page (10260ms)
-    ✓ recognises deleted folders and removes the page (8864ms)
-    ✓ does not multi add pages that are already in page graph (11875ms)
+    ✓ recognises new files and sets up the page (6301ms)
+    ✓ recognises new files in sub folders and sets up the page (6285ms)
+    ✓ recognises deleted folders and removes the page (4226ms)
+    ✓ does not multi add pages that are already in page graph (6911ms)
     ✓ logs dev compiler errors
 
   Extension API (Attitudes)
@@ -206,44 +216,44 @@ Creating coverage report for version 0.2.0-alpha.13.
     ✓ throws for an unhook that does not exist
 
   Logger
-    ✓ has a log (4632ms)
-    ✓ has a log with all methods needed (3934ms)
-    ✓ has a silent log by default (3774ms)
-    ✓ logs debug level messages (3846ms)
-    ✓ logs debug level messages (with debug Object) (3931ms)
-    ✓ logs info level messages (3856ms)
-    ✓ logs info level messages (without debug object) (3927ms)
-    ✓ logs info level messages (with debug Object) (3930ms)
-    ✓ logs warn level messages (3772ms)
-    ✓ logs error level messages (3788ms)
-    ✓ logs warn level messages (with debug Object) (3766ms)
-    ✓ logs error level messages (with Error Object) (3849ms)
-    ✓ logs error level messages (with debug Object) (3885ms)
-    ✓ logs start level messages (3917ms)
-    ✓ logs start level messages (with debug Object) (3908ms)
-    ✓ logs success level messages (3850ms)
-    ✓ logs success level messages (with debug Object) (3880ms)
-    ✓ logs raw messages (3831ms)
-    ✓ throws and error for a namespace without name (3736ms)
-    ✓ throws and error for a namespace with space in name (3745ms)
-    ✓ can create a new namespace from a log (3910ms)
-    ✓ has a ready event in log (8981ms)
-    ✓ provides address/port to ready (8608ms)
-    ✓ overrides the silent setting with env ADEN_FORCE_LOG=true (4760ms)
-    ✓ logs a date (3755ms)
-    ✓ can omit the date (4078ms)
+    ✓ has a log
+    ✓ has a log with all methods needed
+    ✓ has a silent log by default
+    ✓ logs debug level messages
+    ✓ logs debug level messages (with debug Object)
+    ✓ logs info level messages
+    ✓ logs info level messages (without debug object)
+    ✓ logs info level messages (with debug Object)
+    ✓ logs warn level messages
+    ✓ logs error level messages
+    ✓ logs warn level messages (with debug Object)
+    ✓ logs error level messages (with Error Object)
+    ✓ logs error level messages (with debug Object)
+    ✓ logs start level messages
+    ✓ logs start level messages (with debug Object)
+    ✓ logs success level messages
+    ✓ logs success level messages (with debug Object)
+    ✓ logs raw messages
+    ✓ throws and error for a namespace without name
+    ✓ throws and error for a namespace with space in name
+    ✓ can create a new namespace from a log
+    ✓ has a ready event in log (4900ms)
+    ✓ provides address/port to ready (4239ms)
+    ✓ overrides the silent setting with env ADEN_FORCE_LOG=true (2540ms)
+    ✓ logs a date
+    ✓ can omit the date
 
   Page Dev
     ✓ throws an error when a registered page is not accessible
 
   Routing Dev
-    ✓ creates default route without specific config (5838ms)
-    ✓ adds route from .server to page path route (6004ms)
-    ✓ adds route from .server to page path route (no slash) (3170ms)
-    ✓ does not route pages with { route: false; } > .server (2721ms)
-    ✓ matches greedy routes (2668ms)
-    ✓ puts greedy routes at the end of the router stack (2781ms)
-    ✓ allows params in page path /user/+id/edit (2713ms)
+    ✓ creates default route without specific config (2852ms)
+    ✓ adds route from .server to page path route (2603ms)
+    ✓ adds route from .server to page path route (no slash) (2610ms)
+    ✓ does not route pages with { route: false; } > .server (2987ms)
+    ✓ matches greedy routes (2823ms)
+    ✓ puts greedy routes at the end of the router stack (2526ms)
+    ✓ allows params in page path /user/+id/edit
     ✓ logs an error if no routes are given
     ✓ does not serve controllers, if .server { route: false }
     ✓ does not route empty subpaths
@@ -275,31 +285,31 @@ Creating coverage report for version 0.2.0-alpha.13.
     ✓ takes additional webpack entry files and adds them to the the entry array
 
   Memory Usage during tests
-  Average heap usage: 165 MB (min. 52.9 MB / max. 249 MB)
-  Average heap total: 354 MB (min. 126 MB / max. 474 MB)
+  Average heap usage: 215 MB (min. 51.8 MB / max. 325 MB)
+  Average heap total: 433 MB (min. 117 MB / max. 612 MB)
 
-  191 passing (14m)
-  24 pending
+  202 passing (8m)
+  23 pending
 
 --------------------------------|----------|----------|----------|----------|----------------|
 File                            |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
 --------------------------------|----------|----------|----------|----------|----------------|
-All files                       |    93.87 |    82.06 |    96.73 |    94.07 |                |
- aden                           |    91.28 |    80.26 |       90 |    92.81 |                |
-  index.js                      |    91.28 |    80.26 |       90 |    92.81 |... 313,314,321 |
- aden/attitudes                 |    97.64 |    91.67 |      100 |    97.62 |                |
+All files                       |    94.19 |     82.9 |    96.76 |    94.39 |                |
+ aden                           |    91.28 |    81.58 |       90 |    92.81 |                |
+  index.js                      |    91.28 |    81.58 |       90 |    92.81 |... 313,314,321 |
+ aden/attitudes                 |    97.45 |     89.8 |      100 |    97.44 |                |
   controller.js                 |      100 |      100 |      100 |      100 |                |
   copy.js                       |      100 |      100 |      100 |      100 |                |
   css.js                        |    90.91 |       90 |      100 |    90.91 |          51,52 |
   favicon.js                    |      100 |      100 |      100 |      100 |                |
   hbs.js                        |      100 |      100 |      100 |      100 |                |
   html.js                       |      100 |      100 |      100 |      100 |                |
-  js.js                         |      100 |      100 |      100 |      100 |                |
+  js.js                         |    97.67 |    88.24 |      100 |    97.67 |             22 |
   md.js                         |    92.31 |       50 |      100 |    92.31 |             36 |
  aden/attitudes/layout          |      100 |      100 |      100 |      100 |                |
   index.js                      |      100 |      100 |      100 |      100 |                |
- aden/attitudes/statuspages     |    98.18 |    89.66 |      100 |    98.18 |                |
-  index.js                      |    98.18 |    89.66 |      100 |    98.18 |            116 |
+ aden/attitudes/statuspages     |    98.15 |    86.21 |      100 |    98.15 |                |
+  index.js                      |    98.15 |    86.21 |      100 |    98.15 |            114 |
  aden/attitudes/statuspages/404 |      100 |      100 |      100 |      100 |                |
   .aden.js                      |      100 |      100 |      100 |      100 |                |
  aden/attitudes/statuspages/500 |      100 |      100 |      100 |      100 |                |
@@ -308,17 +318,17 @@ All files                       |    93.87 |    82.06 |    96.73 |    94.07 |   
   index.js                      |      100 |    92.86 |      100 |      100 |             64 |
  aden/dev                       |      100 |      100 |      100 |      100 |                |
   mocha.interface.js            |      100 |      100 |      100 |      100 |                |
- aden/lib                       |    93.16 |     80.8 |    96.69 |     93.2 |                |
+ aden/lib                       |    93.54 |    81.85 |    96.73 |    93.59 |                |
   aden.attitude.js              |      100 |    81.82 |      100 |      100 |          43,65 |
-  aden.build.js                 |    87.78 |    65.63 |      100 |    87.78 |... 195,212,213 |
+  aden.build.js                 |    89.47 |    69.44 |      100 |    89.36 |... 195,212,213 |
   aden.constants.js             |      100 |      100 |      100 |      100 |                |
   aden.dev.js                   |    91.03 |    78.79 |    86.96 |    92.11 |... 151,159,165 |
   aden.extend.js                |      100 |      100 |      100 |      100 |                |
   aden.init.js                  |    96.39 |    86.36 |      100 |    96.39 |      73,82,142 |
-  aden.js                       |    94.96 |    83.64 |    92.86 |    94.96 |... 312,322,323 |
-  aden.load.js                  |    95.12 |    84.81 |    98.21 |    94.96 |... 274,298,299 |
-  aden.logger.js                |    96.75 |    84.29 |      100 |    96.38 |... 260,261,278 |
+  aden.js                       |    97.14 |    86.79 |    93.75 |    97.14 |211,312,322,323 |
+  aden.load.js                  |    94.31 |    85.53 |    98.15 |    94.12 |... 275,299,300 |
+  aden.logger.js                |    97.37 |    87.32 |      100 |    97.08 | 75,258,259,276 |
   aden.page.js                  |    93.55 |       80 |    96.83 |    93.41 |... 396,517,572 |
   aden.routes.js                |    84.75 |    72.31 |    88.24 |    85.84 |... 264,272,273 |
-  aden.webpack.js               |    89.92 |       80 |    94.44 |    89.76 |... 402,403,404 |
+  aden.webpack.js               |    90.23 |    81.25 |    94.74 |    90.08 |... 411,412,413 |
 --------------------------------|----------|----------|----------|----------|----------------|
