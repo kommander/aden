@@ -94,7 +94,7 @@ specs:
 .PHONY: specs
 
 lint:
-	@node ./node_modules/eslint/bin/eslint.js --env node ./lib/**/*.js ./index.js
+	@node ./node_modules/eslint/bin/eslint.js --env node ./lib/**/*.*.js ./lib/**/*.js ./index.js
 	@echo "ESLint done."
 .PHONY: lint
 
