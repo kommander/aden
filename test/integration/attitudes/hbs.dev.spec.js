@@ -184,7 +184,7 @@ describe('HBS Dev', () => {
             }
             expect(res.text).toMatch(/Hello Aden/);
 
-            setTimeout(() => {
+            logParser.once('dev:reload:done', () => {
               request(an.app)
                 .get('/')
                 .end((err2, res2) => {
@@ -197,7 +197,7 @@ describe('HBS Dev', () => {
 
                   an.shutdown(done);
                 });
-            }, 10000);
+            });
 
             setTimeout(() => fs.writeFileSync(
               path.resolve(__dirname, '../../tmpdata/hbs/get', 'hello.hbs'),

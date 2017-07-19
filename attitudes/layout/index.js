@@ -23,8 +23,6 @@ module.exports = (aden) => {
     value: [],
   });
 
-  // TODO: make extensions setable via page.key and let other extensions add to them
-  //       when they add a loader and layout is available.
   aden.registerFiles('layoutFiles', /^layout\..*?\.(html|hbs|md)$/, {
     handler: ({ page, fileInfo }) => {
       page.set('layouts', page.layouts.value.concat([{ fileInfo }]));
@@ -46,13 +44,13 @@ module.exports = (aden) => {
   aden.hook('post:apply', ({ webpackConfigs, pages }) => {
     const frontendConfig = webpackConfigs
       .find((conf) => (conf.name === 'frontend'));
-
-    const entry = aden.flattenPages(pages)
-      .filter((page) => (page.selectedLayout.value))
+    const layoutPages = pages
+      .filter((page) => (page.selectedLayout.value));
+    const entry = layoutPages
       .map((page) => page.selectedLayout.resolved);
 
     // TODO: Let aden apply paths and context
-    // Use something like aden.registerWebpack('layout', { config }, { before: 'frontend'})
+    // Use something like aden.registerWebpack('layout', { config }, { before: 'frontend', invalidates: true })
     const uniq = _.uniq(entry);
     if (uniq.length > 0) {
       const config = {
@@ -76,20 +74,22 @@ module.exports = (aden) => {
             filename: page.selectedLayout.dist,
             inject: false,
             cache: !aden.isDEV,
-          })
-        ),
+            alwaysWriteToDisk: true,
+          })),
       };
+      aden.invalidate('layout', 'frontend');
       webpackConfigs.unshift(config);
     }
   });
 
   aden.hook('html', ({ page, data }) => {
+    console.log('layout html', page.id, page.selectedLayout.value)
     if (page.selectedLayout.value) {
       return page.selectedLayout
         .load()
         .then((buffer) => buffer.toString('utf8'))
         .then((wrapper) => Object.assign(data, {
-          html: wrapper.replace(/[\{]{1,3}\w?body[\}]{1,3}/, data.html),
+          html: wrapper.replace(/[\{]{1,3}\w?body\w?[\}]{1,3}/ig, data.html),
         }));
     }
     return null;
