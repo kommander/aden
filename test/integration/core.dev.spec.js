@@ -230,9 +230,7 @@ describe('Core Dev', () => {
         const logParser = Logger.getLogParser();
         logParser.attach(child.stdout);
         logParser.attach(child.stderr);
-        child.stdout.on('data', (dat) => console.log(dat.toString()));
-        child.stderr.on('data', (dat) => console.log(dat.toString()));
-        logParser.on('webpack:build:errors', () => {
+        logParser.on('error', (err) => {
           logParser.destroy();
           done();
         });
@@ -323,7 +321,7 @@ describe('Core Dev', () => {
         const logParser = Logger.getLogParser();
         logParser.attach(child.stdout);
         logParser.attach(child.stderr);
-        logParser.on('webpack:build:errors', () => {
+        logParser.on('error', (err) => {
           logParser.destroy();
           done();
         });
