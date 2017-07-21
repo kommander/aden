@@ -83,7 +83,6 @@ module.exports = (aden) => {
   });
 
   aden.hook('html', ({ page, data }) => {
-    console.log('layout html', page.id, page.selectedLayout.value)
     if (page.selectedLayout.value) {
       return page.selectedLayout
         .load()
