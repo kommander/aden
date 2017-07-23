@@ -23,7 +23,8 @@ const quotes = [
     origin: 'http://poignant.guide/',
   },
   {
-    text: 'Ever tried. Ever failed. No matter. \ Try Again. Fail again. Fail better.',
+    text: 'Ever tried. Ever failed. No matter. \
+    Try Again. Fail again. Fail better.',
     author: 'Samuel Beckett',
     origin: 'Worstward Ho'
   },
