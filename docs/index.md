@@ -2,6 +2,7 @@
 > Automated Server for the Web.
 
 - [Introduction](#introduction)
+  - [Technology](#technology)
 - [Getting Started](#gettingstarted)
   - [Scripting](#scripting)
   - [Styling](#styling)
@@ -41,6 +42,45 @@ Although you do not need to know about any of these in detail to get started, I 
 
 If I bug you with an error at any point, or you have an idea how I may help you better,
 feel free to [open an issue](https://github.com/kommander/aden/issues/new).
+
+<div class="section-menu">
+  [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
+</div>
+
+### <a name="technology"></a> Technology
+I am standing on the shoulders of giants. These are the core technologies I feature out of the box.
+
+<div class="container">
+  <div class="icon">
+    <img src="icons/es6.svg" alt="ECMAScript 6"/>
+    <div class="overlay">
+      <div class="text">I am configured to support ECMAScript 6. No need to set up transpilers.</div>
+    </div>
+  </div>
+
+  <div class="icon">
+    <img src="icons/nodejs.svg" alt="nodejs"/>
+    <div class="overlay">
+      <div class="text">I implement nodejs and automate route and handler setup.</div>
+    </div>
+  </div>
+
+  <div class="icon">
+    <img src="icons/babel.svg" alt="Babel"/>
+    <div class="overlay">
+      <div class="text">I come with preconfigured babel transpilers and polyfills. You retain full control though.</div>
+    </div>
+  </div>
+
+  <div class="icon">
+    <img src="icons/webpack.svg" alt="ECMAScript 6"/>
+    <div class="overlay">
+      <div class="text">I remove webpacks wall of configuration by wrapping it into a intuitive abstract system.</div>
+    </div>
+  </div>
+</div>
+
+_however: you don't need to be an expert in them to do so. this would defeat my whole purpose._
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)

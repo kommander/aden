@@ -53,3 +53,46 @@
     min-height: 225px;
   }
 }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  height: 130px;
+  width: 100%;
+  padding: 0;
+  margin: 15px 0;
+  .icon {
+    position: relative;
+    flex: 1 0 0;
+    .overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      transition: .5s ease;
+      background-color: #273546;
+      padding: 0 10px;
+      .text {
+        position: absolute;
+        top: 50%;
+        color: white;
+        font-size: 12px;
+        transform: translate(0, -50%);
+        -ms-transform: translate(0, -50%);
+      }
+    }
+    img {
+      display: block;
+      margin:  0 auto;
+      height: 100%;
+      max-width: 80%;
+    }
+  }
+}
+  .icon:hover .overlay {
+    opacity: 1;
+  }
