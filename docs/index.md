@@ -2,6 +2,7 @@
 > Automated Server for the Web.
 
 - [Introduction](#introduction)
+  - [Technology](#technology)
 - [Getting Started](#gettingstarted)
   - [Scripting](#scripting)
   - [Styling](#styling)
@@ -36,11 +37,46 @@ You can check what my CLI can do for you at any time with `aden -h`.
 
 _Note_: Help us get out of alpha stage, by providing feedback. If you want to get the newest development version, clone my repository and do `npm i -g` from there.
 
-I leverage a set of modern open source technologies like [Webpack](https://github.com/webpack/webpack), [Babel](https://babeljs.io/) and [Express](http://expressjs.com/) to deliver on my promises.
-Although you do not need to know about any of these in detail to get started, I strongly encourage you to read up on the technologies involved.
-
 If I bug you with an error at any point, or you have an idea how I may help you better,
 feel free to [open an issue](https://github.com/kommander/aden/issues/new).
+
+<div class="section-menu">
+  [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
+</div>
+
+### <a name="technology"></a> Technology
+Standing on the shoulders of giants, I leverage a set of modern open source technologies like [Webpack](https://github.com/webpack/webpack), [Babel](https://babeljs.io/) and [Express](http://expressjs.com/) to deliver on my promises.
+Although you do not need to know about any of these in detail to get started, I strongly encourage you to read up on the technologies involved.
+
+<div class="container">
+  <div class="icon">
+    <img src="icons/es6.svg" alt="ECMAScript 6"/>
+    <div class="overlay">
+      <div class="text">I am pre-configured to support ECMAScript 6. No need to set up transpilers.</div>
+    </div>
+  </div>
+
+  <div class="icon">
+    <img src="icons/nodejs.svg" alt="nodejs"/>
+    <div class="overlay">
+      <div class="text">I am built on Nodejs and automate routing setup with Express.</div>
+    </div>
+  </div>
+
+  <div class="icon">
+    <img src="icons/babel.svg" alt="Babel"/>
+    <div class="overlay">
+      <div class="text">I come with pre-configured babel transpilers and polyfills. You retain full control though.</div>
+    </div>
+  </div>
+
+  <div class="icon">
+    <img src="icons/webpack.svg" alt="ECMAScript 6"/>
+    <div class="overlay">
+      <div class="text">I aim to distill webpacks wall of configuration into an intuitive automated system.</div>
+    </div>
+  </div>
+</div>
 
 <div class="section-menu">
   [<i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Back to the top.](#aden)
