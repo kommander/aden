@@ -4,6 +4,7 @@ const STATUS_CODES = [404, 500];
 module.exports = (aden) => {
   const statusPages = {};
   const defaultPages = {};
+  const defaultStatusCodes = [404, 500]
 
   const {
     KEY_BOOLEAN,
@@ -22,20 +23,21 @@ module.exports = (aden) => {
 
   aden.hook('init', ({ rootPage }) => {
     if (rootPage.statusDefaults.value === true) {
-      return Promise.all([
-        aden.loadPage(path.resolve(__dirname, '404'), {
-          id: 'status-404',
-        }),
-        aden.loadPage(path.resolve(__dirname, '500'), {
-          id: 'status-500',
-        }), 
-      ]);
+      return Promise.all(defaultStatusCodes.map((status) => 
+        aden.loadPage(path.resolve(__dirname, `${status}`), {
+          id: `default-status-${status}`,
+          mount: false,
+          distSubPath: 'statuspages',
+        }) 
+      ));
     }
   });
 
   aden.hook('pre:load', ({ page }) => {
     const pageCode = parseInt(page.name, 10);
-    if (pageCode && STATUS_CODES.includes(pageCode)) {
+    if (pageCode 
+      && !page.id.match(/default-status-/)
+      && STATUS_CODES.includes(pageCode)) {
       page.set('mount', false);
       page.set('isStatusPage', true);
       page.set('distSubPath', 'statuspages');
@@ -43,7 +45,7 @@ module.exports = (aden) => {
   });
 
   function ensureController(page) {
-    if (!page.get && page.staticMain.value) {
+    if (page && !page.get && page.staticMain.value) {
       const staticMainFile = page[page.staticMain.value];
       Object.assign(page, {
         get: (req, res) =>
@@ -56,16 +58,17 @@ module.exports = (aden) => {
 
   aden.hook('setup', () => {
     const pages = [
-      aden.getPage('status-404'),
-      aden.getPage('status-500'),
+      aden.getPage('default-status-404'),
+      aden.getPage('default-status-500'),
     ];
     pages
       .filter((page) => !!page)
       .forEach((page) => {
-        page.set('isStatusPage', true);
         page.set('mount', false);
         page.set('distSubPath', 'statuspages');
       });
+    ensureController(pages[0]);
+    ensureController(pages[1]);
     defaultPages[404] = pages[0];
     defaultPages[500] = pages[1];
   });
