@@ -73,8 +73,7 @@ module.exports = (aden) => {
             template: page.selectedLayout.resolved,
             filename: page.selectedLayout.dist,
             inject: false,
-            cache: !aden.isDEV,
-            alwaysWriteToDisk: true,
+            cache: aden.isDEV,
           })),
       };
       aden.invalidate('layout', 'frontend');
