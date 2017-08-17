@@ -34,7 +34,7 @@
     "commander": "2.11.0",
     "conflate": "1.4.0",
     "copy-webpack-plugin": "4.0.1",
-    "css-loader": "0.28.4",
+    "css-loader": "0.28.5",
     "escape-string-regexp": "1.0.5",
     "express": "4.15.3",
     "extract-text-webpack-plugin": "^3.0.0-rc.1",
