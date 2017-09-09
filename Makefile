@@ -25,7 +25,7 @@ usage:
 
 	@echo 'Core tasks                       : Description'
 	@echo '--------------------             : -----------'
-	@echo 'make dev                         : Setup repository for development (install, hooks)'
+	@echo 'make dev                         : Setup repository for development
 	@echo 'make test                        : Run tests'
 	@echo 'make coverage                    : Create test coverage report to ./coverage'
 	@echo 'make mincov                      : Run coverage and then check if minimum coverage is given'
@@ -37,8 +37,7 @@ usage:
 	@echo 'Additional tasks                 : Description'
 	@echo '--------------------             : -----------'
 	@echo 'make report                      : Opening default browser with coverage report.'
-	@echo 'make hooks                       : Creates git hooks to run tests before a push (done by make dev)'
-
+	
 	@echo ''
 
 	@echo 'Release tasks                 		: Description'
@@ -98,12 +97,6 @@ lint:
 	@echo "ESLint done."
 .PHONY: lint
 
-hooks:
-	@echo "Setting up git hooks."
-	cp ./dev/aden.pre-push.sh ./.git/hooks/pre-push
-	chmod +x ./.git/hooks/pre-push
-.PHONY: hooks
-
 clean:
 	@echo "Housekeeping..."
 	# rm -rf ./node_modules
@@ -114,7 +107,7 @@ clean:
 	@echo "Clean."
 .PHONY: clean
 
-dev: clean hooks lint test mincov
+dev: clean lint test mincov
 .PHONY: dev
 
 release-patch: NEXT_VERSION = $(shell node -pe 'require("semver").inc("$(VERSION)", "patch")')
