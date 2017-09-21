@@ -54,7 +54,7 @@
     "mocha": "3.4.2",
     "moment": "2.18.1",
     "morgan": "1.8.2",
-    "mustache-loader": "1.0.0",
+    "mustache-loader": "1.2.0",
     "ncp": "2.0.0",
     "node-sass": "^4.5.3",
     "open": "0.0.5",
