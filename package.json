@@ -52,7 +52,7 @@
     "marked": "0.3.6",
     "mkdirp": "0.5.1",
     "mocha": "3.4.2",
-    "moment": "2.18.1",
+    "moment": "2.19.0",
     "morgan": "1.8.2",
     "mustache-loader": "1.0.0",
     "ncp": "2.0.0",
