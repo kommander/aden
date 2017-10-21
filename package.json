@@ -87,7 +87,7 @@
     "nyc": "^11.0.2",
     "pretty-bytes": "^4.0.2",
     "should": "^11.2.1",
-    "sinon": "^2.3.2",
+    "sinon": "^3.3.0",
     "supertest": "^3.0.0"
   },
   "publishConfig": {
