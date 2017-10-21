@@ -34,10 +34,9 @@ describe('Layout Attitude', () => {
             expect(res.status).toMatch(200);
             expect(res.text).toMatch(/<div><p>content<\/p>(\n|\r\n)<\/div>/);
 
-            logParser.on('dev:rebuild:done', () => {
+            logParser.once('dev:reload:done', () => {
               request(an.app)
                 .get('/')
-                // fckn hell. todo: use promisified supertest
                 .end((err2, res2) => {
                   if (err2) {
                     done(err2);

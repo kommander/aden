@@ -23,13 +23,13 @@ module.exports = (aden) => {
 
   aden.hook('init', ({ rootPage }) => {
     if (rootPage.statusDefaults.value === true) {
-      return Promise.all(defaultStatusCodes.map((status) => 
-        aden.loadPage(path.resolve(__dirname, `${status}`), {
+      defaultStatusCodes.forEach((status) => 
+        aden.registerPage(path.resolve(__dirname, `${status}`), {
           id: `default-status-${status}`,
           mount: false,
           distSubPath: 'statuspages',
         }) 
-      ));
+      );
     }
   });
 
