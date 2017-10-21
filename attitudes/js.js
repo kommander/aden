@@ -67,7 +67,7 @@ module.exports = (aden) => {
     if (babelFiles.length > 0) {
       const babelConfig = aden.loadNativeOrJSON(babelFiles[0]);
       _.extend(options, babelConfig);
-      
+
       // Resolve default presets and plugins
       Object.assign(options, {
         presets: resolveDependencies('preset', options.presets),

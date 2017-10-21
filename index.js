@@ -28,7 +28,8 @@ program
   .option('--debug', 'Debug output')
 
   // TODO: --docs to run docs from package and open browser (different default port)
-  
+  // TODO: Provide an install switch -i --install with a task that attitudes can hook into
+
   // (?) Eject would create all the boilerplate again so you can "run your own app"
   // -> generates the webpack config once for the project
   // -> sets up scripts to run the build and a dev server

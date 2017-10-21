@@ -34,6 +34,7 @@ describe('dev', () => {
             }
             expect(res.status).toMatch(404);
 
+
             logParser.on('dev:reload:done', () => {
               request(an.app)
                 .get('/')
@@ -155,55 +156,6 @@ describe('dev', () => {
       });
   });
 
-  she('recognises and handles deleted entry points', (done) => {
-    const stream = new TestDuplex();
-    const logParser = Logger.getLogParser();
-    logParser.attach(stream);
-
-    const adn = aden({
-      dev: true,
-      logger: {
-        silent: false,
-        stdStream: stream,
-        errStream: stream,
-      },
-    });
-
-    adn.init(path.resolve(__dirname, '../tmpdata/devunlink2'))
-      .then((an) => an.run('dev'))
-      .then((an) => {
-        request(an.app)
-          .get('/sub/')
-          .end((err, res) => {
-            if (err) {
-              done(err);
-              return;
-            }
-            expect(res.status).toMatch(200);
-
-            logParser.on('error', (err) => done(err));
-            logParser.on('dev:reload:done', () => {
-              request(an.app)
-                .get('/sub/')
-                .end((err2, res2) => {
-                  if (err2) {
-                    done(err2);
-                    return;
-                  }
-
-                  expect(res2.status).toMatch(404);
-
-                  an.shutdown(done);
-                });
-            });
-
-            setTimeout(() => rimraf.sync(
-              path.resolve(__dirname, '../tmpdata/devunlink2/sub/index.html')
-            ), 500);
-          });
-      });
-  });
-
   she('does not multi add pages that are already in page graph', (done) => {
     const stream = new TestDuplex();
     const logParser = Logger.getLogParser();
@@ -271,9 +223,7 @@ describe('dev', () => {
     });
 
     logParser.once('error', (err) => {
-      // TODO: Straighten out error logging and dev formatting
-      // -> Logger needs to handle multi errors
-      // expect(err.msg).toMatch(/webpack:build/);
+      expect(err.message).toMatch(/Module not found/);
       done();
     });
 
