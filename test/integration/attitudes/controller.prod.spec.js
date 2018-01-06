@@ -3,7 +3,7 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('Controller Prod', () => {
+describe.skip('Controller Prod', () => {
   she('uses .get.js as controller', (done) => {
     aden()
       .init(path.resolve(__dirname, '../../tmpdata/controller'))

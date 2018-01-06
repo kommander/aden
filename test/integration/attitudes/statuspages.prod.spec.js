@@ -3,7 +3,7 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('Statuspages Prod', () => {
+describe.skip('Statuspages Prod', () => {
   she('does not route custom status pages (404)', (done) => {
     aden()
       .init(path.resolve(__dirname, '../../tmpdata/custom'))

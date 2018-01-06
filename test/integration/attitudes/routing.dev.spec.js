@@ -1,14 +1,15 @@
-const aden = require('../../lib/aden');
+const aden = require('../../../lib/aden');
 const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
+const Logger = require('../../../lib/aden.logger');
+const TestDuplex = require('../../lib/test-duplex.js');
 
-describe('Routing Prod', () => {
-  she('creates default route without specific config', (done) => {
-    aden()
+describe('Routing Dev', () => {
+  she.skip('creates default route without specific config', (done) => {
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/')
@@ -19,44 +20,13 @@ describe('Routing Prod', () => {
       .catch(done);
   });
 
-  she('adds route from .server to page path route', (done) => {
-    aden()
+  she.skip('does not route pages with { route: false; } > .server', (done) => {
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
-          .get('/configured/manual')
-          .expect(200, () => {
-            an.shutdown(done);
-          });
-      })
-      .catch(done);
-  });
-
-  she('adds route from .server to page path route (no slash)', (done) => {
-    aden()
-      .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
-      .then((an) => {
-        request(an.app)
-          .get('/configured2/noslash')
-          .expect(200, () => {
-            an.shutdown(done);
-          });
-      })
-      .catch(done);
-  });
-
-  she('does not route pages with { route: false; } > .server', (done) => {
-    aden()
-      .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
-      .then((an) => {
-        request(an.app)
-          .get('/notaroute/')
+          .get('/notaroute')
           .expect(404, () => {
             an.shutdown(done);
           });
@@ -64,11 +34,10 @@ describe('Routing Prod', () => {
       .catch(done);
   });
 
-  she('matches greedy routes', (done) => {
-    aden()
+  she.skip('matches greedy routes', (done) => {
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/greedy/matched/by/something.possible')
@@ -82,11 +51,10 @@ describe('Routing Prod', () => {
       .catch(done);
   });
 
-  she('puts greedy routes at the end of the router stack', (done) => {
-    aden()
+  she.skip('puts greedy routes at the end of the router stack', (done) => {
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/greedy/overrides/')
@@ -100,11 +68,10 @@ describe('Routing Prod', () => {
       .catch(done);
   });
 
-  she('allows params in page path /user/+id/edit', (done) => {
-    aden()
+  she.skip('allows params in page path /user/+id/edit', (done) => {
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/routes'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/user/_test_id_')
@@ -118,24 +85,36 @@ describe('Routing Prod', () => {
       .catch(done);
   });
 
-  she('throws an error when routes are empty', (done) => {
+  she.skip('logs an error if no routes are given', (done) => {
+    const stream = new TestDuplex();
+    const logParser = Logger.getLogParser();
+    logParser.attach(stream);
+
     const adn = aden({
+      dev: true,
+      logger: {
+        silent: false,
+        stdStream: stream,
+        errStream: stream,
+      },
       attitudes: '!statuspages',
     });
+
+    logParser.on('error', (err) => {
+      expect(err.message).toMatch(/I could not setup routes/);
+      done();
+    });
+
     adn.init(path.resolve(__dirname, '../tmpdata/noroutes'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
-      .catch((err) => {
-        expect(err.message).toMatch(/I could not setup routes/);
-        adn.shutdown(done);
-      });
+      .then((an) => an.run('dev'))
+      .then((an) => an.shutdown())
+      .catch(done);
   });
 
-  she('does not serve controllers, if .server { route: false }', (done) => {
-    aden()
+  she.skip('does not serve controllers, if .server { route: false }', (done) => {
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/nocontroller'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/notroute/')
@@ -148,11 +127,10 @@ describe('Routing Prod', () => {
       .catch(done);
   });
 
-  she('does not route empty subpaths', (done) => {
-    aden()
+  she.skip('does not route empty subpaths', (done) => {
+    aden({ dev: true })
       .init(path.resolve(__dirname, '../tmpdata/emptypath'))
-      .then((an) => an.run('build'))
-      .then((an) => an.run('production'))
+      .then((an) => an.run('dev'))
       .then((an) => {
         request(an.app)
           .get('/api/')
@@ -171,13 +149,13 @@ describe('Routing Prod', () => {
       .catch(done);
   });
 
-  she('has a core status page (404)', (done) => {
+  she.skip('has a core status page (404)', (done) => {
     aden({ 
+      dev: true,
       attitudes: ['!statuspages'],
     })
     .init(path.resolve(__dirname, '../tmpdata/emptypath'))
-    .then((an) => an.run('build'))
-    .then((an) => an.run('production'))
+    .then((an) => an.run('dev'))
     .then((an) => {
       request(an.app)
         .get('/')
@@ -191,8 +169,9 @@ describe('Routing Prod', () => {
     .catch(done);
   });
 
-  she('core error route returns when headers already sent (500)', (done) => {
+  she.skip('core error route returns when headers already sent (500)', (done) => {
     aden({ 
+      dev: true,
       attitudes: ['!statuspages'],
     })
     .hook('post:setup', ({ app }) => {
@@ -202,8 +181,7 @@ describe('Routing Prod', () => {
       });
     })
     .init(path.resolve(__dirname, '../tmpdata/custom/provoke'))
-    .then((an) => an.run('build'))
-    .then((an) => an.run('production'))
+    .then((an) => an.run('dev'))
     .then((an) => {
       request(an.app)
         .get('/')

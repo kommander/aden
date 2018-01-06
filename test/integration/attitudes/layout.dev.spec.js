@@ -6,7 +6,7 @@ const expect = require('expect');
 const Logger = require('../../../lib/aden.logger');
 const TestDuplex = require('../../lib/test-duplex.js');
 
-describe('Layout Attitude', () => {
+describe.skip('Layout Attitude', () => {
   she('recognises changes in a layout file and reloads it', (done) => {
     const stream = new TestDuplex();
     const logParser = Logger.getLogParser();

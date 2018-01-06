@@ -3,7 +3,7 @@ const path = require('path');
 const request = require('supertest');
 const expect = require('expect');
 
-describe('MD Markdown Attitude Prod', () => {
+describe.skip('MD Markdown Attitude Prod', () => {
   she('has a root route with index.md entry point', (done) => {
     aden()
       .init(path.resolve(__dirname, '../../tmpdata/md'))

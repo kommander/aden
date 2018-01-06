@@ -2,7 +2,7 @@ const aden = require('../../../lib/aden');
 const path = require('path');
 const request = require('supertest');
 
-describe('Favicon Dev', () => {
+describe.skip('Favicon Dev', () => {
   she('delivers favicon from root', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/favicon'))

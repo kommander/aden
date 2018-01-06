@@ -6,7 +6,7 @@ const expect = require('expect');
 const Logger = require('../../../lib/aden.logger');
 const TestDuplex = require('../../lib/test-duplex.js');
 
-describe('HBS Dev', () => {
+describe.skip('HBS Dev', () => {
   she('has a root route with index.hbs entry point', (done) => {
     aden({ dev: true })
       .init(path.resolve(__dirname, '../../tmpdata/hbs'))
