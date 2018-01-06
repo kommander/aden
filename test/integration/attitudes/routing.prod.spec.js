@@ -4,6 +4,7 @@ const request = require('supertest');
 const expect = require('expect');
 
 describe('Routing Prod', () => {
+  she('Provides an access log')
   she.skip('creates default route without specific config', (done) => {
     aden()
       .init(path.resolve(__dirname, '../tmpdata/routes'))

@@ -70,7 +70,7 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
   process.on('SIGTERM', gracefulShutdown);
   process.on('SIGINT', gracefulShutdown);
 
-  aden.app.listen(port, hostName, (err) => {
+  aden.listen(port, hostName, (err) => {
     if (err) {
       reject(err);
       return;

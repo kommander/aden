@@ -1,5 +1,5 @@
 const aden = require('../../lib/aden');
-const express = require('express');
+const http = require('http');
 const path = require('path');
 const expect = require('expect');
 const request = require('supertest');
@@ -37,24 +37,16 @@ describe('Core Dev', () => {
       .then((an) => an.shutdown(done));
   });
 
-  she('takes existing express app', (done) => {
-    const app = express();
+  she('takes existing http server instance', (done) => {
+    const server = http();
 
-    app.get('/manual-route', (req, res, next) => {
-      res.send('manual');
-    });
+    console.log(server)
 
-    aden(app, { dev: true })
+    aden(server, { dev: true })
       .init(path.resolve(__dirname, '../tmpdata/emptypath'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
-          .get('/manual-route')
-          .end((err, res) => {
-            if (err) done(err);
-            expect(res.text).toMatch(/manual/ig);
-            an.shutdown(done);
-          });
+        expect(an.server === server).toBe(true)
       })
       .catch(done);
   });
@@ -78,7 +70,7 @@ describe('Core Dev', () => {
     });
 
     adn.init(path.resolve(__dirname, '../tmpdata/multidotserver'))
-      .then((an) => an.run('dev'))
+      .then(() => an.run('dev'))
       .then((an) => an.shutdown(done));
   });
 
