@@ -9,7 +9,7 @@ describe('Copy Dev', () => {
       .init(path.resolve(__dirname, '../../tmpdata/copy'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/file-to-copy.json')
           .expect(200, (err, res) => {
             expect(res.text).toMatch(/"key": "data"/)
@@ -25,7 +25,7 @@ describe('Copy Dev', () => {
       .init(path.resolve(__dirname, '../../tmpdata/copy'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/dont-copy.json')
           .expect(404, (err, res) => {
             expect(res.text).toMatch(/Could not find what/)
@@ -41,7 +41,7 @@ describe('Copy Dev', () => {
       .init(path.resolve(__dirname, '../../tmpdata/copy'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/subpage/file-to-copy.json')
           .expect(200, (err, res) => {
             expect(res.text).toMatch(/"key": "subdata"/)

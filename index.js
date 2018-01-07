@@ -71,6 +71,7 @@ const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((re
   process.on('SIGINT', gracefulShutdown);
 
   aden.listen(port, hostName, (err) => {
+    console.log('server started')
     if (err) {
       reject(err);
       return;
@@ -204,6 +205,7 @@ program
         });
 
         cluster.on('listening', (worker, address) => {
+          console.log('cluster.on listening adress', address)
           const mountAddress = address.address || 'localhost';
 
           log.success(`Worker ${worker.id} listening at ${mountAddress}:${address.port}`);
