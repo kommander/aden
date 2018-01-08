@@ -9,7 +9,7 @@ describe('JS Attitude Dev', () => {
       .init(path.resolve(__dirname, '../../tmpdata/js'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/bundle.js')
           .end((err, res) => {
             if (err) done(err);

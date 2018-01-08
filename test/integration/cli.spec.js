@@ -166,14 +166,14 @@ describe('CLI', () => {
   });
 
   she('logs worker errors', (done) => {
-    const child = spawn('node', ['index.js', 'build', 'test/tmpdata/geterror'], {
+    const child = spawn('node', ['index.js', 'build', 'test/tmpdata/startuperror'], {
       cwd: path.resolve(__dirname, '../../'),
       stdio: ['ignore', 'pipe', 'pipe'],
     });
 
     child.on('exit', () => {
       const subchild = spawn('node', [
-        'index.js', 'start', 'test/tmpdata/geterror', '-w', '2', '-p', '12100',
+        'index.js', 'start', 'test/tmpdata/startuperror', '-w', '2', '-p', '12100',
       ], {
         cwd: path.resolve(__dirname, '../../'),
         stdio: ['ignore', 'pipe', 'pipe'],

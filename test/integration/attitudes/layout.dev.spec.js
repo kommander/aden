@@ -24,7 +24,7 @@ describe.skip('Layout Attitude', () => {
     adn.init(path.resolve(__dirname, '../../tmpdata/layoutdev'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/')
           .end((err, res) => {
             if (err) {
@@ -35,7 +35,7 @@ describe.skip('Layout Attitude', () => {
             expect(res.text).toMatch(/<div><p>content<\/p>(\n|\r\n)<\/div>/);
 
             logParser.on('dev:rebuild:done', () => {
-              request(an.app)
+              request(an.server)
                 .get('/')
                 // fckn hell. todo: use promisified supertest
                 .end((err2, res2) => {

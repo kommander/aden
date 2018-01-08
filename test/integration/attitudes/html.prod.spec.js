@@ -10,7 +10,7 @@ describe('HTML Prod', () => {
       .then((an) => an.run('build'))
       .then((an) => an.run('production'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/')
           .expect(200, () => {
             an.shutdown(done);
@@ -25,7 +25,7 @@ describe('HTML Prod', () => {
       .then((an) => an.run('build'))
       .then((an) => an.run('production'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/')
           .end((err, res) => {
             if (err) done(err);
@@ -42,7 +42,7 @@ describe('HTML Prod', () => {
       .then((an) => an.run('build'))
       .then((an) => an.run('production'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/sub/')
           .end((err, res) => {
             if (err) done(err);
@@ -59,7 +59,7 @@ describe('HTML Prod', () => {
       .then((an) => an.run('build'))
       .then((an) => an.run('production'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/')
           .end((err, res) => {
             if (err) done(err);

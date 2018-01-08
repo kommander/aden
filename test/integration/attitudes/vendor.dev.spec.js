@@ -9,7 +9,7 @@ describe('Vendor Attitude', () => {
       .init(path.resolve(__dirname, '../../tmpdata/vendor'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/v_vendor.js')
           .expect(200, (err, res) => {
             expect(res.text).toMatch(/teststring/);
@@ -46,11 +46,11 @@ describe('Vendor Attitude', () => {
       .init(path.resolve(__dirname, '../../tmpdata/vendor3'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/ven1.js')
           .expect(200, (err, res) => {
             expect(res.text).toMatch(/teststring1/);
-            request(an.app)
+            request(an.server)
               .get('/ven2.js')
               .expect(200, (err, res) => {
                 expect(res.text).toMatch(/teststring2/);

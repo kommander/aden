@@ -12,10 +12,8 @@ module.exports = (aden) => {
     inherit: true,
   });
 
-  // TODO: Let an attitude add to ignores (css -> css/style, js -> lib/components/...)
-
   aden.registerFile('cssFile', ({ page, fileInfo }) =>
-    fileInfo.file.match(/\.(css|scss)$/) && fileInfo.name === page.css.value.entry
+    fileInfo.file.match(/\.(css)$/) && fileInfo.name === page.css.value.entry
   );
 
   aden.hook('apply', ({ page, webpackEntry }) => {
@@ -28,12 +26,13 @@ module.exports = (aden) => {
     const frontendConfig = webpackConfigs
       .find((conf) => (conf.name === 'frontend'));
 
-    frontendConfig.resolve.extensions.push('.css', '.scss', '.sass');
+    frontendConfig.resolve.extensions.push('.css');
 
     const extractCSSPlugin = new ExtractTextPlugin({
       filename: aden.isDEV ? '[name].css' : '[id]-[hash].css',
       allChunks: true,
     });
+    
     frontendConfig.plugins.push(extractCSSPlugin);
 
     const includePaths = [
@@ -45,11 +44,9 @@ module.exports = (aden) => {
     ];
 
     const cssLoaders = [require.resolve('css-loader')];
-    const scssLoaders = [require.resolve('css-loader'), require.resolve('sass-loader')];
 
     if (pages[0].css.value.postcss) {
       cssLoaders.push(require.resolve('postcss-loader'));
-      scssLoaders.push(require.resolve('postcss-loader'));
     }
 
     frontendConfig.module.rules.unshift(
@@ -58,15 +55,6 @@ module.exports = (aden) => {
         use: extractCSSPlugin.extract({
           fallback: require.resolve('style-loader'),
           use: cssLoaders,
-          allChunks: true,
-        }),
-      },
-      {
-        test: /\.s[ca]ss$/,
-        use: extractCSSPlugin.extract({
-          fallback: require.resolve('style-loader'),
-          // resolve-url-loader may be chained before sass-loader if necessary
-          use: scssLoaders,
           allChunks: true,
         }),
       },

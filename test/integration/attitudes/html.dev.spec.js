@@ -9,7 +9,7 @@ describe('HTML Dev', () => {
       .init(path.resolve(__dirname, '../../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/')
           .expect(200, () => {
             an.shutdown(done);
@@ -23,7 +23,7 @@ describe('HTML Dev', () => {
       .init(path.resolve(__dirname, '../../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/')
           .end((err, res) => {
             if (err) done(err);
@@ -39,7 +39,7 @@ describe('HTML Dev', () => {
       .init(path.resolve(__dirname, '../../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/sub/')
           .end((err, res) => {
             if (err) done(err);
@@ -55,7 +55,7 @@ describe('HTML Dev', () => {
       .init(path.resolve(__dirname, '../../tmpdata/html'))
       .then((an) => an.run('dev'))
       .then((an) => {
-        request(an.app)
+        request(an.server)
           .get('/')
           .end((err, res) => {
             if (err) done(err);
