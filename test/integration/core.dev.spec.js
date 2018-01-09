@@ -243,7 +243,6 @@ describe('Core Dev', () => {
   she('resolves default babel plugins (external path)', (done) => {
     const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel2');
     const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden';
-    console.log('temp target folder: ', tmpTarget)
     ncp(
       path.resolve(__dirname, '../tmpdata/babel2'),
       tmpTarget,
@@ -259,8 +258,6 @@ describe('Core Dev', () => {
         const logParser = Logger.getLogParser();
         logParser.attach(child.stdout);
         logParser.attach(child.stderr);
-        child.stdout.on('data', (data) => console.log(data.toString()))        
-        child.stderr.on('data', (data) => console.log(data.toString()))
         let failed = false;
         logParser.on('webpack:build:errors', () => {
           logParser.destroy();
@@ -291,9 +288,15 @@ describe('Core Dev', () => {
         });
         const logParser = Logger.getLogParser();
         logParser.attach(child.stdout);
+        let failed = false
+        logParser.on('webpack:build:errors', () => {
+          logParser.destroy();
+          failed = true;
+          done(new Error('should not fail'));
+        });
         logParser.on('ready', () => {
           logParser.destroy();
-          done();
+          !failed && done();
         });
       });
   });

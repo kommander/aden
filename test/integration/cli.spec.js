@@ -10,20 +10,6 @@ describe('CLI', () => {
     spawn.anakin(done);
   });
 
-  she('has a dev mode cli command', (done) => {
-    const child = spawn('node', ['index.js', 'dev', 'test/tmpdata/basics'], {
-      cwd: path.resolve(__dirname, '../../'),
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
-    const logParser = Logger.getLogParser();
-    logParser.attach(child.stdout);
-    logParser.on('ready', () => child.kill('SIGINT'));
-    child.on('error', done);
-    child.on('exit', () => {
-      logParser.destroy();
-      done();
-    });
-  });
 
   she('has a start (production mode) cli command', (done) => {
     aden()

@@ -15,6 +15,7 @@ module.exports = (aden) => {
   );
 
   function resolveDependencies(type, items = []) {
+    aden.log.start('resolving base dir')
     return items.map((item) => {
       let itemName = Array.isArray(item) ? item[0] : item;
 
@@ -33,6 +34,7 @@ module.exports = (aden) => {
       }
 
       try {
+        aden.log.start('resolving default plugin paths')
         itemName = resolve.sync(itemName, { 
           basedir: path.resolve(__dirname, '../'),
         });
@@ -63,7 +65,6 @@ module.exports = (aden) => {
     ];
 
     const babelFiles = aden.checkAccessMulti(aden.rootPath, rootBabels);
-
     if (babelFiles.length > 0) {
       const babelConfig = aden.loadNativeOrJSON(babelFiles[0]);
       _.extend(options, babelConfig);
