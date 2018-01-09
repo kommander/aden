@@ -4,6 +4,7 @@ const express = require('express')
 const path = require('path')
 const cannot = require('brokens')
 const _ = require('lodash')
+const { nativeRequire } = require('../lib/utils')
 
 const supportedMethods = [
   'checkout', 'copy', 'delete', 'get', 'head', 'lock', 'merge', 'mkactivity', 'mkcol', 'move',
@@ -241,7 +242,7 @@ function loadWrappedFn (key, pageScope) {
       require.cache[require.resolve(filePath)] = null
     }
 
-    const wrapper = this.nativeRequire(filePath)
+    const wrapper = nativeRequire(filePath)
 
     if (typeof wrapper !== 'function') {
       const err = cannot('load', 'custom handler')
