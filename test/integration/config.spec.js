@@ -1,5 +1,5 @@
 const aden = require('../../lib/aden')
-const Attitude = require('../../lib/aden.attitude')
+const Attitude = require('../../lib/attitude')
 const path = require('path')
 const expect = require('expect')
 
