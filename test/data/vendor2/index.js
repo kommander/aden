@@ -1,2 +1,2 @@
-const fn = require('myvendor');
-document.write(fn());
+const fn = require('myvendor')
+document.write(fn())

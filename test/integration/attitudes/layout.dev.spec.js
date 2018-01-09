@@ -1,25 +1,25 @@
-const fs = require('fs');
-const aden = require('../../../lib/aden');
-const path = require('path');
-const request = require('supertest');
-const expect = require('expect');
-const Logger = require('../../../lib/aden.logger');
-const TestDuplex = require('../../lib/test-duplex.js');
+const fs = require('fs')
+const aden = require('../../../lib/aden')
+const path = require('path')
+const request = require('supertest')
+const expect = require('expect')
+const Logger = require('../../../lib/aden.logger')
+const TestDuplex = require('../../lib/test-duplex.js')
 
 describe.skip('Layout Attitude', () => {
   she('recognises changes in a layout file and reloads it', (done) => {
-    const stream = new TestDuplex();
-    const logParser = Logger.getLogParser();
-    logParser.attach(stream);
+    const stream = new TestDuplex()
+    const logParser = Logger.getLogParser()
+    logParser.attach(stream)
 
     const adn = aden({
       dev: true,
       logger: {
         silent: false,
         stdStream: stream,
-        errStream: stream,
-      },
-    });
+        errStream: stream
+      }
+    })
 
     adn.init(path.resolve(__dirname, '../../tmpdata/layoutdev'))
       .then((an) => an.run('dev'))
@@ -28,11 +28,11 @@ describe.skip('Layout Attitude', () => {
           .get('/')
           .end((err, res) => {
             if (err) {
-              done(err);
-              return;
+              done(err)
+              return
             }
-            expect(res.status).toMatch(200);
-            expect(res.text).toMatch(/<div><p>content<\/p>(\n|\r\n)<\/div>/);
+            expect(res.status).toMatch(200)
+            expect(res.text).toMatch(/<div><p>content<\/p>(\n|\r\n)<\/div>/)
 
             logParser.on('dev:rebuild:done', () => {
               request(an.server)
@@ -40,22 +40,22 @@ describe.skip('Layout Attitude', () => {
                 // fckn hell. todo: use promisified supertest
                 .end((err2, res2) => {
                   if (err2) {
-                    done(err2);
-                    return;
+                    done(err2)
+                    return
                   }
 
-                  expect(res2.text).toMatch(/<div>footer<\/div>/);
+                  expect(res2.text).toMatch(/<div>footer<\/div>/)
 
-                  an.shutdown();
-                  done();
-                });
-            });
+                  an.shutdown()
+                  done()
+                })
+            })
 
             setTimeout(() => fs.writeFileSync(
               path.resolve(__dirname, '../../tmpdata/layoutdev/layout.default.html'),
               '<div>{{body}}</div><div>footer</div>'
-            ), 300);
-          });
-      });
-  });
-});
+            ), 300)
+          })
+      })
+  })
+})

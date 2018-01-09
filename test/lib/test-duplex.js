@@ -1,11 +1,11 @@
-const Duplex = require('stream').Duplex;
+const Duplex = require('stream').Duplex
 
 class TestDuplex extends Duplex {
-  _write(data, enc, next) {
-    this.emit('data', data);
-    next();
+  _write (data, enc, next) {
+    this.emit('data', data)
+    next()
   }
-  _read() {}
+  _read () {}
 }
 
-module.exports = TestDuplex;
+module.exports = TestDuplex

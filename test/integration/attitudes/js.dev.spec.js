@@ -1,7 +1,7 @@
-const aden = require('../../../lib/aden');
-const path = require('path');
-const request = require('supertest');
-const expect = require('expect');
+const aden = require('../../../lib/aden')
+const path = require('path')
+const request = require('supertest')
+const expect = require('expect')
 
 describe('JS Attitude Dev', () => {
   she('includes page js', (done) => {
@@ -12,14 +12,14 @@ describe('JS Attitude Dev', () => {
         request(an.server)
           .get('/bundle.js')
           .end((err, res) => {
-            if (err) done(err);
-            expect(res.text).toMatch(/testFn/ig);
-            an.shutdown(done);
-          });
+            if (err) done(err)
+            expect(res.text).toMatch(/testFn/ig)
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
-  she('// Things Aden already does but are untested...');
-  she('puts common requires/imports into common js');
-});
+  she('// Things Aden already does but are untested...')
+  she('puts common requires/imports into common js')
+})

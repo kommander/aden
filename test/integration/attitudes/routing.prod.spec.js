@@ -1,7 +1,7 @@
-const aden = require('../../../lib/aden');
-const path = require('path');
-const request = require('supertest');
-const expect = require('expect');
+const aden = require('../../../lib/aden')
+const path = require('path')
+const request = require('supertest')
+const expect = require('expect')
 
 describe('Routing Prod', () => {
   she('Provides an access log')
@@ -14,11 +14,11 @@ describe('Routing Prod', () => {
         request(an.app)
           .get('/')
           .expect(200, () => {
-            an.shutdown(done);
-          });
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she.skip('adds route from .server to page path route', (done) => {
     aden()
@@ -29,11 +29,11 @@ describe('Routing Prod', () => {
         request(an.app)
           .get('/configured/manual')
           .expect(200, () => {
-            an.shutdown(done);
-          });
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she.skip('adds route from .server to page path route (no slash)', (done) => {
     aden()
@@ -44,11 +44,11 @@ describe('Routing Prod', () => {
         request(an.app)
           .get('/configured2/noslash')
           .expect(200, () => {
-            an.shutdown(done);
-          });
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she.skip('does not route pages with { route: false; } > .server', (done) => {
     aden()
@@ -59,11 +59,11 @@ describe('Routing Prod', () => {
         request(an.app)
           .get('/notaroute/')
           .expect(404, () => {
-            an.shutdown(done);
-          });
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she.skip('matches greedy routes', (done) => {
     aden()
@@ -74,14 +74,14 @@ describe('Routing Prod', () => {
         request(an.app)
           .get('/greedy/matched/by/something.possible')
           .end((err, res) => {
-            if (err) { done(err); return; }
-            expect(res.status).toBe(200);
-            expect(res.text).toMatch(/greedy content/ig);
-            an.shutdown(done);
-          });
+            if (err) { done(err); return }
+            expect(res.status).toBe(200)
+            expect(res.text).toMatch(/greedy content/ig)
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she.skip('puts greedy routes at the end of the router stack', (done) => {
     aden()
@@ -92,14 +92,14 @@ describe('Routing Prod', () => {
         request(an.app)
           .get('/greedy/overrides/')
           .end((err, res) => {
-            if (err) { done(err); return; }
-            expect(res.status).toBe(200);
-            expect(res.text).toMatch(/test content/ig);
-            an.shutdown(done);
-          });
+            if (err) { done(err); return }
+            expect(res.status).toBe(200)
+            expect(res.text).toMatch(/test content/ig)
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she.skip('allows params in page path /user/+id/edit', (done) => {
     aden()
@@ -110,27 +110,27 @@ describe('Routing Prod', () => {
         request(an.app)
           .get('/user/_test_id_')
           .end((err, res) => {
-            if (err) { done(err); return; }
-            expect(res.status).toBe(200);
-            expect(res.text).toMatch(/_test_id_/ig);
-            an.shutdown(done);
-          });
+            if (err) { done(err); return }
+            expect(res.status).toBe(200)
+            expect(res.text).toMatch(/_test_id_/ig)
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she.skip('throws an error when routes are empty', (done) => {
     const adn = aden({
-      attitudes: '!statuspages',
-    });
+      attitudes: '!statuspages'
+    })
     adn.init(path.resolve(__dirname, '../tmpdata/noroutes'))
       .then((an) => an.run('build'))
       .then((an) => an.run('production'))
       .catch((err) => {
-        expect(err.message).toMatch(/I could not setup routes/);
-        adn.shutdown(done);
-      });
-  });
+        expect(err.message).toMatch(/I could not setup routes/)
+        adn.shutdown(done)
+      })
+  })
 
   she.skip('does not serve controllers, if .server { route: false }', (done) => {
     aden()
@@ -141,13 +141,13 @@ describe('Routing Prod', () => {
         request(an.app)
           .get('/notroute/')
           .end((err, res) => {
-            if (err) { done(err); return; }
-            expect(res.status).toBe(404);
-            an.shutdown(done);
-          });
+            if (err) { done(err); return }
+            expect(res.status).toBe(404)
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she.skip('does not route empty subpaths', (done) => {
     aden()
@@ -158,23 +158,23 @@ describe('Routing Prod', () => {
         request(an.app)
           .get('/api/')
           .end((err, res) => {
-            if (err) { done(err); return; }
-            expect(res.status).toBe(404);
+            if (err) { done(err); return }
+            expect(res.status).toBe(404)
             request(an.app)
               .get('/api/user/')
               .end((err2, res2) => {
-                if (err2) { done(err); return; }
-                expect(res2.status).toBe(200);
-                an.shutdown(done);
-              });
-          });
+                if (err2) { done(err); return }
+                expect(res2.status).toBe(200)
+                an.shutdown(done)
+              })
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she.skip('has a core status page (404)', (done) => {
-    aden({ 
-      attitudes: ['!statuspages'],
+    aden({
+      attitudes: ['!statuspages']
     })
     .init(path.resolve(__dirname, '../tmpdata/emptypath'))
     .then((an) => an.run('build'))
@@ -183,24 +183,24 @@ describe('Routing Prod', () => {
       request(an.app)
         .get('/')
         .end((err, res) => {
-          if (err) done(err);
-          expect(res.status).toBe(404);
-          expect(res.text).toMatch(/Could not find what you were looking for\./ig);
-          an.shutdown(done);
-        });
+          if (err) done(err)
+          expect(res.status).toBe(404)
+          expect(res.text).toMatch(/Could not find what you were looking for\./ig)
+          an.shutdown(done)
+        })
     })
-    .catch(done);
-  });
+    .catch(done)
+  })
 
   she.skip('core error route returns when headers already sent (500)', (done) => {
-    aden({ 
-      attitudes: ['!statuspages'],
+    aden({
+      attitudes: ['!statuspages']
     })
     .hook('post:setup', ({ app }) => {
       app.use((err, req, res, next) => {
-        res.send('errrrr');
-        next(err);
-      });
+        res.send('errrrr')
+        next(err)
+      })
     })
     .init(path.resolve(__dirname, '../tmpdata/custom/provoke'))
     .then((an) => an.run('build'))
@@ -209,15 +209,15 @@ describe('Routing Prod', () => {
       request(an.app)
         .get('/')
         .end((err, res) => {
-          if (err) done(err);
-          expect(res.text).toMatch(/errrrr/ig);
-          an.shutdown(done);
-        });
+          if (err) done(err)
+          expect(res.text).toMatch(/errrrr/ig)
+          an.shutdown(done)
+        })
     })
-    .catch(done);
-  });
+    .catch(done)
+  })
 
-  she('// Things Aden already does but are untested...');
-  she('allows params in { route: \'/:id\'} > .server');
-  she('mounts absolute routes absolute');
-});
+  she('// Things Aden already does but are untested...')
+  she('allows params in { route: \'/:id\'} > .server')
+  she('mounts absolute routes absolute')
+})

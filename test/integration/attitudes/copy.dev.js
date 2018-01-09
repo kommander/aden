@@ -1,7 +1,7 @@
-const aden = require('../../../lib/aden');
-const path = require('path');
-const request = require('supertest');
-const expect = require('expect');
+const aden = require('../../../lib/aden')
+const path = require('path')
+const request = require('supertest')
+const expect = require('expect')
 
 describe('Copy Dev', () => {
   she('moves selected files to .dist/public', (done) => {
@@ -13,12 +13,12 @@ describe('Copy Dev', () => {
           .get('/file-to-copy.json')
           .expect(200, (err, res) => {
             expect(res.text).toMatch(/"key": "data"/)
-            an.shutdown();
+            an.shutdown()
             done(err)
-          });
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she('does not move non-selected files to .dist/public', (done) => {
     aden({ dev: true })
@@ -29,12 +29,12 @@ describe('Copy Dev', () => {
           .get('/dont-copy.json')
           .expect(404, (err, res) => {
             expect(res.text).toMatch(/Could not find what/)
-            an.shutdown();
+            an.shutdown()
             done(err)
-          });
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she('moves selected subpage files to .dist/public/subpage', (done) => {
     aden({ dev: true })
@@ -45,10 +45,10 @@ describe('Copy Dev', () => {
           .get('/subpage/file-to-copy.json')
           .expect(200, (err, res) => {
             expect(res.text).toMatch(/"key": "subdata"/)
-            an.shutdown();
+            an.shutdown()
             done(err)
-          });
+          })
       })
-      .catch(done);
-  });
-});
+      .catch(done)
+  })
+})

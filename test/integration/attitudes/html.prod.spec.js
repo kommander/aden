@@ -1,7 +1,7 @@
-const aden = require('../../../lib/aden');
-const path = require('path');
-const request = require('supertest');
-const expect = require('expect');
+const aden = require('../../../lib/aden')
+const path = require('path')
+const request = require('supertest')
+const expect = require('expect')
 
 describe('HTML Prod', () => {
   she('has a root route with index.html entry point', (done) => {
@@ -13,11 +13,11 @@ describe('HTML Prod', () => {
         request(an.server)
           .get('/')
           .expect(200, () => {
-            an.shutdown(done);
-          });
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she('delivers index.html at root path', (done) => {
     aden()
@@ -28,13 +28,13 @@ describe('HTML Prod', () => {
         request(an.server)
           .get('/')
           .end((err, res) => {
-            if (err) done(err);
-            expect(res.text).toMatch(/^<!DOCTYPE html>/);
-            an.shutdown(done);
-          });
+            if (err) done(err)
+            expect(res.text).toMatch(/^<!DOCTYPE html>/)
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she('delivers index.html at sub path', (done) => {
     aden()
@@ -45,13 +45,13 @@ describe('HTML Prod', () => {
         request(an.server)
           .get('/sub/')
           .end((err, res) => {
-            if (err) done(err);
-            expect(res.text).toMatch(/^<!DOCTYPE html>/);
-            an.shutdown(done);
-          });
+            if (err) done(err)
+            expect(res.text).toMatch(/^<!DOCTYPE html>/)
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
+      .catch(done)
+  })
 
   she('injects common.js into existing html', (done) => {
     aden()
@@ -62,11 +62,11 @@ describe('HTML Prod', () => {
         request(an.server)
           .get('/')
           .end((err, res) => {
-            if (err) done(err);
-            expect(res.text).toMatch(/<script type="text\/javascript" src="\/commons\.js">/ig);
-            an.shutdown(done);
-          });
+            if (err) done(err)
+            expect(res.text).toMatch(/<script type="text\/javascript" src="\/commons\.js">/ig)
+            an.shutdown(done)
+          })
       })
-      .catch(done);
-  });
-});
+      .catch(done)
+  })
+})

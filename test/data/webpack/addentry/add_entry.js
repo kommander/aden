@@ -1,1 +1,1 @@
-alert('additional entry file');
+alert('additional entry file')

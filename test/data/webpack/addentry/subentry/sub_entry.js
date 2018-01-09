@@ -1,1 +1,1 @@
-alert('sub entry');
+alert('sub entry')

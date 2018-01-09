@@ -1,2 +1,2 @@
-const fn = () => console.log('arrow fn');
-fn();
+const fn = () => console.log('arrow fn')
+fn()

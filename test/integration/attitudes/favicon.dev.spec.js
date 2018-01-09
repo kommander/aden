@@ -1,6 +1,6 @@
-const aden = require('../../../lib/aden');
-const path = require('path');
-const request = require('supertest');
+const aden = require('../../../lib/aden')
+const path = require('path')
+const request = require('supertest')
 
 describe.skip('Favicon Dev', () => {
   she('delivers favicon from root', (done) => {
@@ -12,13 +12,13 @@ describe.skip('Favicon Dev', () => {
           .get('/favicon.ico')
           .expect(200, (err) => {
             if (err) {
-              done(err);
-              return;
+              done(err)
+              return
             }
-            an.shutdown(done);
-          });
-      });
-  });
+            an.shutdown(done)
+          })
+      })
+  })
 
   she('does not deliver favicon if there is none', (done) => {
     aden({ dev: true })
@@ -29,11 +29,11 @@ describe.skip('Favicon Dev', () => {
           .get('/favicon.ico')
           .expect(404, (err) => {
             if (err) {
-              done(err);
-              return;
+              done(err)
+              return
             }
-            an.shutdown(done);
-          });
-      });
-  });
-});
+            an.shutdown(done)
+          })
+      })
+  })
+})

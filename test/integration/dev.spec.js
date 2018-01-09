@@ -1,27 +1,27 @@
-const fs = require('fs');
-const aden = require('../../lib/aden');
-const path = require('path');
-const request = require('supertest');
-const expect = require('expect');
-const rimraf = require('rimraf');
-const Logger = require('../../lib/aden.logger');
-const TestDuplex = require('../lib/test-duplex.js');
+const fs = require('fs')
+const aden = require('../../lib/aden')
+const path = require('path')
+const request = require('supertest')
+const expect = require('expect')
+const rimraf = require('rimraf')
+const Logger = require('../../lib/aden.logger')
+const TestDuplex = require('../lib/test-duplex.js')
 
 describe('dev', () => {
   // TODO: This test describes core functionality and has to be satisfied at some point
   she.skip('recognises new files and sets up the page', (done) => {
-    const stream = new TestDuplex();
-    const logParser = Logger.getLogParser();
-    logParser.attach(stream);
+    const stream = new TestDuplex()
+    const logParser = Logger.getLogParser()
+    logParser.attach(stream)
 
     const adn = aden({
       dev: true,
       logger: {
         silent: false,
         stdStream: stream,
-        errStream: stream,
-      },
-    });
+        errStream: stream
+      }
+    })
 
     adn.init(path.resolve(__dirname, '../tmpdata/dev'))
       .then((an) => an.run('dev'))
@@ -30,11 +30,10 @@ describe('dev', () => {
           .get('/')
           .end((err, res) => {
             if (err) {
-              done(err);
-              return;
+              done(err)
+              return
             }
-            expect(res.status).toMatch(404);
-
+            expect(res.status).toMatch(404)
 
             logParser.on('dev:reload:done', () => {
               request(an.server)
@@ -42,37 +41,37 @@ describe('dev', () => {
                 // fckn hell. todo: use promisified supertest
                 .end((err2, res2) => {
                   if (err2) {
-                    done(err2);
-                    return;
+                    done(err2)
+                    return
                   }
 
-                  expect(res2.text).toMatch(/<tag>content<\/tag>/ig);
+                  expect(res2.text).toMatch(/<tag>content<\/tag>/ig)
 
-                  an.shutdown(done);
-                });
-            });
+                  an.shutdown(done)
+                })
+            })
 
             setTimeout(() => fs.writeFileSync(
               path.resolve(__dirname, '../tmpdata/dev', 'index.html'),
               '<tag>content</tag>'
-            ), 300);
-          });
-      });
-  });
+            ), 300)
+          })
+      })
+  })
 
   she.skip('recognises new files in sub folders and sets up the page', (done) => {
-    const stream = new TestDuplex();
-    const logParser = Logger.getLogParser();
-    logParser.attach(stream);
+    const stream = new TestDuplex()
+    const logParser = Logger.getLogParser()
+    logParser.attach(stream)
 
     const adn = aden({
       dev: true,
       logger: {
         silent: false,
         stdStream: stream,
-        errStream: stream,
-      },
-    });
+        errStream: stream
+      }
+    })
 
     adn.init(path.resolve(__dirname, '../tmpdata/dev'))
       .then((an) => an.run('dev'))
@@ -81,47 +80,47 @@ describe('dev', () => {
           .get('/sub/')
           .end((err, res) => {
             if (err) {
-              done(err);
-              return;
+              done(err)
+              return
             }
-            expect(res.status).toMatch(404);
+            expect(res.status).toMatch(404)
 
             logParser.on('dev:reload:done', () => {
               request(an.server)
                 .get('/sub/')
                 .end((err2, res2) => {
                   if (err2) {
-                    done(err2);
-                    return;
+                    done(err2)
+                    return
                   }
 
-                  expect(res2.text).toMatch(/<tag>sub content<\/tag>/ig);
+                  expect(res2.text).toMatch(/<tag>sub content<\/tag>/ig)
 
-                  an.shutdown(done);
-                });
-            });
+                  an.shutdown(done)
+                })
+            })
 
             setTimeout(() => fs.writeFileSync(
               path.resolve(__dirname, '../tmpdata/dev/sub', 'index.html'),
               '<tag>sub content</tag>'
-            ), 300);
-          });
-      });
-  });
+            ), 300)
+          })
+      })
+  })
 
   she.skip('recognises deleted folders and removes the page', (done) => {
-    const stream = new TestDuplex();
-    const logParser = Logger.getLogParser();
-    logParser.attach(stream);
+    const stream = new TestDuplex()
+    const logParser = Logger.getLogParser()
+    logParser.attach(stream)
 
     const adn = aden({
       dev: true,
       logger: {
         silent: false,
         stdStream: stream,
-        errStream: stream,
-      },
-    });
+        errStream: stream
+      }
+    })
 
     adn.init(path.resolve(__dirname, '../tmpdata/devunlink'))
       .then((an) => an.run('dev'))
@@ -130,37 +129,37 @@ describe('dev', () => {
           .get('/sub/')
           .end((err, res) => {
             if (err) {
-              done(err);
-              return;
+              done(err)
+              return
             }
-            expect(res.status).toMatch(200);
+            expect(res.status).toMatch(200)
 
             logParser.on('dev:reload:done', () => {
               request(an.server)
                 .get('/sub/')
                 .end((err2, res2) => {
                   if (err2) {
-                    done(err2);
-                    return;
+                    done(err2)
+                    return
                   }
 
-                  expect(res2.status).toMatch(404);
+                  expect(res2.status).toMatch(404)
 
-                  an.shutdown(done);
-                });
-            });
+                  an.shutdown(done)
+                })
+            })
 
             setTimeout(() => rimraf.sync(
               path.resolve(__dirname, '../tmpdata/devunlink/sub')
-            ), 500);
-          });
-      });
-  });
+            ), 500)
+          })
+      })
+  })
 
   she.skip('does not multi add pages that are already in page graph', (done) => {
-    const stream = new TestDuplex();
-    const logParser = Logger.getLogParser();
-    logParser.attach(stream);
+    const stream = new TestDuplex()
+    const logParser = Logger.getLogParser()
+    logParser.attach(stream)
 
     const adn = aden({
       dev: true,
@@ -168,9 +167,9 @@ describe('dev', () => {
         silent: false,
         debug: true,
         stdStream: stream,
-        errStream: stream,
-      },
-    });
+        errStream: stream
+      }
+    })
 
     adn.init(path.resolve(__dirname, '../tmpdata/dev'))
       .then((an) => an.run('dev'))
@@ -179,58 +178,58 @@ describe('dev', () => {
           .get('/test.html')
           .end((err, res) => {
             if (err) {
-              done(err);
-              return;
+              done(err)
+              return
             }
-            expect(res.status).toMatch(404);
+            expect(res.status).toMatch(404)
 
-            let alreadyParsed = false;
+            let alreadyParsed = false
             logParser.on('info', (info) => {
-              if (info.data
-                && info.data.action === 'parseGraph'
-                && info.data.entryName === 'sub/') {
+              if (info.data &&
+                info.data.action === 'parseGraph' &&
+                info.data.entryName === 'sub/') {
                 if (alreadyParsed) {
-                  done(new Error('already re-parsed, no multi reparse'));
+                  done(new Error('already re-parsed, no multi reparse'))
                 }
-                alreadyParsed = true;
+                alreadyParsed = true
               }
-            });
+            })
 
             logParser.on('dev:reload:done', () => {
-              adn.shutdown(done);
-            });
+              adn.shutdown(done)
+            })
 
             setTimeout(() => fs.writeFileSync(
               path.resolve(__dirname, '../tmpdata/dev', 'test.html'),
               '<tag>content</tag>'
-            ), 300);
-          });
-      });
-  });
+            ), 300)
+          })
+      })
+  })
 
   she('logs dev compiler errors', (done) => {
-    const stream = new TestDuplex();
-    const logParser = Logger.getLogParser();
-    logParser.attach(stream);
+    const stream = new TestDuplex()
+    const logParser = Logger.getLogParser()
+    logParser.attach(stream)
 
     const adn = aden({
       dev: true,
       logger: {
         silent: false,
         stdStream: stream,
-        errStream: stream,
+        errStream: stream
       },
-      attitudes: '!statuspages',
-    });
+      attitudes: '!statuspages'
+    })
 
     logParser.once('error', (err) => {
-      expect(err.message).toMatch(/Module not found/);
-      done();
-    });
+      expect(err.message).toMatch(/Module not found/)
+      done()
+    })
 
     adn.init(path.resolve(__dirname, '../tmpdata/webpackerror'))
       .then((an) => an.run('dev'))
       .then((an) => an.shutdown())
-      .catch(() => adn.shutdown());
-  });
-});
+      .catch(() => adn.shutdown())
+  })
+})
