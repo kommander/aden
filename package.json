@@ -30,7 +30,7 @@
     "bootstrap": "3.3.6",
     "brokens": "0.6.3",
     "chalk": "2.2.0",
-    "chokidar": "1.7.0",
+    "chokidar": "2.0.0",
     "commander": "2.11.0",
     "conflate": "1.4.0",
     "copy-webpack-plugin": "4.0.1",
