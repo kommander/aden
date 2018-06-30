@@ -1,8 +1,6 @@
 const aden = require('../../lib/aden')
 const path = require('path')
 const expect = require('expect')
-const Logger = require('../../lib/aden.logger')
-const TestDuplex = require('../lib/test-duplex.js')
 
 describe('Page Dev', () => {
   she('throws an error when a registered page is not accessible', (done) => {

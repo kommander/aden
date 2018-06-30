@@ -37,19 +37,6 @@ describe('Core Dev', () => {
       .then((an) => an.shutdown(done))
   })
 
-  she('takes existing http server instance', (done) => {
-    const server = http.createServer()
-
-    aden(server, { dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/emptypath'))
-      .then((an) => an.run('dev'))
-      .then((an) => {
-        expect(an.server === server).toBe(true)
-        an.shutdown(done)
-      })
-      .catch(done)
-  })
-
   she('logs a warning when multiple dot server files are present', (done) => {
     const stream = new TestDuplex()
     const logParser = Logger.getLogParser()
@@ -96,17 +83,6 @@ describe('Core Dev', () => {
       .then((an) => an.shutdown(done))
   })
 
-  she('exposes aden.server in startup callback', (done) => {
-    aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/startup'))
-      .then((an) => an.run('dev'))
-      .then((an) => {
-        expect(an.server).toBeAn('object')
-        an.shutdown(done)
-      })
-      .catch(done)
-  })
-
   she('calls load hook only once per page', (done) => {
     const pagesLoaded = []
 
@@ -117,213 +93,12 @@ describe('Core Dev', () => {
         }
         pagesLoaded.push(page.id)
       })
-      .init(path.resolve(__dirname, '../tmpdata/cssbase'))
+      .init(path.resolve(__dirname, '../tmpdata/dev'))
       .then((an) => an.run('dev'))
       .then((an) => {
         an.shutdown(done)
       })
       .catch(done)
-  })
-
-  // TODO: Check if still required behaviour
-  she.skip('does not create bundles for empty paths', (done) => {
-    aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/emptypath'))
-      .then((an) => an.run('dev'))
-      .then((an) => {
-        request(an.server)
-          .get('/api/bundle.js')
-          .end((err, res) => {
-            if (err) done(err)
-            expect(res.status).toBe(404)
-            an.shutdown(done)
-          })
-      })
-      .catch(done)
-  })
-
-  she('resolves default babel presets from aden node_modules', (done) => {
-    aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/babel'))
-      .then((an) => an.run('dev'))
-      .then((an) => {
-        expect(an.server).toBeAn('object')
-        an.shutdown(done)
-      })
-      .catch(done)
-  })
-
-  she('resolves default babel presets (external path)', (done) => {
-    const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel')
-    // Node spawn does not handle .cmd/.bat on windows
-    // -> https://github.com/nodejs/node-v0.x-archive/issues/2318
-    const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden'
-    ncp(
-      path.resolve(__dirname, '../tmpdata/babel'),
-      tmpTarget,
-      (err) => {
-        if (err) {
-          done(err)
-          return
-        }
-        const child = spawn(spawnCmd, ['dev'], {
-          cwd: tmpTarget,
-          stdio: ['ignore', 'pipe', 'pipe']
-        })
-        const logParser = Logger.getLogParser()
-        logParser.attach(child.stdout)
-        logParser.attach(child.stderr)
-        logParser.on('ready', () => {
-          logParser.destroy()
-          done()
-        })
-      })
-  })
-
-  she('resolves default babel presets with options (external path)', (done) => {
-    const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel5')
-    const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden'
-    ncp(
-      path.resolve(__dirname, '../tmpdata/babel5'),
-      tmpTarget,
-      (err) => {
-        if (err) {
-          done(err)
-          return
-        }
-        const child = spawn(spawnCmd, ['dev'], {
-          cwd: tmpTarget,
-          stdio: ['ignore', 'pipe', 'pipe']
-        })
-        const logParser = Logger.getLogParser()
-        logParser.attach(child.stdout)
-        logParser.on('ready', () => {
-          logParser.destroy()
-          done()
-        })
-      })
-  })
-
-  she('still fails the build for non-resolved babel presets (external path)', (done) => {
-    const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel3')
-    const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden'
-    ncp(
-      path.resolve(__dirname, '../tmpdata/babel3'),
-      tmpTarget,
-      (err) => {
-        if (err) {
-          done(err)
-          return
-        }
-        const child = spawn(spawnCmd, ['dev'], {
-          cwd: tmpTarget,
-          stdio: ['ignore', 'pipe', 'pipe']
-        })
-        const logParser = Logger.getLogParser()
-        logParser.attach(child.stdout)
-        logParser.attach(child.stderr)
-        logParser.on('webpack:build:errors', () => {
-          logParser.destroy()
-          done()
-        })
-      })
-  })
-
-  she('resolves default babel plugins from aden node_modules', (done) => {
-    aden({ dev: true })
-      .init(path.resolve(__dirname, '../tmpdata/babel2'))
-      .then((an) => an.run('dev'))
-      .then((an) => {
-        expect(an.server).toBeAn('object')
-        an.shutdown(done)
-      })
-      .catch(done)
-  })
-
-  she('resolves default babel plugins (external path)', (done) => {
-    const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel2')
-    const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden'
-    ncp(
-      path.resolve(__dirname, '../tmpdata/babel2'),
-      tmpTarget,
-      (err) => {
-        if (err) {
-          done(err)
-          return
-        }
-        const child = spawn(spawnCmd, ['dev'], {
-          cwd: tmpTarget,
-          stdio: ['ignore', 'pipe', 'pipe']
-        })
-        const logParser = Logger.getLogParser()
-        logParser.attach(child.stdout)
-        logParser.attach(child.stderr)
-        let failed = false
-        logParser.on('webpack:build:errors', () => {
-          logParser.destroy()
-          failed = true
-          done(new Error('should not fail'))
-        })
-        logParser.on('ready', () => {
-          logParser.destroy()
-          !failed && done()
-        })
-      })
-  })
-
-  she('resolves default babel plugins with options (external path)', (done) => {
-    const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel6')
-    const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden'
-    ncp(
-      path.resolve(__dirname, '../tmpdata/babel6'),
-      tmpTarget,
-      (err) => {
-        if (err) {
-          done(err)
-          return
-        }
-        const child = spawn(spawnCmd, ['dev'], {
-          cwd: tmpTarget,
-          stdio: ['ignore', 'pipe', 'pipe']
-        })
-        const logParser = Logger.getLogParser()
-        logParser.attach(child.stdout)
-        let failed = false
-        logParser.on('webpack:build:errors', () => {
-          logParser.destroy()
-          failed = true
-          done(new Error('should not fail'))
-        })
-        logParser.on('ready', () => {
-          logParser.destroy()
-          !failed && done()
-        })
-      })
-  })
-
-  she('still fails the build for non-resolved babel plugins (external path)', (done) => {
-    const tmpTarget = path.resolve(os.tmpdir(), 'aden-test-babel4')
-    const spawnCmd = /^win/.test(process.platform) ? 'aden.cmd' : 'aden'
-    ncp(
-      path.resolve(__dirname, '../tmpdata/babel4'),
-      tmpTarget,
-      (err) => {
-        if (err) {
-          done(err)
-          return
-        }
-        const child = spawn(spawnCmd, ['dev'], {
-          cwd: tmpTarget,
-          stdio: ['ignore', 'pipe', 'pipe']
-        })
-        const logParser = Logger.getLogParser()
-        logParser.attach(child.stdout)
-        logParser.attach(child.stderr)
-        logParser.on('webpack:build:errors', () => {
-          logParser.destroy()
-          done()
-        })
-      })
   })
 
   she('calls startup hooks for subpages')

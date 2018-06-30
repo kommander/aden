@@ -516,7 +516,7 @@ describe('Logger', () => {
     logParser.attach(child.stdout)
     logParser.attach(child.stderr)
     logParser.on('error', done)
-    logParser.on('ready', () => {
+    logParser.on('worker:ready', () => {
       logParser.destroy()
       done()
     })
@@ -531,9 +531,7 @@ describe('Logger', () => {
     logParser.attach(child.stdout)
     logParser.attach(child.stderr)
     logParser.on('error', done)
-    logParser.on('ready', (info) => {
-      expect(info.port).toBe(5000)
-      expect(info).toIncludeKey('address')
+    logParser.on('worker:ready', () => {
       logParser.destroy()
       done()
     })

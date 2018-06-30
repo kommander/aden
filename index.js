@@ -21,13 +21,11 @@ program
   .usage('<command> [rootPath] [options]')
   .option('-f, --focus <path>', 'Choose one route to focus on. Mount only that.')
   .option('-w, --workers [num]', 'Start with given [num] of workers, or all CPUs.')
-  .option('-p, --port <port>', 'Override the port to mount the server on')
   .option('-u, --use <attitude>', 'Specify attitude(s) to use', collectAttitudes, [])
   .option('-s, --silent', 'Do not output anything on purpose')
   .option('--pretty', 'Use prettyjson to format log output')
   .option('--debug', 'Debug output')
 
-  // TODO: --docs to run docs from package and open browser (different default port)
   // TODO: Provide an install switch -i --install with a task that attitudes can hook into
 
   // (?) Eject would create all the boilerplate again so you can "run your own app"
@@ -53,51 +51,6 @@ const fatalErrorHandler = (err) => {
     process.exit(1)
   }
 }
-
-const runServer = (aden, doOpen) => Promise.resolve().then(() => new Promise((resolve, reject) => {
-  const splitPort = program.port
-    ? program.port.split(':')
-    : [process.env.PORT || aden.settings.port || 5000]
-  const port = splitPort[splitPort.length > 1 ? 1 : 0]
-  const hostName = splitPort.length > 1
-    ? splitPort[0]
-    : (process.env.HOSTNAME || aden.settings.hostname || null)
-
-  const gracefulShutdown = () => {
-    aden.shutdown(() => process.exit(0))
-  }
-
-  process.on('SIGTERM', gracefulShutdown)
-  process.on('SIGINT', gracefulShutdown)
-
-  aden.server.listen(port, hostName, (err) => {
-    if (err) {
-      reject(err)
-      return
-    }
-
-    const mountAddress = hostName || 'localhost'
-    const type = cluster.isMaster ? 'server' : 'worker'
-
-    let data
-    if (type === 'server') {
-      data = {
-        address: mountAddress,
-        port
-      }
-      log.event('ready', data)
-    }
-
-    log.success(`Started ${type} at ${hostName || 'localhost'}:${port}`)
-
-    /* istanbul ignore next */
-    if (doOpen) {
-      open(`http://${hostName || 'localhost'}:${port}`)
-    }
-
-    resolve(aden)
-  })
-}))
 
 const deriveConfig = (prog, logOptions, dev) => ({
   logger: logOptions,
@@ -183,11 +136,6 @@ program
             if (code > 0) {
               log.error('Worker Exit with Error', new Error(`Worker error code: ${code}`))
               exitStatus = 1
-              // TODO: Determine if viable for restart
-              //       -> default would be:
-              //         isAppLevelError ? restart() : err & shutdown
-              //       -> use aden.registerHooks(['master:start', 'worker:error', ...])
-              //        -> Let attitudes hook into cluster setup and determine restart viablility
             } else {
               log.info('Worker Exit Normal')
             }
@@ -204,16 +152,13 @@ program
         })
 
         cluster.on('listening', (worker, address) => {
-          console.log('cluster.on listening adress', address)
           const mountAddress = address.address || 'localhost'
-
-          log.success(`Worker ${worker.id} listening at ${mountAddress}:${address.port}`)
 
           numWorkersListening++
           if (numWorkersListening === max) {
             log.success(
               `${numWorkersListening} workers listening at ${mountAddress}:${address.port}`)
-            log.event('ready', {
+            log.event('cluster:ready', {
               address: mountAddress,
               port: address.port
             })
@@ -229,7 +174,9 @@ program
       createAden(Object.assign(config, { dev: false }))
         .init(resolveRootPath(rootPath), program.focus)
         .then((aden) => aden.run('production'))
-        .then((aden) => runServer(aden))
+        .then(() => {
+          log.event('worker:ready')
+        })
         .catch(fatalErrorHandler)
     }
   })
@@ -243,7 +190,9 @@ program
     createAden(config)
       .init(resolveRootPath(rootPath), program.focus)
       .then((aden) => aden.run('dev'))
-      .then((aden) => runServer(aden))
+      .then(() => {
+        log.event('worker:ready')
+      })
       .catch(fatalErrorHandler)
   })
 

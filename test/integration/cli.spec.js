@@ -21,7 +21,7 @@ describe('CLI', () => {
         })
         const logParser = Logger.getLogParser()
         logParser.attach(child.stdout)
-        logParser.on('ready', () => child.kill('SIGINT'))
+        logParser.on('worker:ready', () => child.kill('SIGINT'))
         child.on('exit', () => {
           logParser.destroy()
           an.shutdown(done)
@@ -88,20 +88,6 @@ describe('CLI', () => {
     })
   })
 
-  she('logs error if address is rejected', (done) => {
-    const child = spawn('node', ['index.js', 'dev', 'test/tmpdata/basics', '-p', '256.256.256.1:80'], {
-      cwd: path.resolve(__dirname, '../../'),
-      stdio: ['ignore', 'pipe', 'pipe']
-    })
-    const logParser = Logger.getLogParser()
-    logParser.attach(child.stderr)
-    logParser.once('error', (err) => {
-      expect(err.message).toMatch('getaddrinfo ENOTFOUND')
-      logParser.destroy()
-      done()
-    })
-  })
-
   she('starts a cluster with -w option', (done) => {
     const child = spawn('node', ['index.js', 'build', 'test/tmpdata/basics'], {
       cwd: path.resolve(__dirname, '../../'),
@@ -109,7 +95,7 @@ describe('CLI', () => {
     })
     child.on('exit', () => {
       const subchild = spawn('node', [
-        'index.js', 'start', 'test/tmpdata/basics', '-w', '2', '-p', '12100'
+        'index.js', 'start', 'test/tmpdata/basics', '-w', '2'
       ], {
         cwd: path.resolve(__dirname, '../../'),
         stdio: ['ignore', 'pipe', 'pipe']
@@ -117,7 +103,7 @@ describe('CLI', () => {
 
       const logParser = Logger.getLogParser()
       logParser.attach(subchild.stdout)
-      logParser.once('ready', () => {
+      logParser.once('cluster:ready', () => {
         logParser.destroy()
         done()
       })
@@ -131,7 +117,7 @@ describe('CLI', () => {
     })
     child.on('exit', () => {
       const subchild = spawn('node', [
-        'index.js', 'start', 'test/tmpdata/empty', '-w', '2', '-p', '12100'
+        'index.js', 'start', 'test/tmpdata/empty', '-w', '2'
       ], {
         cwd: path.resolve(__dirname, '../../'),
         stdio: ['ignore', 'pipe', 'pipe']
@@ -139,7 +125,7 @@ describe('CLI', () => {
 
       const logParser = Logger.getLogParser()
       logParser.attach(subchild.stdout)
-      logParser.on('ready', () => {
+      logParser.on('cluster:ready', () => {
         // Simulate shutdown
         subchild.kill('SIGINT')
       })
@@ -158,7 +144,7 @@ describe('CLI', () => {
 
     child.on('exit', () => {
       const subchild = spawn('node', [
-        'index.js', 'start', 'test/tmpdata/startuperror', '-w', '2', '-p', '12100'
+        'index.js', 'start', 'test/tmpdata/startuperror', '-w', '2'
       ], {
         cwd: path.resolve(__dirname, '../../'),
         stdio: ['ignore', 'pipe', 'pipe']
@@ -167,7 +153,7 @@ describe('CLI', () => {
       const logParser = Logger.getLogParser()
       logParser.attach(subchild.stderr)
       logParser.attach(subchild.stdout)
-      logParser.on('ready', (info) => {
+      logParser.on('cluster:ready', (info) => {
         setTimeout(() =>
           http.get(`http://${info.address}:${info.port}/`).on('error', () => null),
           1000
