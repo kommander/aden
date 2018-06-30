@@ -1,13 +1,9 @@
 const aden = require('../../lib/aden')
-const http = require('http')
 const path = require('path')
 const expect = require('expect')
-const request = require('supertest')
 const Logger = require('../../lib/aden.logger')
 const TestDuplex = require('../lib/test-duplex.js')
 const spawn = require('../lib/spawn')
-const ncp = require('ncp').ncp
-const os = require('os')
 
 describe('Core Dev', () => {
   afterEach((done) => {

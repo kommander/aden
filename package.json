@@ -7,8 +7,7 @@
   "scripts": {
     "test": "mocha test/integration --check-leaks --recursive --full-trace --require \"./dev/mocha.interface.js\" --ui she-bdd --bail --timeout 25000 --globals addresses --globals __core-js_shared__ -gc --slow 5000 ./test/lib/inject.js",
     "lint": "standard",
-    "heroku-postbuild": "node index build docs --debug",
-    "coveralls": "make coveralls"
+    "heroku-postbuild": "node index build docs --debug"
   },
   "bin": {
     "aden": "index.js"
