@@ -21,26 +21,4 @@ module.exports = (attitude) => {
     value: {},
     config: true
   })
-
-  attitude.hook('apply', ({ page, webpackConfigs }) => {
-    if (page.copy.value && page.copy.value.length > 0) {
-      const frontendConfig = webpackConfigs
-        .find((conf) => (conf.name === 'frontend'))
-
-      const copyPatters = page.copy.value.map((pattern) => Object.assign(pattern, {
-        context: page.path.resolved,
-        to: path.resolve(
-          attitude.settings.dist,
-          page.distSubPath.value || 'public',
-          page.relativePath,
-          pattern.to || ''
-        )
-      }))
-
-      frontendConfig.plugins.push(new CopyWebpackPlugin(
-        copyPatters,
-        page.copyOptions.value
-      ))
-    }
-  })
 }

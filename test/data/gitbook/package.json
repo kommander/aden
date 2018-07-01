@@ -1,0 +1,12 @@
+{
+  "attitudes": ["gitbook"],
+  "scripts": {
+    "test": "aden test --attitude jest"
+  },
+  "dependencies": {
+    "aden": "0.3.0",
+    "aden-gitbook": "0.1.2",
+    "aden-staticserver": "0.2.3",
+    "aden-jest": "0.3.4"
+  }
+}
