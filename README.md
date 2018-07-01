@@ -1,12 +1,9 @@
 # :seedling: Aden
-> Automated Server for the Web.
+> CLI for the Web.
 
-Aden lets you create static or dynamic sites using a framework of your choice (like React, Inferno, Angular, Vue). 
+_Aden_ is an effort to reduce application boilerplate that becomes technical debt.
 
-Aden integrates [Webpack](https://github.com/webpack/webpack),
-[Babel](https://babeljs.io) and
-[Express](http://expressjs.com/) with an extensible [file](https://en.wikipedia.org/wiki/Computer_file) [tree](https://en.wikipedia.org/wiki/Tree_data_structure) [parser](https://en.wikipedia.org/wiki/Parsing),
-to generate universal frontend asset builds and allow for a classic webserver behaviour, mapping paths to routes, while setting up a non-mutable express app for production. Aden also allows for straight forward server side rendering and API development.
+Aden allows integration of application behaviour with an extensible [file](https://en.wikipedia.org/wiki/Computer_file) [tree](https://en.wikipedia.org/wiki/Tree_data_structure) [parser](https://en.wikipedia.org/wiki/Parsing). Aden also allows for straight forward server side rendering and API development.
 
 The _/docs_ from this repository are running on _aden_ on a heroku instance at [aden.zwerk.io](https://aden.zwerk.io).
 
@@ -19,7 +16,7 @@ The _/docs_ from this repository are running on _aden_ on a heroku instance at [
 Supporting OSX, Linux and Windows.
 
 ## Install
-Using [Node 6+](https://nodejs.org/en/) and [NPM 3+](https://www.npmjs.com/) do:
+Prerequisites: [Node](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/)
 ```
 npm install -g aden
 ```
@@ -59,19 +56,10 @@ aden start [path]
 ```
 
 # Resources
-Learn more about the technologies used:
- - [Webpack](https://webpack.js.org/)
- - [Babel](https://babeljs.io/)
- - [Express](http://expressjs.com/)
- - [Awesome Webpack](https://github.com/webpack-contrib/awesome-webpack)
  - [12 Factor Application](https://12factor.net/)
 
-# About
-_Aden_ is an effort to allow convenient aggregation of data from services,
-with a focus on frontend development, packaging and delivery automation.
-
 ---
-Copyright 2016-2017 Sebastian Herrlinger
+Copyright 2016-2018 Sebastian Herrlinger
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
