@@ -3,6 +3,6 @@ node_js:
   - "6.10.1"
   - "8.11.3"
 before_script:
-  - NODE_ENV=development npm install --only=dev --no-shrinkwrap
+  - npm install
   - npm link
 after_success: 'npm run coveralls'

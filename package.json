@@ -6,7 +6,9 @@
   "preferGlobal": false,
   "scripts": {
     "test": "mocha test/integration --check-leaks --recursive --full-trace --require \"./dev/mocha.interface.js\" --ui she-bdd --bail --timeout 25000 --globals addresses --globals __core-js_shared__ -gc --slow 5000 ./test/lib/inject.js",
-    "coverage": "nyc npm run test && nyc report --reporter=lcov",
+    "coverage": "nyc npm run test",
+    "report": " && nyc report --reporter=lcov",
+    "coveralls": "nyc report --reporter=lcov && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "lint": "standard",
     "heroku-postbuild": "node index build docs --debug"
   },
@@ -30,6 +32,7 @@
     "conflate": "1.4.0",
     "lodash": "4.17.4",
     "mkdirp": "0.5.1",
+    "moment": "^2.22.2",
     "ncp": "2.0.0",
     "open": "0.0.5",
     "path-is-inside": "1.0.2",
