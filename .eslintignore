@@ -1,9 +1,0 @@
-# node_modules ignored by default
-
-# Ignore built files
-build/**/*.js
-public/dist/**/*.js
-dist/**/*.js
-.dist/**/*.js
-coverage/**/*.js
-!.*.js

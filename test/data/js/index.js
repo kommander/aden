@@ -1,2 +1,0 @@
-const testFn = () => true;
-testFn();

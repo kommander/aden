@@ -1,4 +1,0 @@
-{
-  "vendor": ["myvendor"],
-  "assets": ["v_vendor.js"]
-}
